@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <TwitchToolkit.Incidents.StoreIncidentSimple>
+    <defName>DwarvenAncientStronghold</defName>
+    <label>dwarven ancient stronghold</label>
+    <abbreviation>dwarfstronghold</abbreviation>
+    <cost>10000</cost>
+    <eventCap>1</eventCap>
+    <incidentHelper>ToolkitLordOfTheRimsPatch.IncidentHelper_AncientDwarvenStronghold</incidentHelper>
+    <karmaType>Good</karmaType>
+  </TwitchToolkit.Incidents.StoreIncidentSimple>
+</Defs>

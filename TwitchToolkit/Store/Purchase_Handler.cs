@@ -47,9 +47,12 @@ namespace TwitchToolkit.Store
             
             if (incident != null)
             {
+                Helper.Log($"Found incident: {incident.abbreviation}");
                 ResolvePurchaseSimple(viewer, message, incident, separateChannel);
                 return;
             }
+
+            Helper.Log($"Did not find incident for {productKey}");
 
             StoreIncidentVariables incidentVariables = allStoreIncidentsVariables.Find(s => productKey.ToLower() == s.abbreviation);
 
@@ -110,6 +113,7 @@ namespace TwitchToolkit.Store
 
             if (!helper.IsPossible())
             {
+                Helper.Log($"Incident not currently possible");
                 Toolkit.client.SendMessage($"@{viewer.username} " + "TwitchToolkitEventNotPossible".Translate(), separateChannel);
                 return;
             }

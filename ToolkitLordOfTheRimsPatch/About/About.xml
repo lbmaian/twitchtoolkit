@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ModMetaData>
+  <name>Toolkit - LordOfTheRims</name>
+  <author>droydn</author>
+  <url />
+  <supportedVersions>
+    <li>1.0</li>
+  </supportedVersions>
+  <description>Integrate Toolkit with Lord of the Rims. Adds dwarven ancient stronghold event support</description>
+</ModMetaData>
