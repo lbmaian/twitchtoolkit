@@ -95,6 +95,11 @@ namespace TwitchToolkit
         private int _lastMinute = -1;
         private int _lastCoinReward = -1;
 
+        private void DebugLog(string msg)
+        {
+            Helper.Log($"DEBUG: {msg}");
+        }
+
         public override void Tick()
         {
             try
@@ -118,6 +123,7 @@ namespace TwitchToolkit
                         {
                             Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message);
                         }
+                        DebugLog($"Trying to execute IH {incidentHelper.storeIncident.defName}");
                         incidentHelper.TryExecute();
                     }
 
@@ -130,6 +136,7 @@ namespace TwitchToolkit
                     {
                         var incidentHelper = IncidentHelperVariables.Dequeue();
                         Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message, incidentHelper.storeIncident.variables);
+                        DebugLog($"Trying to execute IHV {incidentHelper.storeIncident.defName}");
                         incidentHelper.TryExecute();
                         if (Purchase_Handler.viewerNamesDoingVariableCommands.Contains(incidentHelper.Viewer.username))
                             Purchase_Handler.viewerNamesDoingVariableCommands.Remove(incidentHelper.Viewer.username);
@@ -143,6 +150,7 @@ namespace TwitchToolkit
                     var incident = Incidents.Dequeue();
 			        IncidentParms incidentParms = new IncidentParms();
 			        incidentParms.target = Helper.AnyPlayerMap;
+                    DebugLog($"Trying to execute Incident {incident.def.defName}");
                     incident.TryExecute(incidentParms);
                 }
 

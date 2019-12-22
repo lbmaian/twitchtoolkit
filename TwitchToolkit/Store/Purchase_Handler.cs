@@ -128,6 +128,7 @@ namespace TwitchToolkit.Store
             helper.Viewer = viewer;
             helper.message = message.Message;
 
+            Helper.Log($"Adding simple incident {helper.storeIncident.defName}");
             Ticker.IncidentHelpers.Enqueue(helper);
             Store_Logger.LogPurchase(viewer.username, message.Message);
             component.LogIncident(incident);
@@ -189,6 +190,7 @@ namespace TwitchToolkit.Store
             helper.Viewer = viewer;
             helper.message = message.Message;
 
+            Helper.Log($"Adding variable incident {helper.storeIncident.defName}");
             Ticker.IncidentHelperVariables.Enqueue(helper);
             Store_Logger.LogPurchase(viewer.username, message.Message);
             component.LogIncident(incident);
