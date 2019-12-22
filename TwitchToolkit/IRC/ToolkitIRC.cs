@@ -71,7 +71,7 @@ namespace TwitchToolkit.IRC
             if (client != null)
             {
                 Helper.Log("Disconnecting client");
-                client.Disconnect();
+                client.Dispose();
             }     
         }
 

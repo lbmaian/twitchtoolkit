@@ -119,7 +119,12 @@ namespace TwitchToolkit.Commands.ViewerCommands
         {
             Viewer viewer = Viewers.GetViewer(message.User);
 
-            if (message.Message.Split(' ').Count() < 2) return;
+            if (message.Message.Split(' ').Count() < 2)
+            {
+                Helper.Log(string.Format("Cannot process message {0}. Is not in format <cmd thing>", message.Message));
+                return;
+            };
+
             Purchase_Handler.ResolvePurchase(viewer, message, CommandsHandler.SendToChatroom(message));
         }
     }

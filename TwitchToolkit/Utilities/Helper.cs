@@ -102,7 +102,12 @@ namespace TwitchToolkit
 
         public static void Log(string message)
         {
-            Verse.Log.Message("<color=#6441A4>[Toolkit]</color> " + message);
+            Verse.Log.Message(string.Format("<color=#6441A4>[Toolkit]</color> {0}",message));
+        }
+
+        public static void ErrorLog(string message)
+        {
+            Verse.Log.Error(string.Format("[Toolkit] {0}", message));
         }
 
         public static void LogPaste(string message)

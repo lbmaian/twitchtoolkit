@@ -23,70 +23,78 @@ namespace TwitchToolkit.Store
             viewerNamesDoingVariableCommands = new List<string>();
         }
 
+        private static void ResolveLog(IRCMessage buyCmd, string message)
+        {
+            Helper.Log($"({buyCmd.User}->{buyCmd.Message}): {message}");
+        }
+
         public static void ResolvePurchase(Viewer viewer, IRCMessage message, bool separateChannel = false)
         {
-            List<string> command = message.Message.Split(' ').ToList();
-
-            if (command.Count < 2)
+            try
             {
-                return;
-            }
+                ResolveLog(message, $"=== Resolving purchase {message.Message}");
+                List<string> command = message.Message.Split(' ').ToList();
 
-            if (command[0] == "!levelskill")
-            {
-                command[0] = "levelskill";
-                command.Insert(0, "!buy");
-            }
-
-            string productKey = command[1].ToLower();
-
-            Helper.Log(productKey);
-            message.Message = string.Join(" ", command.ToArray());
-
-            StoreIncidentSimple incident = allStoreIncidentsSimple.Find(s => productKey.ToLower() == s.abbreviation);
-            
-            if (incident != null)
-            {
-                Helper.Log($"Found incident: {incident.abbreviation}");
-                ResolvePurchaseSimple(viewer, message, incident, separateChannel);
-                return;
-            }
-
-            Helper.Log($"Did not find incident for {productKey}");
-
-            StoreIncidentVariables incidentVariables = allStoreIncidentsVariables.Find(s => productKey.ToLower() == s.abbreviation);
-
-            if (incidentVariables != null)
-            {
-                ResolvePurchaseVariables(viewer, message, incidentVariables, separateChannel);
-                return;
-            }
-
-            Item item = StoreInventory.items.Find(s => s.abr == productKey);
-
-            Helper.Log($"abr: {productKey} ");
-
-            if (item != null)
-            {
-                List<String> commandSplit = message.Message.Split(' ').ToList();
-                commandSplit.Insert(1, "item");
-
-                if (commandSplit.Count < 4)
+                if (command.Count < 2)
                 {
-                    commandSplit.Add("1");
+                    return;
                 }
 
-                if (!int.TryParse(commandSplit[3], out int quantity))
+                if (command[0] == "!levelskill")
                 {
-                    commandSplit.Insert(3, "1");
+                    command[0] = "levelskill";
+                    command.Insert(0, "!buy");
                 }
 
-                message.Message = string.Join(" ", commandSplit.ToArray());
+                string productKey = command[1].ToLower();
 
-                ResolvePurchaseVariables(viewer, message, StoreIncidentDefOf.Item, separateChannel);
+                message.Message = string.Join(" ", command.ToArray());
+
+                StoreIncidentSimple incident = allStoreIncidentsSimple.Find(s => productKey.ToLower() == s.abbreviation);
+
+                if (incident != null)
+                {
+                    ResolveLog(message, $"Resolving simple incident: {incident.abbreviation}");
+                    ResolvePurchaseSimple(viewer, message, incident, separateChannel);
+                    return;
+                }
+
+                StoreIncidentVariables incidentVariables = allStoreIncidentsVariables.Find(s => productKey.ToLower() == s.abbreviation);
+
+                if (incidentVariables != null)
+                {
+                    ResolveLog(message, $"Resolving variable incident: {incidentVariables.abbreviation} {incidentVariables.minPointsToFire}..{incidentVariables.maxWager}");
+                    ResolvePurchaseVariables(viewer, message, incidentVariables, separateChannel);
+                    return;
+                }
+
+                Item item = StoreInventory.items.Find(s => s.abr == productKey);
+
+                if (item != null)
+                {
+                    List<String> commandSplit = message.Message.Split(' ').ToList();
+                    commandSplit.Insert(1, "item");
+
+                    if (commandSplit.Count < 4)
+                    {
+                        commandSplit.Add("1");
+                    }
+
+                    if (!int.TryParse(commandSplit[3], out int quantity))
+                    {
+                        commandSplit.Insert(3, "1");
+                    }
+
+                    message.Message = string.Join(" ", commandSplit.ToArray());
+
+                    ResolveLog(message, $"Resolving item incident. Details in msg");
+                    ResolvePurchaseVariables(viewer, message, StoreIncidentDefOf.Item, separateChannel);
+                }
             }
-
-            return;
+            catch (Exception e)
+            {
+                Helper.ErrorLog($"Failed to purchase with command '{message.Message}': {e.Message}");
+            }
         }
 
         public static void ResolvePurchaseSimple(Viewer viewer, IRCMessage message, StoreIncidentSimple incident, bool separateChannel = false)
