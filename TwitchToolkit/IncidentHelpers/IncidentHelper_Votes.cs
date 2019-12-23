@@ -29,6 +29,9 @@ namespace TwitchToolkit.IncidentHelpers.Votes
             Map map = Helper.AnyPlayerMap;
             StorytellerComp_ToryTalker storytellerComp = new StorytellerComp_ToryTalker();
             storytellerComp.forced = true;
+
+            // Fairly certain that because theres a yield break and no yield returns in the iterator function
+            // we are never entering this loop
             foreach (FiringIncident incident in storytellerComp.MakeIntervalIncidents(map))
             {
                 Ticker.FiringIncidents.Enqueue(incident);

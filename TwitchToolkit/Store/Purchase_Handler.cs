@@ -115,19 +115,20 @@ namespace TwitchToolkit.Store
             
             if (helper == null)
             {
-                Helper.Log("Missing helper for incident " + incident.defName);
+                ResolveLog(message, $"Missing helper for incident {incident.defName}. Not firing...");
                 return;
             }
 
             if (!helper.IsPossible())
             {
-                Helper.Log($"Incident not currently possible");
+                ResolveLog(message, $"Incident not currently possible. Not firing...");
                 Toolkit.client.SendMessage($"@{viewer.username} " + "TwitchToolkitEventNotPossible".Translate(), separateChannel);
                 return;
             }
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
+                ResolveLog(message, $"Taking {cost} coins.");
                 viewer.TakeViewerCoins(cost);
             }
 
@@ -136,7 +137,7 @@ namespace TwitchToolkit.Store
             helper.Viewer = viewer;
             helper.message = message.Message;
 
-            Helper.Log($"Adding simple incident {helper.storeIncident.defName}");
+            ResolveLog(message, $"Adding simple incident {helper.storeIncident.defName} to be fired next tick.");
             Ticker.IncidentHelpers.Enqueue(helper);
             Store_Logger.LogPurchase(viewer.username, message.Message);
             component.LogIncident(incident);

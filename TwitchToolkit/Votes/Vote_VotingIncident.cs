@@ -55,6 +55,11 @@ namespace TwitchToolkit.Votes
 
         public override string VoteKeyLabel(int id)
         {
+            if (ToolkitSettings.AlwaysUseFullVoteEventLabel)
+            {
+                return incidents[id].LabelCap;
+            }
+
             switch(labelType)
             {
                 case VoteLabelType.Category:

@@ -95,9 +95,9 @@ namespace TwitchToolkit
         private int _lastMinute = -1;
         private int _lastCoinReward = -1;
 
-        private void DebugLog(string msg)
+        private void DebugLog(string viewer, string cmd, string msg)
         {
-            Helper.Log($"DEBUG: {msg}");
+            Helper.Log($"({viewer}->{cmd}): {msg}");
         }
 
         public override void Tick()
@@ -123,7 +123,7 @@ namespace TwitchToolkit
                         {
                             Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message);
                         }
-                        DebugLog($"Trying to execute IH {incidentHelper.storeIncident.defName}");
+                        DebugLog(incidentHelper.Viewer.username, incidentHelper.message, $"Trying to execute IH {incidentHelper.storeIncident.defName}");
                         incidentHelper.TryExecute();
                     }
 
@@ -136,7 +136,7 @@ namespace TwitchToolkit
                     {
                         var incidentHelper = IncidentHelperVariables.Dequeue();
                         Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message, incidentHelper.storeIncident.variables);
-                        DebugLog($"Trying to execute IHV {incidentHelper.storeIncident.defName}");
+                        DebugLog(incidentHelper.Viewer.username, incidentHelper.message, $"Trying to execute IHV {incidentHelper.storeIncident.defName}");
                         incidentHelper.TryExecute();
                         if (Purchase_Handler.viewerNamesDoingVariableCommands.Contains(incidentHelper.Viewer.username))
                             Purchase_Handler.viewerNamesDoingVariableCommands.Remove(incidentHelper.Viewer.username);
@@ -150,13 +150,13 @@ namespace TwitchToolkit
                     var incident = Incidents.Dequeue();
 			        IncidentParms incidentParms = new IncidentParms();
 			        incidentParms.target = Helper.AnyPlayerMap;
-                    DebugLog($"Trying to execute Incident {incident.def.defName}");
+                    DebugLog("UNKNOWN", "NONE", $"Trying to execute Incident {incident.def.defName}");
                     incident.TryExecute(incidentParms);
                 }
 
                 if (FiringIncidents.Count > 0)
                 {
-                    Helper.Log("Firing " + FiringIncidents.First().def.defName);
+                    DebugLog("UNKNOWN", "NONE", $"Firing {FiringIncidents.First().def.defName}");
                     var incident = FiringIncidents.Dequeue();
                     incident.def.Worker.TryExecute(incident.parms);
                 }

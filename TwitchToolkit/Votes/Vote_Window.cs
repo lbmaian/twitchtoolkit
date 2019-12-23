@@ -59,9 +59,8 @@ namespace TwitchToolkit
             inRect.y += titleHeight + 10;
             for (int i = 0; i < optionsKeys.Count; i++)
             {
-                string msg = "[" + (i + 1) + "] ";
-                msg += (vote.VoteKeyLabel(i)) + $": {vote.voteCounts[i]}";
-                Widgets.Label(inRect, msg);
+                string msg = $"[{i + 1}] {vote.VoteKeyLabel(i)}: {vote.voteCounts[i]}";
+                Widgets.Label(inRect, msg.ToString());
                 inRect.y += lineheight;
             }
             int secondsElapsed = TimeHelper.SecondsElapsed(VoteHandler.voteStartedAt);

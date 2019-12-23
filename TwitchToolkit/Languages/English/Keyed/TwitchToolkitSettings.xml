@@ -53,6 +53,7 @@
   <TwitchToolkitVotingChatMsgs>Send vote options to chat</TwitchToolkitVotingChatMsgs>
   <TwitchToolkitVotingWindow>Show voting window for new votes</TwitchToolkitVotingWindow>
   <TwitchToolkitLargeVotingWindow>Enlarge the voting window</TwitchToolkitLargeVotingWindow>
+  <TwitchToolkitAlwaysUseFullVoteEventLabel>Should voting items always show their events full name?</TwitchToolkitAlwaysUseFullVoteEventLabel>
   <TwitchToolkitCommandsModsEnabled>Allow users to use mod list command? !installedmods</TwitchToolkitCommandsModsEnabled>
   <TwitchToolkitChannelID>Channel ID</TwitchToolkitChannelID>
   <TwitchToolkitChatroomID>Room ID</TwitchToolkitChatroomID>
@@ -106,4 +107,5 @@
   <TwitchToolkitStreamelementsSync>Keep Stream Elements 100% in sync? (not recommended)</TwitchToolkitStreamelementsSync>
   <TwitchToolkitImportStreamElements>Import Currency</TwitchToolkitImportStreamElements>
   <TwitchToolkitExportStreamElements>Export Currency</TwitchToolkitExportStreamElements>
+
 </LanguageData>

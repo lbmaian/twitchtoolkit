@@ -10,6 +10,8 @@ namespace TwitchToolkit.Storytellers
 {
     public class StorytellerComp_ToryTalker : StorytellerComp
     {
+        private const int MAX_VOTE_OPTIONS = 12;
+
         protected StorytellerCompProperties_ToryTalker Props
         {
             get
@@ -22,27 +24,34 @@ namespace TwitchToolkit.Storytellers
         {
             voteTracker = Current.Game.GetComponent<StoryTellerVoteTracker>();
 
-            if ((!VoteHandler.voteActive &&
-                Rand.MTBEventOccurs(ToolkitSettings.ToryTalkerMTBDays, 60000f, 1000f)) || forced)
+            bool voteNotActive = !VoteHandler.voteActive;
+            bool isTimeToFireAVote = Rand.MTBEventOccurs(ToolkitSettings.ToryTalkerMTBDays, 60000f, 1000f);
+            if ((voteNotActive && isTimeToFireAVote) || forced)
             {
                 List<VotingIncidentEntry> entries = VotingIncidentsByWeight();
                 List<VotingIncidentEntry> winners = new List<VotingIncidentEntry>();
 
-                for (int i = 0; i < ToolkitSettings.VoteOptions && i < 12; i++)
+                for (int i = 0; i < ToolkitSettings.VoteOptions && i < MAX_VOTE_OPTIONS; i++)
                 {
-                    winners.Add(
-                        entries.Where(s =>
-                        !winners.Contains(s)
-                        ).RandomElementByWeight(
-                            (VotingIncidentEntry vi) => vi.weight)
-                            );
+                    VotingIncidentEntry entry = entries.Where(s => !winners.Contains(s)).RandomElementByWeight((VotingIncidentEntry vi) => vi.weight);
+                    winners.Add(entry);
 
                     int index = Math.Max(winners.Count - 1, 0);
 
                     winners[index].incident.helper = VotingIncidentMaker.makeVotingHelper(winners[index].incident);
                     winners[index].incident.helper.target = target;
 
-                    if (!winners[index].incident.helper.IsPossible())
+                    bool isIncidentPossible = false;
+                    try
+                    {
+                        isIncidentPossible = winners[index].incident.helper.IsPossible();
+                    }
+                    catch (Exception e)
+                    {
+                        Helper.Log($"Exception checking if incident '{winners[index].incident.LabelCap}' is possible. Not using: {e.Message}");
+                    }
+
+                    if (!isIncidentPossible)
                     {
                         entries.RemoveAt(i);
                         i--;
@@ -84,9 +93,7 @@ namespace TwitchToolkit.Storytellers
 
             if (previousVote != null)
             {
-                candidates = new List<VotingIncident>(DefDatabase<VotingIncident>.AllDefs.Where(s =>
-                    s != previousVote
-                    ));
+                candidates = new List<VotingIncident>(DefDatabase<VotingIncident>.AllDefs.Where(s => s != previousVote));
 
                 Helper.Log($"Previous vote was {previousVote.defName}");
             }
@@ -119,10 +126,11 @@ namespace TwitchToolkit.Storytellers
 
             int weightRemovedFromPreviousType = incident.eventType == voteTracker.previousType ? 50 : 0;
 
-            return Convert.ToInt32(Math.Max(initialWeight -
-                weightRemovedFromVotingPeriodWins -
-                weightRemovedFromPreviousCategory -
-                weightRemovedFromPreviousType, 0) * ((float)incident.voteWeight / 100f));
+            int tallyWeight = initialWeight - weightRemovedFromVotingPeriodWins;
+            tallyWeight -= weightRemovedFromPreviousCategory;
+            tallyWeight -= weightRemovedFromPreviousType;
+
+            return Convert.ToInt32(Math.Max(tallyWeight, 0) * ((float)incident.voteWeight / 100f));
         }
 
         private bool TimerHasElapsed()

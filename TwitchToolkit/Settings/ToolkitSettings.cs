@@ -41,6 +41,7 @@ namespace TwitchToolkit
         public static float VotingWindowx = -1;
         public static float VotingWindowy = -1;
         public static bool LargeVotingWindow = true;
+        public static bool AlwaysUseFullVoteEventLabel = false;
         #endregion
 
         #region StatCommands
@@ -366,6 +367,7 @@ namespace TwitchToolkit
             Scribe_Values.Look(ref VotingWindowx, "VotingWindowx", -1);
             Scribe_Values.Look(ref VotingWindowy, "VotingWindowy", -1);
             Scribe_Values.Look(ref LargeVotingWindow, "LargeVotingWindow", true);
+            Scribe_Values.Look(ref AlwaysUseFullVoteEventLabel, "AlwaysUseFullVoteEventLabel", false);
 
             Scribe_Values.Look(ref StartingBalance, "StartingBalance", 150);
             Scribe_Values.Look(ref CoinInterval, "CoinInterval", 2);
