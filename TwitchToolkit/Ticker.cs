@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using TwitchToolkit.Votes;
 using TwitchToolkit.Store;
+using TwitchToolkit.Incidents;
 
 namespace TwitchToolkit
 {
@@ -95,6 +96,18 @@ namespace TwitchToolkit
         private int _lastMinute = -1;
         private int _lastCoinReward = -1;
 
+        private void DebugLog(Viewer viewer, string cmd, string msg)
+        {
+            string finalCmd = cmd ?? "NONE";
+            string username = viewer?.username ?? "UNKNOWN";
+            DebugLog(username, finalCmd, msg);
+        }
+
+        private void DebugLog(string msg)
+        {
+            DebugLog("UNKNOWN", "NONE", msg);
+        }
+
         private void DebugLog(string viewer, string cmd, string msg)
         {
             Helper.Log($"({viewer}->{cmd}): {msg}");
@@ -114,32 +127,60 @@ namespace TwitchToolkit
                 double getTime = (double)Time.time / 60f;
                 int time = Convert.ToInt32(Math.Truncate(getTime));
 
-                if (IncidentHelpers.Count > 0)
+                if (IncidentHelpers.Any())
                 {
-                    for (int i = 0; i < IncidentHelpers.Count; i++)
+                    try
                     {
-                        var incidentHelper = IncidentHelpers.Dequeue();
-                        if (!(incidentHelper is VotingHelper))
+                        while (IncidentHelpers.Any())
                         {
-                            Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message);
-                        }
-                        DebugLog(incidentHelper.Viewer.username, incidentHelper.message, $"Trying to execute IH {incidentHelper.storeIncident.defName}");
-                        incidentHelper.TryExecute();
-                    }
+                            var incidentHelper = IncidentHelpers.Dequeue();
+                            if (incidentHelper != null)
+                            {
+                                if (!(incidentHelper is VotingHelper))
+                                {
+                                    Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message);
+                                }
 
-                    Helper.playerMessages = new List<string>();
+                                string defName = incidentHelper.storeIncident != null ? incidentHelper.storeIncident.defName : incidentHelper.ToString();
+                                DebugLog(incidentHelper.Viewer, incidentHelper.message, $"Trying to execute IH {defName}");
+                                incidentHelper.TryExecute();
+                            }
+                            else
+                            {
+                                DebugLog("Incident helper dequeued was null! Firing nothing");
+                            }
+                        }
+
+                        Helper.playerMessages = new List<string>();
+                    }
+                    catch(Exception e)
+                    {
+                        Helper.Log($"Exception trying to process incident helper: {e.Message}");
+                        Helper.Log(e.ToString());
+                    }
                 }
 
-                if (IncidentHelperVariables.Count > 0)
+                if (IncidentHelperVariables.Any())
                 {
-                    for (int i = 0; i < IncidentHelperVariables.Count; i++)
+                    while (IncidentHelperVariables.Any())
                     {
                         var incidentHelper = IncidentHelperVariables.Dequeue();
-                        Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message, incidentHelper.storeIncident.variables);
-                        DebugLog(incidentHelper.Viewer.username, incidentHelper.message, $"Trying to execute IHV {incidentHelper.storeIncident.defName}");
-                        incidentHelper.TryExecute();
-                        if (Purchase_Handler.viewerNamesDoingVariableCommands.Contains(incidentHelper.Viewer.username))
-                            Purchase_Handler.viewerNamesDoingVariableCommands.Remove(incidentHelper.Viewer.username);
+                        if (incidentHelper != null)
+                        {
+                            string defName = incidentHelper.storeIncident != null ? incidentHelper.storeIncident.defName : incidentHelper.ToString();
+
+                            Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message, incidentHelper.storeIncident.variables);
+                            DebugLog(incidentHelper.Viewer, incidentHelper.message, $"Trying to execute IHV {defName}");
+                            incidentHelper.TryExecute();
+                            if (Purchase_Handler.viewerNamesDoingVariableCommands.Contains(incidentHelper.Viewer.username))
+                            {
+                                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(incidentHelper.Viewer.username);
+                            }
+                        }
+                        else
+                        {
+                            DebugLog("Incident variable helper dequeued was null! Firing nothing");
+                        }
                     }
 
                     Helper.playerMessages = new List<string>();
@@ -150,18 +191,25 @@ namespace TwitchToolkit
                     var incident = Incidents.Dequeue();
 			        IncidentParms incidentParms = new IncidentParms();
 			        incidentParms.target = Helper.AnyPlayerMap;
-                    DebugLog("UNKNOWN", "NONE", $"Trying to execute Incident {incident.def.defName}");
+                    DebugLog($"Trying to execute Incident {incident.def.defName}");
                     incident.TryExecute(incidentParms);
                 }
 
                 if (FiringIncidents.Count > 0)
                 {
-                    DebugLog("UNKNOWN", "NONE", $"Firing {FiringIncidents.First().def.defName}");
+                    DebugLog($"Firing {FiringIncidents.First().def.defName}");
                     var incident = FiringIncidents.Dequeue();
                     incident.def.Worker.TryExecute(incident.parms);
                 }
 
-                VoteHandler.CheckForQueuedVotes();
+                try
+                {
+                    VoteHandler.CheckForQueuedVotes();
+                }
+                catch (Exception e)
+                {
+                    Helper.ErrorLog($"Failed to check for queued votes! {e.Message}");
+                }
 
                 if (_lastCoinReward < 0)
                 {
@@ -185,7 +233,8 @@ namespace TwitchToolkit
             }
             catch (Exception ex)
             {
-                Helper.Log("Exception: " + ex.Message + ex.StackTrace);
+                Helper.Log($"Exception: {ex.Message}");
+                Helper.Log(ex.ToString());
             }
         }
 

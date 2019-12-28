@@ -31,32 +31,41 @@ namespace TwitchToolkit.Storytellers
                 List<VotingIncidentEntry> entries = VotingIncidentsByWeight();
                 List<VotingIncidentEntry> winners = new List<VotingIncidentEntry>();
 
-                for (int i = 0; i < ToolkitSettings.VoteOptions && i < MAX_VOTE_OPTIONS; i++)
+                int targetVoteOptions = Math.Min(ToolkitSettings.VoteOptions, MAX_VOTE_OPTIONS);
+
+                Helper.Log(string.Join(",", entries.Select(x => x.incident.label).ToArray()));
+
+                while (winners.Count < targetVoteOptions && entries.Any())
                 {
-                    VotingIncidentEntry entry = entries.Where(s => !winners.Contains(s)).RandomElementByWeight((VotingIncidentEntry vi) => vi.weight);
-                    winners.Add(entry);
+                    Helper.Log($"Winners at {winners.Count}/{targetVoteOptions}. Entries at {entries.Count}");
+                    VotingIncidentEntry entry = entries.RandomElementByWeight((VotingIncidentEntry vi) => vi.weight);
 
-                    int index = Math.Max(winners.Count - 1, 0);
-
-                    winners[index].incident.helper = VotingIncidentMaker.makeVotingHelper(winners[index].incident);
-                    winners[index].incident.helper.target = target;
+                    VotingHelper helper = VotingIncidentMaker.makeVotingHelper(entry.incident);
+                    helper.target = target;
 
                     bool isIncidentPossible = false;
                     try
                     {
-                        isIncidentPossible = winners[index].incident.helper.IsPossible();
+                        isIncidentPossible = helper.IsPossible();
                     }
                     catch (Exception e)
                     {
-                        Helper.Log($"Exception checking if incident '{winners[index].incident.LabelCap}' is possible. Not using: {e.Message}");
+                        Helper.Log($"Exception checking if incident '{entry.incident.LabelCap}' is possible. Not using: {e.Message}");
                     }
 
-                    if (!isIncidentPossible)
+                    if (isIncidentPossible)
                     {
-                        entries.RemoveAt(i);
-                        i--;
-                        winners.RemoveAt(index);
+                        Helper.Log($"Incident '{entry.incident.LabelCap}' has won. Adding");
+                        entry.incident.helper = helper;
+                        winners.Add(entry);
                     }
+                    else
+                    {
+                        Helper.Log($"Incident '{entry.incident.LabelCap}' not possible.");
+                    }
+
+                    // If its not possible, we cant use it. If it won, we dont want to use it again
+                    entries.Remove(entry);
                 }
 
                 Dictionary<int, VotingIncident> incidents = new Dictionary<int, VotingIncident>();
@@ -68,7 +77,14 @@ namespace TwitchToolkit.Storytellers
 
                 StorytellerPack pack = DefDatabase<StorytellerPack>.GetNamed("ToryTalker");
 
-                VoteHandler.QueueVote(new Vote_ToryTalker(incidents, pack, "Which event should happen next?"));
+                if (incidents.Any())
+                {
+                    VoteHandler.QueueVote(new Vote_ToryTalker(incidents, pack, "Which event should happen next?"));
+                }
+                else
+                {
+                    Helper.ErrorLog("Need at least one incident to start a vote!");
+                }
             }
 
             yield break;
@@ -107,8 +123,16 @@ namespace TwitchToolkit.Storytellers
             foreach (VotingIncident incident in candidates)
             {
                 int weight = CalculateVotingIncidentWeight(incident);
-                Helper.Log($"Incident {incident.LabelCap} weighted at {weight}");
-                voteEntries.Add(new VotingIncidentEntry(incident, weight));
+                if (weight == 0)
+                {
+                    Helper.Log($"Incident {incident.LabelCap} weighted at 0. Ignoring...");
+                }
+                else
+                {
+                    Helper.Log($"Incident {incident.LabelCap} weighted at {weight}");
+                    voteEntries.Add(new VotingIncidentEntry(incident, weight));
+                }
+                
             }
 
             return voteEntries;

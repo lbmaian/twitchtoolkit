@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TwitchToolkit.Store;
 using TwitchToolkit.Storytellers;
 using Verse;
 
@@ -25,7 +23,9 @@ namespace TwitchToolkit.Votes
 
         public override void EndVote()
         {
-            VotingIncident incident = incidents[DecideWinner()];
+            int winner = DecideWinner();
+            Helper.Log($"Ending vote. Winner {winner} with {incidents.Count} incidents");
+            VotingIncident incident = incidents[winner];
 
             Find.WindowStack.TryRemove(typeof(VoteWindow));
             Ticker.IncidentHelpers.Enqueue(incident.helper);
@@ -48,7 +48,7 @@ namespace TwitchToolkit.Votes
                 Toolkit.client.SendMessage(title ?? "TwitchStoriesChatMessageNewVote".Translate() + ": " + "TwitchToolKitVoteInstructions".Translate());
                 foreach (KeyValuePair<int, VotingIncident> pair in incidents)
                 {
-                    Toolkit.client.SendMessage($"[{pair.Key + 1}]  {VoteKeyLabel(pair.Key)}");
+                    Toolkit.client.SendMessage($"[{pair.Key + 1}] {VoteKeyLabel(pair.Key)}");
                 }
             }
         }

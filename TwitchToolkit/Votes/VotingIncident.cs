@@ -69,7 +69,7 @@ namespace TwitchToolkit.Votes
         Animal = 8,
         Colonist = 4,
         Drop = 128,
-        Enviroment = 2,
+        Environment = 2,
         Foreigner = 256,
         Disease = 512,
         Hazard = 32,

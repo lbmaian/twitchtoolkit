@@ -373,14 +373,14 @@
     <votingHelper>TwitchToolkit.VotingHelpers.VotingHelpers_Weather.Flashstorm</votingHelper>
   </TwitchToolkit.Votes.VotingIncident>
   
-  <!-- Enviroment -->
+  <!-- Environment -->
   <TwitchToolkit.Votes.VotingIncident>
     <defName>Eclipse</defName>
     <label>eclipse</label>
     <weight>2</weight>
     <storyteller>ToryTalker</storyteller>
     <eventType>Neutral</eventType>
-    <eventCategory>Enviroment</eventCategory>
+    <eventCategory>Environment</eventCategory>
     <votingHelper>TwitchToolkit.VotingHelpers.VotingHelpers_Enviroment.Eclipse</votingHelper>
   </TwitchToolkit.Votes.VotingIncident>
 
@@ -390,7 +390,7 @@
     <weight>2</weight>
     <storyteller>ToryTalker</storyteller>
     <eventType>Good</eventType>
-    <eventCategory>Enviroment</eventCategory>
+    <eventCategory>Environment</eventCategory>
     <votingHelper>TwitchToolkit.VotingHelpers.VotingHelpers_Enviroment.Aurora</votingHelper>
   </TwitchToolkit.Votes.VotingIncident>
 
@@ -400,7 +400,7 @@
     <weight>3</weight>
     <storyteller>ToryTalker</storyteller>
     <eventType>Neutral</eventType>
-    <eventCategory>Enviroment</eventCategory>
+    <eventCategory>Environment</eventCategory>
     <votingHelper>TwitchToolkit.VotingHelpers.VotingHelpers_Enviroment.VomitRain</votingHelper>
   </TwitchToolkit.Votes.VotingIncident>
 
@@ -410,7 +410,7 @@
     <weight>1</weight>
     <storyteller>ToryTalker</storyteller>
     <eventType>Good</eventType>
-    <eventCategory>Enviroment</eventCategory>
+    <eventCategory>Environment</eventCategory>
     <votingHelper>TwitchToolkit.VotingHelpers.VotingHelpers_Enviroment.AmbrosiaSprout</votingHelper>
   </TwitchToolkit.Votes.VotingIncident>
 
@@ -420,7 +420,7 @@
     <weight>2</weight>
     <storyteller>ToryTalker</storyteller>
     <eventType>Neutral</eventType>
-    <eventCategory>Enviroment</eventCategory>
+    <eventCategory>Environment</eventCategory>
     <votingHelper>TwitchToolkit.VotingHelpers.VotingHelpers_Enviroment.Meteorite</votingHelper>
   </TwitchToolkit.Votes.VotingIncident>
 
@@ -430,7 +430,7 @@
     <weight>4</weight>
     <storyteller>ToryTalker</storyteller>
     <eventType>Neutral</eventType>
-    <eventCategory>Enviroment</eventCategory>
+    <eventCategory>Environment</eventCategory>
     <votingHelper>TwitchToolkit.VotingHelpers.VotingHelpers_Enviroment.MeteoriteShower</votingHelper>
   </TwitchToolkit.Votes.VotingIncident>
   

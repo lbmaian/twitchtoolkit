@@ -64,7 +64,7 @@ namespace TwitchToolkit.Votes
             EventCategory.Animal,
             EventCategory.Colonist,
             EventCategory.Drop,
-            EventCategory.Enviroment,
+            EventCategory.Environment,
             EventCategory.Foreigner
         };
 

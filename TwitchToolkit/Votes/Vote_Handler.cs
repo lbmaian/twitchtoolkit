@@ -30,12 +30,15 @@ namespace TwitchToolkit.Votes
                 voteStartedAt = DateTime.Now;
                 currentVote = voteQueue[0];
                 voteQueue.Remove(currentVote);
+
+                Helper.Log($"Starting vote {currentVote}");
                 currentVote.StartVote();
             }
 
             if (voteActive == true && (TimeHelper.MinutesElapsed(voteStartedAt) >= ToolkitSettings.VoteTime || forceEnd))
             {
                 forceEnd = false;
+                Helper.Log($"Finishing vote {currentVote}");
                 currentVote.EndVote();
                 currentVote = null;
                 voteActive = false;

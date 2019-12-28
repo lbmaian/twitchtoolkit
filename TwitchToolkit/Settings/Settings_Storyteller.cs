@@ -34,7 +34,7 @@ namespace TwitchToolkit.Settings
                 { EventCategory.Colonist.ToString(), 100 },
                 { EventCategory.Disease.ToString(), 100 },
                 { EventCategory.Drop.ToString(), 100 },
-                { EventCategory.Enviroment.ToString(), 100 },
+                { EventCategory.Environment.ToString(), 100 },
                 { EventCategory.Foreigner.ToString(), 100 },
                 { EventCategory.Hazard.ToString(), 100 },
                 { EventCategory.Invasion.ToString(), 150 },
