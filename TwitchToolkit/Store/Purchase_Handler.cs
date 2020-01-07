@@ -121,8 +121,8 @@ namespace TwitchToolkit.Store
 
             if (!helper.IsPossible())
             {
-                ResolveLog(message, $"Incident not currently possible. Not firing...");
-                Toolkit.client.SendMessage($"@{viewer.username} " + "TwitchToolkitEventNotPossible".Translate(), separateChannel);
+                ResolveLog(message, $"Incident {incident.defName} not currently possible. Not firing...");
+                Toolkit.client.SendMessage($"@{viewer.username} {incident.LabelCap}" + "TwitchToolkitEventNotPossible".Translate(), separateChannel);
                 return;
             }
 
@@ -177,18 +177,22 @@ namespace TwitchToolkit.Store
 
             if (CheckIfIncidentIsOnCooldown(incident, viewer.username, separateChannel)) return;
 
-            viewerNamesDoingVariableCommands.Add(viewer.username);
-
             IncidentHelperVariables helper = StoreIncidentMaker.MakeIncidentVariables(incident);
             
             if (helper == null)
             {
-                Helper.Log("Missing helper for incident " + incident.defName);
+                ResolveLog(message, $"Missing helper for incident {incident.defName}");
                 return;
+            }
+
+            if (!string.IsNullOrEmpty(viewer.username))
+            {
+                viewerNamesDoingVariableCommands.Add(viewer.username);
             }
 
             if (!helper.IsPossible(message.Message, viewer, separateChannel))
             {
+                ResolveLog(message, $"Incident {incident.defName} not currently possible. Not firing...");
                 if (viewerNamesDoingVariableCommands.Contains(viewer.username))
                     viewerNamesDoingVariableCommands.Remove(viewer.username);
                 return;
@@ -199,7 +203,7 @@ namespace TwitchToolkit.Store
             helper.Viewer = viewer;
             helper.message = message.Message;
 
-            Helper.Log($"Adding variable incident {helper.storeIncident.defName}");
+            ResolveLog(message, $"Adding variable incident {helper.storeIncident.defName}");
             Ticker.IncidentHelperVariables.Enqueue(helper);
             Store_Logger.LogPurchase(viewer.username, message.Message);
             component.LogIncident(incident);

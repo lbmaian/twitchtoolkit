@@ -37,7 +37,7 @@ namespace TwitchToolkit.Store
             {
                 using (StreamWriter writer = File.AppendText(LogFile))
                 {
-                    writer.WriteLine(line);
+                    writer.WriteLine($"[{DateTime.UtcNow.ToString("mm:HH:ss.ffff")}] {line}");
                 }
             }
             catch (Exception e)
@@ -48,7 +48,7 @@ namespace TwitchToolkit.Store
 
         public static void LogPurchase(string username, string command)
         {
-            LogString($"Purchase {username}: {command} @ {DateTime.Now.ToShortTimeString()}");
+            LogString($"Purchase {username}: {command}");
         }
 
         public static void LogKarmaChange(string username, int oldKarma, int newKarma)
@@ -58,12 +58,12 @@ namespace TwitchToolkit.Store
 
         public static void LogGiveCoins(string username, string giftee, int amount)
         {
-            LogString($"{username} gave viewer {giftee} {amount} coins @ {DateTime.Now.ToShortTimeString()}");
+            LogString($"{username} gave viewer {giftee} {amount} coins");
         }
 
         public static void LogGiftCoins(string username, string giftee, int amount)
         {
-            LogString($"{username} gifted viewer {giftee} {amount} coins @ {DateTime.Now.ToShortTimeString()}");
+            LogString($"{username} gifted viewer {giftee} {amount} coins");
         }
     }
 }

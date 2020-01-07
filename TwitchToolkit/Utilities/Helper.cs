@@ -102,12 +102,12 @@ namespace TwitchToolkit
 
         public static void Log(string message)
         {
-            Verse.Log.Message(string.Format("<color=#6441A4>[Toolkit]</color> {0}",message));
+            Verse.Log.Message(string.Format("<color=#6441A4>[Toolkit]</color> [{1}] {0}", message, DateTime.UtcNow.ToString("mm:HH:ss.ffff")));
         }
 
         public static void ErrorLog(string message)
         {
-            Verse.Log.Error(string.Format("[Toolkit] {0}", message));
+            Verse.Log.Error(string.Format("[Toolkit] [{1}] {0}", message, DateTime.UtcNow.ToString("mm:HH:ss.ffff")));
         }
 
         public static void LogPaste(string message)

@@ -97,7 +97,6 @@ namespace TwitchToolkit.IRC
             //    }
 
             //}
-
             Store_Logger.LogString("Checking command");
 
             if (Helper.ModActive) CommandsHandler.CheckCommand(message);

@@ -54,6 +54,7 @@
   <TwitchToolkitVotingWindow>Show voting window for new votes</TwitchToolkitVotingWindow>
   <TwitchToolkitLargeVotingWindow>Enlarge the voting window</TwitchToolkitLargeVotingWindow>
   <TwitchToolkitAlwaysUseFullVoteEventLabel>Should voting items always show their events full name?</TwitchToolkitAlwaysUseFullVoteEventLabel>
+  <TwitchToolkitVoteWindowTitle>What should happen next?</TwitchToolkitVoteWindowTitle>
   <TwitchToolkitCommandsModsEnabled>Allow users to use mod list command? !installedmods</TwitchToolkitCommandsModsEnabled>
   <TwitchToolkitChannelID>Channel ID</TwitchToolkitChannelID>
   <TwitchToolkitChatroomID>Room ID</TwitchToolkitChatroomID>

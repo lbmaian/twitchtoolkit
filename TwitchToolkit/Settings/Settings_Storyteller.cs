@@ -64,6 +64,7 @@ namespace TwitchToolkit.Settings
             optionsListing.CheckboxLabeled("TwitchToolkitVotingWindow".Translate(), ref ToolkitSettings.VotingWindow);
             optionsListing.CheckboxLabeled("TwitchToolkitLargeVotingWindow".Translate(), ref ToolkitSettings.LargeVotingWindow);
             optionsListing.CheckboxLabeled("TwitchToolkitAlwaysUseFullVoteEventLabel".Translate(), ref ToolkitSettings.AlwaysUseFullVoteEventLabel);
+            optionsListing.AddLabeledTextField("TwitchToolkitVoteWindowTitle", ref ToolkitSettings.VoteWindowTitle);
 
             optionsListing.Gap();
             

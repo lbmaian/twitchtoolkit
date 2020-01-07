@@ -79,7 +79,7 @@ namespace TwitchToolkit.Storytellers
 
                 if (incidents.Any())
                 {
-                    VoteHandler.QueueVote(new Vote_ToryTalker(incidents, pack, "Which event should happen next?"));
+                    VoteHandler.QueueVote(new Vote_ToryTalker(incidents, pack, ToolkitSettings.VoteWindowTitle));
                 }
                 else
                 {
