@@ -93,6 +93,8 @@ namespace TwitchToolkit.Store
             }
             catch (Exception e)
             {
+                if (viewerNamesDoingVariableCommands.Contains(viewer.username))
+                    viewerNamesDoingVariableCommands.Remove(viewer.username);
                 Helper.ErrorLog($"Failed to purchase with command '{message.Message}': {e.Message}");
             }
         }
@@ -195,6 +197,7 @@ namespace TwitchToolkit.Store
                 ResolveLog(message, $"Incident {incident.defName} not currently possible. Not firing...");
                 if (viewerNamesDoingVariableCommands.Contains(viewer.username))
                     viewerNamesDoingVariableCommands.Remove(viewer.username);
+                Toolkit.client.SendMessage($"@{viewer.username} {incident.LabelCap}" + "TwitchToolkitEventNotPossible".Translate(), separateChannel);
                 return;
             }
 

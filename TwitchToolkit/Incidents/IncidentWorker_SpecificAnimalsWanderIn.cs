@@ -63,7 +63,7 @@ namespace TwitchToolkit.Incidents
             }
             if (Count <= 0)
             {
-                Count = Mathf.Clamp(GenMath.RoundRandom(TotalBodySizeToSpawn / PawnKindDef.RaceProps.baseBodySize), 2, 10); ;
+                Count = Mathf.Clamp(GenMath.RoundRandom(TotalBodySizeToSpawn / PawnKindDef.RaceProps.baseBodySize), 2, 10);
             }
             for (int i = 0; i < Count; i++)
             {
