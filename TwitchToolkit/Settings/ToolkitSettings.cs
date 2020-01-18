@@ -73,10 +73,6 @@ namespace TwitchToolkit
         public static string JWTToken = "";
         #endregion
 
-        #region StreamLabs
-        public static bool SyncStreamLabs = false;
-        #endregion
-
         #region KarmaSettings
         public static int StartingKarma = 100;
         public static int KarmaCap = 140;
@@ -386,8 +382,6 @@ namespace TwitchToolkit
             Scribe_Values.Look(ref SyncStreamElements, "SyncStreamElements", false);
             Scribe_Values.Look(ref AccountID, "AccountID", "");
             Scribe_Values.Look(ref JWTToken, "JWTToken", "");
-
-            Scribe_Values.Look(ref SyncStreamLabs, "SyncStreamLabs", false);
 
             Scribe_Values.Look(ref StartingKarma, "StartingKarma", 100);
             Scribe_Values.Look(ref KarmaCap, "KarmaCap", 140);

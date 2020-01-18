@@ -12,7 +12,7 @@ namespace TwitchToolkit.Commands.ModCommands
     {
         public override void RunCommand(IRCMessage message)
         {
-            TwitchToolkitDev.WebRequest_BeginGetResponse.Main("https://tmi.twitch.tv/group/user/" + ToolkitSettings.Channel.ToLower() + "/chatters", new Func<TwitchToolkitDev.RequestState, bool>(Viewers.SaveUsernamesFromJsonResponse));
+            Viewers.RefreshViewers();
 
             Toolkit.client.SendMessage($"@{message.User} viewers have been refreshed.");
         }

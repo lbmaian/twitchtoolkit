@@ -6,13 +6,23 @@ using System.Text;
 using Verse;
 using TwitchToolkit.Utilities;
 using TwitchToolkit.Store;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace TwitchToolkit
 {
     public static class Viewers
     {
+        public static WebClient webClient = new WebClient();
         public static string jsonallviewers;
         public static List<Viewer> All = new List<Viewer>();
+
+        static Viewers()
+        {
+            ServicePointManager.ServerCertificateValidationCallback += (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) => { return true; };
+            webClient.DownloadStringCompleted += SaveUsernamesFromJsonResponse;
+        }
 
         public static void AwardViewersCoins(int setamount = 0)
         {
@@ -207,14 +217,19 @@ namespace TwitchToolkit
         {
             List<string> usernames = new List<string>();
 
-            string json = jsonallviewers;
-
-            if (json.NullOrEmpty())
+            string json;
+            JSONNode parsed;
+            lock (jsonallviewers)
             {
-                return null;
-            }
+                json = jsonallviewers;
 
-            var parsed = JSON.Parse(json);
+                if (json.NullOrEmpty())
+                {
+                    return null;
+                }
+
+                parsed = JSON.Parse(json);
+            }
             List<JSONArray> groups = new List<JSONArray>();
             groups.Add(parsed["chatters"]["moderators"].AsArray);
             groups.Add(parsed["chatters"]["staff"].AsArray);
@@ -247,10 +262,25 @@ namespace TwitchToolkit
             return usernames;
         }
 
-        public static bool SaveUsernamesFromJsonResponse(TwitchToolkitDev.RequestState request)
+        public static void SaveUsernamesFromJsonResponse(object sender, DownloadStringCompletedEventArgs response)
         {
-            jsonallviewers = request.jsonString;
-            return true;
+            if (response.Error != null)
+            {
+                Helper.Log($"Getting viewers failed! {response.Error.Message}");
+                return;
+            }
+            if (response.Cancelled)
+            {
+                Helper.Log("Request to get viewers from twitch was cancelled! Viewers may be out of date");
+                return;
+            }
+
+            lock (jsonallviewers)
+            {
+                jsonallviewers = response.Result;
+            }
+            
+            return;
         }
 
         public static void ResetViewers()
@@ -277,11 +307,8 @@ namespace TwitchToolkit
 
         public static void RefreshViewers()
         {
-            TwitchToolkitDev.WebRequest_BeginGetResponse.Main(
-                "https://tmi.twitch.tv/group/user/" +
-                ToolkitSettings.Channel.ToLower() +
-                "/chatters", new Func<TwitchToolkitDev.RequestState, bool>(Viewers.SaveUsernamesFromJsonResponse)
-                );
+            Uri uri = new Uri($"https://tmi.twitch.tv/group/user/{ToolkitSettings.Channel.ToLower()}/chatters");
+            webClient.DownloadStringAsync(uri);
         }
 
         public static void ResetViewersCoins()

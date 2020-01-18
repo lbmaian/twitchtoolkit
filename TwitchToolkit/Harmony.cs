@@ -10,7 +10,6 @@ using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
 using TwitchToolkit.Storytellers.StorytellerPackWindows;
 using TwitchToolkit.Utilities;
-using TwitchToolkitDev;
 using UnityEngine;
 using Verse;
 
@@ -24,9 +23,6 @@ namespace TwitchToolkit
 
         static HarmonyPatches()
         {
-            if (ToolkitSettings.SyncStreamElements)
-                StreamElements.ImportPoints();
-
             SaveHelper.LoadListOfViewers();
 
             HarmonyInstance harmony = HarmonyInstance.Create("com.github.harmony.rimworld.mod.twitchtoolkit");
