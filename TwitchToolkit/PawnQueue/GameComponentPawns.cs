@@ -19,12 +19,18 @@ namespace TwitchToolkit.PawnQueue
                 return;
 
             List<Pawn> currentColonists = Find.ColonistBar.GetColonistsInOrder();
+            List<string> keysToRemove = new List<string>();
             foreach (KeyValuePair<string, Pawn> pair in pawnHistory)
             {
                 if (!currentColonists.Contains(pair.Value))
                 {
-                    pawnHistory.Remove(pair.Key);
+                    keysToRemove.Add(pair.Key);
                 }
+            }
+
+            foreach (string key in keysToRemove)
+            {
+                pawnHistory.Remove(key);
             }
         }
 

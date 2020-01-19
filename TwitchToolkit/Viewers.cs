@@ -15,6 +15,7 @@ namespace TwitchToolkit
     public static class Viewers
     {
         public static WebClient webClient = new WebClient();
+        public static object twitchViewersUpdateLockObj = new object();
         public static string jsonallviewers;
         public static List<Viewer> All = new List<Viewer>();
 
@@ -29,6 +30,7 @@ namespace TwitchToolkit
             List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
             if (usernames != null)
             {
+                Helper.Log($"Awarding coins to {usernames.Count} users");
                 foreach (string username in usernames)
                 {
                     Viewer viewer = GetViewer(username);
@@ -82,10 +84,14 @@ namespace TwitchToolkit
                         double coinsToReward = (double)baseCoins * baseMultiplier;
 
                         Store_Logger.LogString($"{viewer.username} gets {baseCoins} * {baseMultiplier} coins, total {(int)Math.Ceiling(coinsToReward)}");
-                        
+
                         viewer.GiveViewerCoins((int)Math.Ceiling(coinsToReward));
                     }
                 }
+            }
+            else
+            {
+                Helper.Log("No users to set coins on.");
             }
         }
 
@@ -159,7 +165,7 @@ namespace TwitchToolkit
                     Viewer viewer = Viewers.GetViewer(username);
                     if (viewer != null && viewer.GetViewerKarma() > 1)
                     {
-                        viewer.SetViewerKarma( Math.Min(ToolkitSettings.KarmaCap, viewer.GetViewerKarma() + amount) );
+                        viewer.SetViewerKarma(Math.Min(ToolkitSettings.KarmaCap, viewer.GetViewerKarma() + amount));
                     }
                 }
             }
@@ -183,7 +189,7 @@ namespace TwitchToolkit
                 {
                     if (viewer != null)
                     {
-                        viewer.SetViewerKarma( Math.Max(0, viewer.GetViewerKarma() - amount) );
+                        viewer.SetViewerKarma(Math.Max(0, viewer.GetViewerKarma() - amount));
                     }
                 }
             }
@@ -207,7 +213,7 @@ namespace TwitchToolkit
                 {
                     if (viewer != null)
                     {
-                        viewer.SetViewerKarma( amount );
+                        viewer.SetViewerKarma(amount);
                     }
                 }
             }
@@ -219,7 +225,7 @@ namespace TwitchToolkit
 
             string json;
             JSONNode parsed;
-            lock (jsonallviewers)
+            lock (twitchViewersUpdateLockObj)
             {
                 json = jsonallviewers;
 
@@ -259,6 +265,8 @@ namespace TwitchToolkit
                 }
             }
 
+            Helper.Log($"Active viewers updated. {usernames.Count} known viewers");
+
             return usernames;
         }
 
@@ -266,7 +274,7 @@ namespace TwitchToolkit
         {
             if (response.Error != null)
             {
-                Helper.Log($"Getting viewers failed! {response.Error.Message}");
+                Helper.Log($"Getting viewers failed! {response.Error.ToString()}");
                 return;
             }
             if (response.Cancelled)
@@ -275,11 +283,15 @@ namespace TwitchToolkit
                 return;
             }
 
-            lock (jsonallviewers)
+            Helper.Log($"Updating viwers... {response.Result.Length} bytes");
+
+            lock (twitchViewersUpdateLockObj)
             {
                 jsonallviewers = response.Result;
             }
-            
+
+            Helper.Log($"Viewers updated from twitch api. {response.Result.Length} bytes");
+
             return;
         }
 
@@ -308,12 +320,13 @@ namespace TwitchToolkit
         public static void RefreshViewers()
         {
             Uri uri = new Uri($"https://tmi.twitch.tv/group/user/{ToolkitSettings.Channel.ToLower()}/chatters");
+            Helper.Log($"Retrieving viewers from twich api...");
             webClient.DownloadStringAsync(uri);
         }
 
         public static void ResetViewersCoins()
         {
-            foreach(Viewer viewer in All) viewer.coins = (int)ToolkitSettings.StartingBalance;
+            foreach (Viewer viewer in All) viewer.coins = (int)ToolkitSettings.StartingBalance;
         }
 
         public static void ResetViewersKarma()

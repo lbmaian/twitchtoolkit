@@ -11,6 +11,8 @@ namespace TwitchToolkit.Windows
 {
     public class Window_Trackers : Window
     {
+        private Vector2 scrollPosition = Vector2.zero;
+
         public Window_Trackers()
         {
             this.doCloseButton = true;
@@ -83,49 +85,50 @@ namespace TwitchToolkit.Windows
             Widgets.Checkbox(new Vector2(sideTwo.x + 40f, sideTwo.y), ref careBool);
             sideTwo.y += sideTwo.height;
 
-
+            float sideTwoWidth = ((inRect.width / 2f) - 200f);
             // SIDE TWO
-            Rect eventBox = new Rect(inRect.width / 2f - 200f, 120f, inRect.width / 2f, 28f);
+            Rect eventBox = new Rect(sideTwoWidth, 120f, inRect.width / 2f, 28f);
 
             Widgets.Label(eventBox, "Limit Events By Event:");
             Widgets.Checkbox(new Vector2(eventBox.x + 180f, eventBox.y), ref ToolkitSettings.EventsHaveCooldowns);
-            eventBox.y += eventBox.height;
 
-            sideOne = new Rect(eventBox.x, eventBox.y + 32f, 250f, 28f);
-            sideTwo = new Rect(sideOne)
-            {
-                x = sideOne.x + sideOne.width + 40f
-            };
+            int validLoggedIncidents = storeIncidentsLogged.Count(x => x.Value >= 1);
+
+            Helper.Log($"{eventBox.x} {eventBox.y} {inRect.width}");
+
+            Rect outRect = new Rect(eventBox.x, eventBox.y + 32f, inRect.width - eventBox.x, inRect.height - 200f);
+            Rect viewRect = new Rect(0, 0f, outRect.width - 20f, (validLoggedIncidents * 31f));
+
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(inRect);
+            listing.BeginScrollView(outRect, ref scrollPosition, ref viewRect);
 
             foreach (KeyValuePair<StoreIncident, int> incidentPair in storeIncidentsLogged)
             {
                 if (incidentPair.Value < 1) continue;
 
-                Widgets.Label(sideOne, incidentPair.Key.LabelCap);
-                sideOne.y += sideOne.height;
-
-                Widgets.Label(sideTwo, incidentPair.Value + "/" + storeIncidentMax[incidentPair.Key]);
                 bool maxed = storeIncidentMaxed[incidentPair.Key];
-                Widgets.Checkbox(new Vector2(sideTwo.x + 40f, sideTwo.y), ref maxed);
+                StringBuilder label = new StringBuilder();
+                label.AppendFormat("{0,50}", incidentPair.Key.LabelCap);
+                label.AppendFormat(": {0,9} (Fired/Max) ", $"{incidentPair.Value}/{storeIncidentMax[incidentPair.Key]}");
+                label.AppendFormat(" {0,3} days til next use", storeIncidentsDayTillUsuable[incidentPair.Key]);
+                label.AppendFormat(" {0,-6}", maxed ? "MAXED" : "");
 
-                sideTwo.x += 100f;
-                Widgets.Label(sideTwo, storeIncidentsDayTillUsuable[incidentPair.Key] + " days");
-
-                sideTwo.x += 100f;
-                sideTwo.width = 100f;
-                if (Widgets.ButtonText(sideTwo, "Edit"))
+                Rect rectToDrawAt = listing.GetRect(28f);
+                Widgets.Label(rectToDrawAt.LeftPart(0.9f),label.ToString());
+                if (Widgets.ButtonText(rectToDrawAt.RightPart(0.1f), "Edit"))
                 {
                     StoreIncidentEditor window = new StoreIncidentEditor(incidentPair.Key);
                     Find.WindowStack.TryRemove(window.GetType());
                     Find.WindowStack.Add(window);
                 }
 
-                sideOne = new Rect(eventBox.x, sideOne.y, 250f, 28f);
-                sideTwo = new Rect(sideOne)
-                {
-                    x = sideOne.x + sideOne.width + 40f
-                };
+                listing.Gap(5);
             }
+            
+
+            listing.EndScrollView(ref viewRect);
+            listing.End();
 
             cachedFramesCount++;
 

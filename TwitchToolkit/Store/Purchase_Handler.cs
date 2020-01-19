@@ -95,7 +95,7 @@ namespace TwitchToolkit.Store
             {
                 if (viewerNamesDoingVariableCommands.Contains(viewer.username))
                     viewerNamesDoingVariableCommands.Remove(viewer.username);
-                Helper.ErrorLog($"Failed to purchase with command '{message.Message}': {e.Message}");
+                Helper.ErrorLog($"Failed to purchase with command '{message.Message}': {e.ToString()}");
             }
         }
 
