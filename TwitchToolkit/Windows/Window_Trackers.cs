@@ -94,8 +94,6 @@ namespace TwitchToolkit.Windows
 
             int validLoggedIncidents = storeIncidentsLogged.Count(x => x.Value >= 1);
 
-            Helper.Log($"{eventBox.x} {eventBox.y} {inRect.width}");
-
             Rect outRect = new Rect(eventBox.x, eventBox.y + 32f, inRect.width - eventBox.x, inRect.height - 200f);
             Rect viewRect = new Rect(0, 0f, outRect.width - 20f, (validLoggedIncidents * 31f));
 
