@@ -38,14 +38,14 @@ namespace TwitchToolkit.IncidentHelpers.MilitaryAid
             if (tryAlly == null)
             {
                 (from x in manager.AllFactions
-                 where !x.IsPlayer && !x.def.hidden && !x.defeated && x.def.techLevel >= TechLevel.Industrial && x.PlayerRelationKind == FactionRelationKind.Neutral
+                 where !x.IsPlayer && !x.def.hidden && !x.defeated && x.def.techLevel >= TechLevel.Industrial && x.PlayerRelationKind >= FactionRelationKind.Neutral
                  select x).TryRandomElement(out tryAlly);
             }
 
             if (tryAlly == null)
             {
                 (from x in manager.AllFactions
-                 where !x.IsPlayer && !x.def.hidden && !x.defeated && x.PlayerRelationKind == FactionRelationKind.Neutral
+                 where !x.IsPlayer && !x.def.hidden && !x.defeated && x.PlayerRelationKind >= FactionRelationKind.Neutral
                  select x).TryRandomElement(out tryAlly);
             }
 
