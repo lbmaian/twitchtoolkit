@@ -787,6 +787,17 @@
   </TwitchToolkit.Incidents.StoreIncidentVariables>
 
   <TwitchToolkit.Incidents.StoreIncidentVariables>
+    <defName>RansomDemand</defName>
+    <label>ransom demand</label>
+    <abbreviation>ransomdemand</abbreviation>
+    <cost>2000</cost>
+    <eventCap>1</eventCap>
+    <incidentHelper>TwitchToolkit.IncidentHelpers.Special.RansomDemand</incidentHelper>
+    <karmaType>Good</karmaType>
+    <syntax>!buy ransomdemand</syntax>
+  </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+  <TwitchToolkit.Incidents.StoreIncidentVariables>
     <defName>RandomInspire</defName>
     <label>random inspiration</label>
     <abbreviation>randominspire</abbreviation>

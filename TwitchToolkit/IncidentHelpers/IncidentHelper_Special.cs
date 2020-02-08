@@ -1,12 +1,10 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.PawnQueue;
-using TwitchToolkit.Settings;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -65,26 +63,26 @@ namespace TwitchToolkit.IncidentHelpers.Special
             IIncidentTarget target = Helper.AnyPlayerMap;
             parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, target);
             map = (Map)parms.target;
-        	
+            
             bool cell = CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c) && !c.Fogged(map), map, CellFinder.EdgeRoadChance_Neutral, out loc);
             if (!cell) return false;
-			return true;
+            return true;
         }
 
         public override void TryExecute()
         {
             PawnKindDef pawnKind = PawnKindDefOf.Colonist;
-			Faction ofPlayer = Faction.OfPlayer;
-			bool pawnMustBeCapableOfViolence = true;
-			PawnGenerationRequest request = new PawnGenerationRequest(pawnKind, ofPlayer, PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, pawnMustBeCapableOfViolence, 20f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
-			Pawn pawn = PawnGenerator.GeneratePawn(request);
+            Faction ofPlayer = Faction.OfPlayer;
+            bool pawnMustBeCapableOfViolence = true;
+            PawnGenerationRequest request = new PawnGenerationRequest(pawnKind, ofPlayer, PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, pawnMustBeCapableOfViolence, 20f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
+            Pawn pawn = PawnGenerator.GeneratePawn(request);
             NameTriple old = pawn.Name as NameTriple;
             pawn.Name = new NameTriple(old.First, Viewer.username, old.Last);
-			GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
-			string label = "Viewer Joins";
-			string text = $"A new pawn has been purchased by {Viewer.username}, let's welcome them to the colony.";
-			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
-			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, pawn, null, null);
+            GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
+            string label = "Viewer Joins";
+            string text = $"A new pawn has been purchased by {Viewer.username}, let's welcome them to the colony.";
+            PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
+            Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, pawn, null, null);
 
             Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
             Viewer.TakeViewerCoins(this.storeIncident.cost);
@@ -472,14 +470,14 @@ namespace TwitchToolkit.IncidentHelpers.Special
             }
 
             if (itemThingDef.MadeFromStuff)
-			{
-				if (!(from x in GenStuff.AllowedStuffsFor(itemThingDef, TechLevel.Undefined)
-				where !PawnWeaponGenerator.IsDerpWeapon(itemThingDef, x)
-				select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
-				{
-					stuff = GenStuff.RandomStuffByCommonalityFor(itemThingDef, TechLevel.Undefined);
-				}
-			}
+            {
+                if (!(from x in GenStuff.AllowedStuffsFor(itemThingDef, TechLevel.Undefined)
+                where !PawnWeaponGenerator.IsDerpWeapon(itemThingDef, x)
+                select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
+                {
+                    stuff = GenStuff.RandomStuffByCommonalityFor(itemThingDef, TechLevel.Undefined);
+                }
+            }
 
             itemThing = ThingMaker.MakeThing(itemThingDef, (stuff != null) ? stuff : null);
 
@@ -498,7 +496,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
             {
                 itemThingDef = itemThingDef.minifiedDef;
                 MinifiedThing minifiedThing = (MinifiedThing)ThingMaker.MakeThing(itemThingDef, null);
-			    minifiedThing.InnerThing = itemThing;
+                minifiedThing.InnerThing = itemThing;
                 minifiedThing.stackCount = quantity;
                 TradeUtility.SpawnDropPod(vec, map, minifiedThing);
             }
@@ -667,6 +665,37 @@ namespace TwitchToolkit.IncidentHelpers.Special
         private IncidentParms parms;
 
         private bool separateChannel;
+
+        public override Viewer Viewer { get; set; }
+    }
+
+    public class RansomDemand : IncidentHelperVariables
+    {
+        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        {
+            Viewer = viewer;
+
+            worker = new IncidentWorker_RansomDemand();
+            worker.def = IncidentDef.Named("RansomDemand");
+
+            parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Helper.AnyPlayerMap);
+
+            return worker.CanFireNow(parms);
+        }
+
+        public override void TryExecute()
+        {
+            if (worker.TryExecute(parms))
+            {
+                Viewer.TakeViewerCoins(storeIncident.cost);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
+                VariablesHelpers.SendPurchaseMessage($"Ransom demand purchased by {Viewer.username}.");
+            }
+        }
+
+        private IncidentWorker_RansomDemand worker;
+        private IncidentParms parms;
 
         public override Viewer Viewer { get; set; }
     }
