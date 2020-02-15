@@ -27,13 +27,13 @@ namespace TwitchToolkit
 
         public static void AwardViewersCoins(int setamount = 0)
         {
-            List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
-            if (usernames != null)
+            Dictionary<string, ViewerGroup> viewerNameToGroup = ParseViewersAndGroupsFromJsonAndFindActiveViewers();
+            if (viewerNameToGroup != null)
             {
-                Helper.Log($"Awarding coins to {usernames.Count} users");
-                foreach (string username in usernames)
+                Helper.Log($"Awarding coins to {viewerNameToGroup.Count} users");
+                foreach (KeyValuePair<string, ViewerGroup> pair in viewerNameToGroup)
                 {
-                    Viewer viewer = GetViewer(username);
+                    Viewer viewer = GetViewer(pair);
 
                     if (viewer.IsBanned)
                     {
@@ -107,12 +107,12 @@ namespace TwitchToolkit
                 return;
             }
 
-            List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
-            if (usernames != null)
+            Dictionary<string, ViewerGroup> viewerNameToGroup = ParseViewersAndGroupsFromJsonAndFindActiveViewers();
+            if (viewerNameToGroup != null)
             {
-                foreach (string username in usernames)
+                foreach (KeyValuePair<string, ViewerGroup> pair in viewerNameToGroup)
                 {
-                    Viewer viewer = Viewers.GetViewer(username);
+                    Viewer viewer = Viewers.GetViewer(pair);
                     if (viewer != null && viewer.GetViewerKarma() > 1)
                     {
                         viewer.GiveViewerCoins(amount);
@@ -157,12 +157,12 @@ namespace TwitchToolkit
                 return;
             }
 
-            List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
-            if (usernames != null)
+            Dictionary<string, ViewerGroup> viewerNameToGroup = ParseViewersAndGroupsFromJsonAndFindActiveViewers();
+            if (viewerNameToGroup != null)
             {
-                foreach (string username in usernames)
+                foreach (KeyValuePair<string, ViewerGroup> pair in viewerNameToGroup)
                 {
-                    Viewer viewer = Viewers.GetViewer(username);
+                    Viewer viewer = Viewers.GetViewer(pair);
                     if (viewer != null && viewer.GetViewerKarma() > 1)
                     {
                         viewer.SetViewerKarma(Math.Min(ToolkitSettings.KarmaCap, viewer.GetViewerKarma() + amount));
@@ -219,9 +219,26 @@ namespace TwitchToolkit
             }
         }
 
+        private enum ViewerGroup
+        {
+            //broadcaster,
+            moderators,
+            staff,
+            admins,
+            global_mods,
+            viewers,
+            vips,
+            // Note: Can't distinguish subscribers.
+        };
+
         public static List<string> ParseViewersFromJsonAndFindActiveViewers()
         {
-            List<string> usernames = new List<string>();
+            return ParseViewersAndGroupsFromJsonAndFindActiveViewers().Keys.ToList();
+        }
+
+        private static Dictionary<string, ViewerGroup> ParseViewersAndGroupsFromJsonAndFindActiveViewers()
+        {
+            Dictionary<string, ViewerGroup> viewerNameToGroup = new Dictionary<string, ViewerGroup>();
 
             string json;
             JSONNode parsed;
@@ -236,21 +253,15 @@ namespace TwitchToolkit
 
                 parsed = JSON.Parse(json);
             }
-            List<JSONArray> groups = new List<JSONArray>();
-            groups.Add(parsed["chatters"]["moderators"].AsArray);
-            groups.Add(parsed["chatters"]["staff"].AsArray);
-            groups.Add(parsed["chatters"]["admins"].AsArray);
-            groups.Add(parsed["chatters"]["global_mods"].AsArray);
-            groups.Add(parsed["chatters"]["viewers"].AsArray);
-            groups.Add(parsed["chatters"]["vips"].AsArray);
-            foreach (JSONArray group in groups)
+            foreach (ViewerGroup viewerGroup in Enum.GetValues(typeof(ViewerGroup)))
             {
-                foreach (JSONNode username in group)
+                JSONArray jsonGroup = parsed["chatters"][Enum.GetName(typeof(ViewerGroup), viewerGroup)].AsArray;
+                foreach (JSONNode jsonUsername in jsonGroup)
                 {
-                    string usernameconvert = username.ToString();
-                    usernameconvert = usernameconvert.Remove(0, 1);
-                    usernameconvert = usernameconvert.Remove(usernameconvert.Length - 1, 1);
-                    usernames.Add(usernameconvert);
+                    string username = jsonUsername.ToString();
+                    username = username.Remove(0, 1);
+                    username = username.Remove(username.Length - 1, 1);
+                    viewerNameToGroup.Add(username, viewerGroup);
                 }
             }
 
@@ -258,16 +269,17 @@ namespace TwitchToolkit
 
             foreach (Viewer viewer in All.Where(s => s.last_seen != null && TimeHelper.MinutesElapsed(s.last_seen) <= ToolkitSettings.TimeBeforeHalfCoins))
             {
-                if (!usernames.Contains(viewer.username))
+                string username = viewer.username;
+                if (!viewerNameToGroup.ContainsKey(username))
                 {
-                    Helper.Log("Viewer " + viewer.username + " added to active viewers through chat participation but not in chatter list.");
-                    usernames.Add(viewer.username);
+                    Helper.Log("Viewer " + username + " added to active viewers through chat participation but not in chatter list.");
+                    viewerNameToGroup.Add(username, viewer.mod ? ViewerGroup.moderators : viewer.IsVIP ? ViewerGroup.vips : ViewerGroup.viewers);
                 }
             }
 
-            Helper.Log($"Active viewers updated. {usernames.Count} known viewers");
+            Helper.Log($"Active viewers updated. {viewerNameToGroup.Count} known viewers");
 
-            return usernames;
+            return viewerNameToGroup;
         }
 
         public static void SaveUsernamesFromJsonResponse(object sender, DownloadStringCompletedEventArgs response)
@@ -298,6 +310,21 @@ namespace TwitchToolkit
         public static void ResetViewers()
         {
             All = new List<Viewer>();
+        }
+
+        private static Viewer GetViewer(KeyValuePair<string, ViewerGroup> pair)
+        {
+            Viewer viewer = GetViewer(pair.Key);
+            switch (pair.Value)
+            {
+                case ViewerGroup.moderators:
+                    viewer.mod = true;
+                    break;
+                case ViewerGroup.vips:
+                    viewer.vip = true;
+                    break;
+            }
+            return viewer;
         }
 
         public static Viewer GetViewer(string user)
