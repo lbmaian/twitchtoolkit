@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
 using Verse;
@@ -253,7 +251,7 @@ namespace TwitchToolkit.Windows
                 Widgets.Label(smallLabel, "Colonist: " + (component.HasUserBeenNamed(selectedViewer.username) ? component.PawnAssignedToUser(selectedViewer.username).Name.ToStringShort : "None"));
                 if (component.HasUserBeenNamed(selectedViewer.username) && Widgets.ButtonText(smallButton, "Unassign"))
                 {
-                    component.pawnHistory.Remove(selectedViewer.username);
+                    component.UnassignPawn(selectedViewer.username);
                 }
             }
 

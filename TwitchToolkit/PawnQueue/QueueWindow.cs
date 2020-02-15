@@ -1,9 +1,5 @@
-﻿using RimWorld;
-using RimWorld.Planet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -159,7 +155,7 @@ namespace TwitchToolkit.PawnQueue
             List<Pawn> colonistsUnnamed = new List<Pawn>();
             foreach (Pawn pawn in allColonists)
             {
-                if (!pawnComponent.pawnHistory.ContainsValue(pawn))
+                if (!pawnComponent.HasPawnBeenNamed(pawn))
                     colonistsUnnamed.Add(pawn);
             }
             return colonistsUnnamed;
@@ -180,27 +176,6 @@ namespace TwitchToolkit.PawnQueue
 
         public void NameColonist(string username, Pawn pawn)
         {
-            if (pawnComponent.HasPawnBeenNamed(pawn))
-            {
-                if (pawnComponent.pawnHistory.ContainsValue(pawn))
-                {
-                    string key = null;
-                    foreach (KeyValuePair<string, Pawn> pair in pawnComponent.pawnHistory)
-                    {
-                        if (pair.Value == pawn)
-                        {
-                            key = pair.Key;
-                            continue;
-                        }
-                    }
-
-                    if (key != null)
-                    {
-                        pawnComponent.pawnHistory.Remove(key);
-                    }
-                }
-            }
-
             NameTriple currentName = pawn.Name as NameTriple;
             pawn.Name = new NameTriple(currentName.First, username, currentName.Last);
             pawnComponent.AssignUserToPawn(selectedUsername.ToLower(), selectedPawn);

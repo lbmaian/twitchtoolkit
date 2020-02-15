@@ -1,41 +1,77 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using Verse;
 
 namespace TwitchToolkit.PawnQueue
 {
     public class GameComponentPawns : GameComponent
     {
+        private const int DespawnTimeoutTicks = GenDate.TicksPerHour * 2; // 2 in-game hours
+
         public GameComponentPawns(Game game)
         {
         }
 
         public override void GameComponentTick()
         {
-            if (Find.TickManager.TicksGame % 1000 != 0)
+            int ticks = Find.TickManager.TicksGame;
+            if (ticks % 1000 != 0)
                 return;
 
             List<Pawn> currentColonists = Find.ColonistBar.GetColonistsInOrder();
-            List<string> keysToRemove = new List<string>();
+            List<string> usernamesToRemove = new List<string>();
             foreach (KeyValuePair<string, Pawn> pair in pawnHistory)
             {
-                if (!currentColonists.Contains(pair.Value))
+                string username = pair.Key;
+                Pawn pawn = pair.Value;
+                bool despawned = !pawn.Spawned && !pawn.Destroyed;
+                if (!despawned)
                 {
-                    keysToRemove.Add(pair.Key);
+                    if (pawnDespawnTicks.Remove(pawn))
+                    {
+                        Helper.Log($"Despawned colonist {pawn}: unassign timeout started at {ticks} ticks, NO LONGER DESPAWNED");
+                    }
+                }
+                if (!currentColonists.Contains(pawn))
+                {
+                    if (despawned)
+                    {
+                        // If despawned pawn is neither discarded nor destroyed,
+                        // only remove if the pawn is still despawned after a timeout period.
+                        // Workaround for RimWorld of Magic temporarily despawning pawns during certain spells.
+                        if (pawnDespawnTicks.TryGetValue(pawn, out int despawnTicks))
+                        {
+                            Helper.Log($"Despawned colonist {pawn}: unassign timeout started at {ticks} ticks, " +
+                                $"{DespawnTimeoutTicks - (ticks - despawnTicks)} ticks remaining");
+                            if (ticks - despawnTicks > DespawnTimeoutTicks)
+                            {
+                                usernamesToRemove.Add(username);
+                            }
+                        }
+                        else
+                        {
+                            Helper.Log($"Despawned colonist {pawn}: unassign timeout started at {ticks} ticks, " +
+                                $"{DespawnTimeoutTicks} ticks remaining");
+                            pawnDespawnTicks[pawn] = ticks;
+                        }
+                    }
+                    else // any other reason colonist is no longer in colonist bar (imprisoned, wildman, kidnapped, destroyed, desiccated)
+                    {
+                        usernamesToRemove.Add(username);
+                    }
                 }
             }
 
-            foreach (string key in keysToRemove)
+            foreach (string username in usernamesToRemove)
             {
-                pawnHistory.Remove(key);
+                UnassignPawn(username);
             }
         }
 
         public void AssignUserToPawn(string username, Pawn pawn)
         {
+            UnassignPawn(pawn);
             pawnHistory.Add(username, pawn);
             if (ViewerNameQueue.Contains(username))
             {
@@ -66,6 +102,29 @@ namespace TwitchToolkit.PawnQueue
                 return pawnHistory[username];
             }
             return null;
+        }
+
+        public void UnassignPawn(Pawn pawn)
+        {
+            foreach (KeyValuePair<string, Pawn> pair in pawnHistory)
+            {
+                if (pair.Value == pawn)
+                {
+                    string username = pair.Key;
+                    Helper.Log($"Unassigning colonist {pawn} from user {username}");
+                    pawnHistory.Remove(username);
+                    return;
+                }
+            }
+        }
+
+        public void UnassignPawn(string username)
+        {
+            if (pawnHistory.TryGetValue(username, out Pawn pawn))
+            {
+                Helper.Log($"Unassigning colonist {pawn} from user {username}");
+                pawnHistory.Remove(username);
+            }
         }
 
         public bool UserInViewerQueue(string username)
@@ -126,8 +185,10 @@ namespace TwitchToolkit.PawnQueue
 
         public Dictionary<string, Pawn> pawnHistory = new Dictionary<string, Pawn>();
         public List<string> viewerNameQueue = new List<string>();
-        
+
         public List<Pawn> listPawns = new List<Pawn>();
         public List<string> pawnNames = new List<string>();
+
+        private Dictionary<Pawn, int> pawnDespawnTicks = new Dictionary<Pawn, int>();
     }
 }
