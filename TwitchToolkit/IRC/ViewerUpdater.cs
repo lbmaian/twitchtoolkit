@@ -20,6 +20,7 @@ namespace TwitchToolkit.IRC
         {
             Viewer viewer = Viewers.GetViewer(msg.User);
 
+            // See https://dev.twitch.tv/docs/irc/tags
             foreach (KeyValuePair<string, string> pair in msg.Parameters)
             {
                 //Helper.Log(pair.Key + " : " + pair.Value);
@@ -69,9 +70,19 @@ namespace TwitchToolkit.IRC
                         IEnumerable<string> badges = pair.Value.Split(',');
                         foreach (string badge in badges)
                         {
-                            if (badge == "vip/1")
+                            if (badge.StartsWith("broadcaster") || badge.StartsWith("moderator"))
+                            {
+                                viewer.mod = true;
+                                break;
+                            }
+                            else if (badge.StartsWith("vip"))
                             {
                                 viewer.vip = true;
+                                break;
+                            }
+                            else if (badge.StartsWith("subscriber"))
+                            {
+                                viewer.subscriber = true;
                                 break;
                             }
                         }
