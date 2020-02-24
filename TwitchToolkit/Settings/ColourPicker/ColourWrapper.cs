@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ColourPicker
 {
@@ -13,7 +9,7 @@ namespace ColourPicker
     {
         public Color Color { get; set; }
 
-        public ColourWrapper( Color color )
+        public ColourWrapper(Color color)
         {
             Color = color;
         }

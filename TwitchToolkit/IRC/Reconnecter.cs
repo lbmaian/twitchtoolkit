@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TwitchToolkit.Utilities;
 using TwitchToolkit.Windows.Installation;
 using Verse;
@@ -36,7 +33,7 @@ namespace TwitchToolkit.IRC
                 Helper.Log("Disconnect detected, attempting reconnect");
                 ToolkitIRC.NewInstance();
             }
-            else if (Ticker.LastIRCPong != 0 && TimeHelper.SecondsElapsed(DateTime.FromFileTime(Ticker.LastIRCPong)) > reconnectInterval )
+            else if (Ticker.LastIRCPong != 0 && TimeHelper.SecondsElapsed(DateTime.FromFileTime(Ticker.LastIRCPong)) > reconnectInterval)
             {
                 Helper.Log($"Has been over {reconnectInterval} seconds since last message from server, reconnecting");
                 ToolkitIRC.NewInstance();
@@ -47,6 +44,6 @@ namespace TwitchToolkit.IRC
 
         public static int reconnectInterval = 300;
 
-        int reconnectTime = 50;        
+        int reconnectTime = 50;
     }
 }

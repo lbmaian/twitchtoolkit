@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
@@ -19,7 +16,7 @@ namespace TwitchToolkit.IncidentHelpers
         {
             try
             {
-                if (! int.TryParse( wager, out checked(pointsWager) ) )
+                if (!int.TryParse(wager, out checked(pointsWager)))
                 {
                     ViewerDidWrongSyntax(viewer.username, incident.syntax, separateChannel);
                     return false;
@@ -43,9 +40,9 @@ namespace TwitchToolkit.IncidentHelpers
             if (pointsWager < incident.cost || pointsWager < incident.minPointsToFire)
             {
                 Toolkit.client.SendMessage(Helper.ReplacePlaceholder(
-                    "TwitchToolkitMinPurchaseNotMet".Translate(), 
-                    viewer: viewer.username, 
-                    amount: pointsWager.ToString(), 
+                    "TwitchToolkitMinPurchaseNotMet".Translate(),
+                    viewer: viewer.username,
+                    amount: pointsWager.ToString(),
                     first: incident.cost.ToString()
                 ), separateChannel);
                 return false;

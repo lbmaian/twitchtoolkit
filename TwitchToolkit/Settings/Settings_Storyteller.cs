@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TwitchToolkit.Storytellers;
 using TwitchToolkit.Storytellers.StorytellerPackWindows;
 using TwitchToolkit.Votes;
 using UnityEngine;
@@ -67,7 +64,7 @@ namespace TwitchToolkit.Settings
             optionsListing.AddLabeledTextField("TwitchToolkitVoteWindowTitle", ref ToolkitSettings.VoteWindowTitle);
 
             optionsListing.Gap();
-            
+
             if (optionsListing.ButtonTextLabeled("Edit Storyteller Packs", "Storyteller Packs"))
             {
                 Window_StorytellerPacks window = new Window_StorytellerPacks();

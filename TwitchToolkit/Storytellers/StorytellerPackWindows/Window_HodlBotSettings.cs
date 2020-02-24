@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TwitchToolkit.Settings;
 using UnityEngine;
 using Verse;
@@ -37,7 +36,7 @@ namespace TwitchToolkit.Storytellers.StorytellerPackWindows
 
             listing.Gap();
 
-            if (listing.ButtonTextLabeled("Default HodlBot Weights" ,"Reset Weights"))
+            if (listing.ButtonTextLabeled("Default HodlBot Weights", "Reset Weights"))
             {
                 Settings_Storyteller.NewVoteCategoryWeightsHodlBot();
                 Settings_Storyteller.NewVoteTypeWeightsHodlBot();
@@ -58,7 +57,7 @@ namespace TwitchToolkit.Storytellers.StorytellerPackWindows
             {
                 string buffer = VoteCategoryFloatList[i].ToString();
                 float newValue = VoteCategoryFloatList[i];
-                float percentage = (float) Math.Round((newValue / totalWeightsForCategories) * 100f, 2) ;
+                float percentage = (float)Math.Round((newValue / totalWeightsForCategories) * 100f, 2);
                 listing.TextFieldNumericLabeled<float>(VoteCategoryList[i] + " " + percentage + "% - ", ref newValue, ref buffer);
 
                 ToolkitSettings.VoteCategoryWeights[VoteCategoryList[i]] = newValue;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using RimWorld;
-using Verse;
+﻿using UnityEngine;
 
 namespace ColourPicker
 {
@@ -18,12 +12,12 @@ namespace ColourPicker
         /// <param name="V"></param>
         /// <param name="a"></param>
         /// <returns></returns>
-        public static Color ToRGBA( float H, float S, float V, float A = 1f )
+        public static Color ToRGBA(float H, float S, float V, float A = 1f)
         {
-            if( S == 0f )
-                return new Color( V, V, V, A );
-            else if( V == 0f )
-                return new Color( 0f, 0f, 0f, A );
+            if (S == 0f)
+                return new Color(V, V, V, A);
+            else if (V == 0f)
+                return new Color(0f, 0f, 0f, A);
             else
             {
                 Color col = Color.black;
@@ -33,7 +27,7 @@ namespace ColourPicker
                 float v1 = V * (1f - S);
                 float v2 = V * (1f - S * mod);
                 float v3 = V * (1f - S * (1f - mod));
-                switch( sel + 1 )
+                switch (sel + 1)
                 {
                     case 0:
                         col.r = V;
@@ -76,10 +70,10 @@ namespace ColourPicker
                         col.b = v1;
                         break;
                 }
-                col.r = Mathf.Clamp( col.r, 0f, 1f );
-                col.g = Mathf.Clamp( col.g, 0f, 1f );
-                col.b = Mathf.Clamp( col.b, 0f, 1f );
-                col.a = Mathf.Clamp( A, 0f, 1f );
+                col.r = Mathf.Clamp(col.r, 0f, 1f);
+                col.g = Mathf.Clamp(col.g, 0f, 1f);
+                col.b = Mathf.Clamp(col.b, 0f, 1f);
+                col.a = Mathf.Clamp(A, 0f, 1f);
                 return col;
             }
         }
@@ -91,32 +85,32 @@ namespace ColourPicker
         /// <param name="H"></param>
         /// <param name="S"></param>
         /// <param name="V"></param>
-        public static void ToHSV( Color rgbColor, out float H, out float S, out float V )
+        public static void ToHSV(Color rgbColor, out float H, out float S, out float V)
         {
-            if( rgbColor.b > rgbColor.g && rgbColor.b > rgbColor.r )
+            if (rgbColor.b > rgbColor.g && rgbColor.b > rgbColor.r)
             {
-                RGBToHSVHelper( 4f, rgbColor.b, rgbColor.r, rgbColor.g, out H, out S, out V );
+                RGBToHSVHelper(4f, rgbColor.b, rgbColor.r, rgbColor.g, out H, out S, out V);
             }
             else
             {
-                if( rgbColor.g > rgbColor.r )
+                if (rgbColor.g > rgbColor.r)
                 {
-                    RGBToHSVHelper( 2f, rgbColor.g, rgbColor.b, rgbColor.r, out H, out S, out V );
+                    RGBToHSVHelper(2f, rgbColor.g, rgbColor.b, rgbColor.r, out H, out S, out V);
                 }
                 else
                 {
-                    RGBToHSVHelper( 0f, rgbColor.r, rgbColor.g, rgbColor.b, out H, out S, out V );
+                    RGBToHSVHelper(0f, rgbColor.r, rgbColor.g, rgbColor.b, out H, out S, out V);
                 }
             }
         }
 
-        private static void RGBToHSVHelper( float offset, float dominantcolor, float colorone, float colortwo, out float H, out float S, out float V )
+        private static void RGBToHSVHelper(float offset, float dominantcolor, float colorone, float colortwo, out float H, out float S, out float V)
         {
             V = dominantcolor;
-            if( V != 0f )
+            if (V != 0f)
             {
                 float num = 0f;
-                if( colorone > colortwo )
+                if (colorone > colortwo)
                 {
                     num = colortwo;
                 }
@@ -125,18 +119,18 @@ namespace ColourPicker
                     num = colorone;
                 }
                 float num2 = V - num;
-                if( num2 != 0f )
+                if (num2 != 0f)
                 {
                     S = num2 / V;
-                    H = offset + ( colorone - colortwo ) / num2;
+                    H = offset + (colorone - colortwo) / num2;
                 }
                 else
                 {
                     S = 0f;
-                    H = offset + ( colorone - colortwo );
+                    H = offset + (colorone - colortwo);
                 }
                 H /= 6f;
-                if( H < 0f )
+                if (H < 0f)
                 {
                     H += 1f;
                 }

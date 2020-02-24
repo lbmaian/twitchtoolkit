@@ -1,8 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -222,7 +221,7 @@ namespace TwitchToolkit.VotingHelpers.VotingHelpers_Diseases
 
             candidates.Shuffle();
 
-            int count = (int) Math.Round((float) candidates.Count * percentAffected);
+            int count = (int)Math.Round((float)candidates.Count * percentAffected);
 
             candidates = candidates.Take(count).ToList();
 

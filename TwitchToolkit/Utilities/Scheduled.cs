@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace TwitchToolkit.Utilities
-{   
+{
     public class Scheduled
     {
         private List<ScheduledJob> jobs;
@@ -17,12 +15,12 @@ namespace TwitchToolkit.Utilities
         public void CheckAllJobs()
         {
             List<ScheduledJob> jobstodecrement = jobs.Where(k => k.MinutesTillExpire > 0).ToList();
-            foreach(ScheduledJob job in jobstodecrement)
+            foreach (ScheduledJob job in jobstodecrement)
             {
                 job.Decrement();
             }
             List<ScheduledJob> jobstorun = jobs.Where(k => k.MinutesTillExpire == 0).ToList();
-            foreach(ScheduledJob job in jobstorun)
+            foreach (ScheduledJob job in jobstorun)
             {
                 job.RunJob();
                 jobs = jobs.Where(l => l != job).ToList();

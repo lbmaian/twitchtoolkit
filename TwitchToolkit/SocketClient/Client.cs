@@ -1,7 +1,4 @@
-﻿using SimpleJSON;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
@@ -14,7 +11,7 @@ namespace TwitchToolkit.SocketClient
     {
         private Socket Socket { get; set; } = null;
 
-        private SslStream SslStream { get; set;  } = null;
+        private SslStream SslStream { get; set; } = null;
 
         private readonly string server;
 
@@ -86,7 +83,7 @@ namespace TwitchToolkit.SocketClient
                 SslStream.Close();
                 Socket.Close();
             }
-            
+
         }
 
         byte[] buffer;
@@ -122,7 +119,7 @@ namespace TwitchToolkit.SocketClient
             do
             {
                 Decoder decoder = Helper.LanguageEncoding().GetDecoder();
-                char [] chars = new char[decoder.GetCharCount(buffer, 0, bytes)];
+                char[] chars = new char[decoder.GetCharCount(buffer, 0, bytes)];
                 messageData.Append(chars);
 
                 if (bytes > 2048)

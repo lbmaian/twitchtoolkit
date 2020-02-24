@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -26,7 +23,7 @@ namespace TwitchToolkit.Windows
             {
                 allViewers = false;
                 this.viewer = viewer;
-                viewerBuffer = "<b>" +  viewer.username + "</b>";
+                viewerBuffer = "<b>" + viewer.username + "</b>";
             }
 
             if (viewer != null && action == EditPropsActions.Set)

@@ -1,13 +1,10 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using TwitchToolkit.Votes;
-using UnityEngine;
-using Verse;
 using System.Threading;
+using RimWorld;
+using TwitchToolkit.Votes;
+using Verse;
 
 namespace TwitchToolkit
 {
@@ -39,9 +36,9 @@ namespace TwitchToolkit
             if (VoteHelper.TimeForEventVote())
             {
                 MakeRandomVoteEvent(target);
-                yield break;                        
+                yield break;
             }
-            if (thread !=null)
+            if (thread != null)
             {
                 thread = new Thread(new ThreadStart(ThreadProc));
 
@@ -151,7 +148,7 @@ namespace TwitchToolkit
                 }
 
             Block_6:;
-            Thread.Sleep(0);
+                Thread.Sleep(0);
             }
         }
 
@@ -191,24 +188,24 @@ namespace TwitchToolkit
                     List<IncidentDef> pickedoptions = new List<IncidentDef>();
                     IEnumerable<IncidentDef> options;
 
-                        IncidentCategoryDef category = this.ChooseRandomCategory(target, triedCategories);
-                        Helper.Log($"Trying Category{category}");
-                        parms = this.GenerateParms(category, target);
-                        options = from d in base.UsableIncidentsInCategory(category, target)
-                                    where !d.NeedsParmsPoints || parms.points >= d.minThreatPoints
-                                    select d;
+                    IncidentCategoryDef category = this.ChooseRandomCategory(target, triedCategories);
+                    Helper.Log($"Trying Category{category}");
+                    parms = this.GenerateParms(category, target);
+                    options = from d in base.UsableIncidentsInCategory(category, target)
+                              where !d.NeedsParmsPoints || parms.points >= d.minThreatPoints
+                              select d;
 
 
-                        if (options.TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
-                        {
+                    if (options.TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
+                    {
 
-                        }
-                        triedCategories.Add(category);
+                    }
+                    triedCategories.Add(category);
 
-                        if (triedCategories.Count >= this.Props.categoryWeights.Count)
-                        {
+                    if (triedCategories.Count >= this.Props.categoryWeights.Count)
+                    {
 
-                        }
+                    }
 
 
                     Helper.Log($"Events Possible: {options.Count()}");
@@ -254,7 +251,7 @@ namespace TwitchToolkit
                 return targets[Verse.Rand.Range(1, targets.Count()) - 1];
             }
 
-            return targets[0];           
+            return targets[0];
         }
     }
 }

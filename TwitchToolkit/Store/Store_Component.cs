@@ -1,8 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using TwitchToolkit.Incidents;
 using Verse;
 
@@ -18,7 +17,7 @@ namespace TwitchToolkit.Store
         public override void GameComponentTick()
         {
             if (Find.TickManager.TicksGame % 1000 != 0)
-            return;
+                return;
 
             CleanLog();
         }
@@ -132,7 +131,7 @@ namespace TwitchToolkit.Store
                 }
             }
 
-            return (float) Math.Round(daysTillCooldownExpires, 1);
+            return (float)Math.Round(daysTillCooldownExpires, 1);
         }
 
         public void LogIncident(StoreIncident incident)
@@ -142,7 +141,7 @@ namespace TwitchToolkit.Store
             tickHistory.Add(logID, currentTick);
             abbreviationHistory.Add(logID, incident.abbreviation);
             karmaHistory.Add(logID, incident.karmaType.ToString());
-            
+
             lastID++;
         }
 

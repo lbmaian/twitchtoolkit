@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.Settings;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -65,12 +62,12 @@ namespace TwitchToolkit.Windows
             if (storeIncident.cost > 0)
             {
 
-                storeIncident.abbreviation = ls.TextEntryLabeled("Purchase Code:", storeIncident.abbreviation);    
+                storeIncident.abbreviation = ls.TextEntryLabeled("Purchase Code:", storeIncident.abbreviation);
 
                 ls.Gap();
 
                 ls.AddLabeledNumericalTextField<int>("Cost", ref storeIncident.cost);
-            
+
                 ls.SliderLabeled("Max times per " + ToolkitSettings.EventCooldownInterval + " ingame day(s)", ref storeIncident.eventCap, storeIncident.eventCap.ToString(), 0, 15);
 
                 if (variableIncident && storeIncidentVariables.maxWager > 0)
@@ -81,14 +78,14 @@ namespace TwitchToolkit.Windows
                     {
                         storeIncidentVariables.maxWager = storeIncidentVariables.cost * 2;
                     }
-                }  
-                
+                }
+
 
                 ls.Gap();
 
                 ls.AddLabeledRadioList("Karma Type", karmaTypeStrings, ref setKarmaType);
 
-                storeIncident.karmaType = (KarmaType) Enum.Parse(typeof(KarmaType), setKarmaType);
+                storeIncident.karmaType = (KarmaType)Enum.Parse(typeof(KarmaType), setKarmaType);
 
                 ls.Gap();
 
@@ -99,7 +96,7 @@ namespace TwitchToolkit.Windows
             }
 
             ls.Gap();
-            
+
             if (storeIncident.defName == "Item")
             {
                 ls.SliderLabeled("Max times per " + ToolkitSettings.EventCooldownInterval + " ingame day(s)", ref storeIncident.eventCap, storeIncident.eventCap.ToString(), 0, 15);
@@ -131,11 +128,11 @@ namespace TwitchToolkit.Windows
             {
                 Type type = typeof(StoreItemsWindow);
                 Find.WindowStack.TryRemove(type);
-                
+
                 Window window = new StoreItemsWindow();
                 Find.WindowStack.Add(window);
             }
-        
+
             ls.End();
         }
 

@@ -1,10 +1,5 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TwitchToolkit.IRC;
-using TwitchToolkit.Settings;
+﻿using System;
+using RimWorld;
 using TwitchToolkit.Store;
 using Verse;
 

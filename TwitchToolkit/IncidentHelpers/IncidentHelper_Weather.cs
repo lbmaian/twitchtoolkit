@@ -1,5 +1,5 @@
-﻿using RimWorld;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using RimWorld;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;

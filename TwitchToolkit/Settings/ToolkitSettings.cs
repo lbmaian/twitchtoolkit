@@ -61,7 +61,7 @@ namespace TwitchToolkit
 
         #region Options
         public static bool WhisperCmdsAllowed = true;
-        public static bool WhisperCmdsOnly = false; 
+        public static bool WhisperCmdsOnly = false;
         public static bool PurchaseConfirmations = true;
         public static bool RepeatViewerNames = false;
         public static bool MinifiableBuildings = false; //
@@ -257,7 +257,7 @@ namespace TwitchToolkit
 
             if (options.ButtonText("TwitchToolkitViewers".Translate()))
                 currentTab = SettingsTab.Viewers;
-            
+
             if (options.ButtonText(""))
                 currentTab = SettingsTab.Integrations;
 
@@ -271,7 +271,7 @@ namespace TwitchToolkit
             gapline.Begin(gapliRect);
             gapline.Gap();
             gapline.End();
-        
+
             Rect optionsRect = rect;
             optionsRect.y = 145;
             optionsRect.height = 620f;
@@ -280,20 +280,20 @@ namespace TwitchToolkit
             Rect scrollViewer = new Rect(optionsRect);
             scrollViewer.height -= 145f;
             scrollViewer.yMax -= 145f;
-            
+
             Rect viewRect = new Rect(0, 0, rect.width - 125f, 430f);
 
             if (currentTab == SettingsTab.Chat) viewRect.height += 400f;
             if (currentTab == SettingsTab.Storyteller) viewRect.height += 400f;
             if (currentTab == SettingsTab.Karma) viewRect.height += 250f;
             if (currentTab == SettingsTab.Viewers) viewRect.height += 80f;
-            
+
             Listing_Standard optionsListing = new Listing_Standard();
 
             optionsListing.Begin(optionsRect);
             optionsListing.BeginScrollView(scrollViewer, ref scrollVector2, ref viewRect);
 
-            switch(currentTab)
+            switch (currentTab)
             {
                 case SettingsTab.Coins:
                     Settings_Coins.DoWindowContents(viewRect, optionsListing);
@@ -334,7 +334,7 @@ namespace TwitchToolkit
             }
 
             optionsListing.EndScrollView(ref viewRect);
-            optionsListing.End();         
+            optionsListing.End();
         }
 
         public override void ExposeData()
@@ -412,7 +412,7 @@ namespace TwitchToolkit
             Scribe_Values.Look(ref ChatReqsForCoins, "ChatReqsForCoins", true);
             Scribe_Values.Look(ref TimeBeforeHalfCoins, "TimeBeforeHalfCoins", 30);
             Scribe_Values.Look(ref TimeBeforeNoCoins, "TimeBeforeNoCoins", 60);
-            
+
             Scribe_Values.Look(ref KarmaDecay, "KarmaDecay", false);
             Scribe_Values.Look(ref KarmaDecayPeriod, "KarmaDecayPeriod", 5);
             Scribe_Values.Look(ref MaxBadEventsBeforeDecay, "MaxBadEventsBeforeDecay", 0);
@@ -475,7 +475,7 @@ namespace TwitchToolkit
             Scribe_Collections.Look(ref CustomCommandDefs, "CustomCommandDefs", LookMode.Value);
 
             List<StoreIncidentVariables> variableIncidents = DefDatabase<StoreIncidentVariables>.AllDefs.Where(s => s.customSettings).ToList();
-            
+
             foreach (StoreIncidentVariables incident in variableIncidents)
             {
                 incident.RegisterCustomSettings();

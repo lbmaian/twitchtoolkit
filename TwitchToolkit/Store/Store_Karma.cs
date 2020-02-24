@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TwitchToolkit
 {
@@ -17,7 +14,7 @@ namespace TwitchToolkit
     {
         public static string GetKarmaStringFromInt(int karmaType)
         {
-            switch(karmaType)
+            switch (karmaType)
             {
                 case 0:
                     return "Bad";
@@ -34,7 +31,7 @@ namespace TwitchToolkit
 
         public static KarmaType GetKarmaTypeFromInt(int karmaType)
         {
-            switch(karmaType)
+            switch (karmaType)
             {
                 case 0:
                     return KarmaType.Bad;
@@ -51,17 +48,17 @@ namespace TwitchToolkit
 
         public static int CalculateNewKarma(int karma, KarmaType karmatype, int calculatedprice = 0)
         {
-            float tier = ( (float)karma / ( (float)ToolkitSettings.KarmaCap ) );
+            float tier = ((float)karma / ((float)ToolkitSettings.KarmaCap));
             Helper.Log($"Calculating new karma with {karma}, and karma type {karmatype} for {calculatedprice} with curve {CalculateForCurve()} tier {tier}");
             double newkarma = 0;
             int maxkarma = 0;
 
-            
+
 
             if (karmatype == KarmaType.Doom)
             {
-                
-                newkarma = (double)karma - (Convert.ToDouble((double)calculatedprice / (double)ToolkitSettings.DoomBonus) * (ToolkitSettings.KarmaCap / 100) );
+
+                newkarma = (double)karma - (Convert.ToDouble((double)calculatedprice / (double)ToolkitSettings.DoomBonus) * (ToolkitSettings.KarmaCap / 100));
                 //possibly ban?
                 if (tier < 0.061)
                 {
@@ -73,7 +70,7 @@ namespace TwitchToolkit
             {
                 if (tier > 0.55)
                 {
-                    switch(karmatype)
+                    switch (karmatype)
                     {
                         //small bonus for good
                         case KarmaType.Good:
@@ -92,7 +89,7 @@ namespace TwitchToolkit
                 }
                 else if (tier > 0.36)
                 {
-                    switch(karmatype)
+                    switch (karmatype)
                     {
                         //medium bonus for good
                         case KarmaType.Good:
@@ -113,7 +110,7 @@ namespace TwitchToolkit
                 }
                 else if (tier > 0.06)
                 {
-                    switch(karmatype)
+                    switch (karmatype)
                     {
                         //small bonus for good
                         case KarmaType.Good:
@@ -131,7 +128,7 @@ namespace TwitchToolkit
                 }
                 else
                 {
-                    switch(karmatype)
+                    switch (karmatype)
                     {
                         //medium bonus for good
                         case KarmaType.Good:
@@ -153,7 +150,7 @@ namespace TwitchToolkit
             {
                 newkarma = 1;
             }
-            
+
             if (newkarma < ToolkitSettings.KarmaMinimum)
             {
                 newkarma = ToolkitSettings.KarmaMinimum;
@@ -166,7 +163,7 @@ namespace TwitchToolkit
 
         private static float CalculateForCurve()
         {
-            return ((1f/860f) * (float)ToolkitSettings.KarmaCap) + (36f/43f);
+            return ((1f / 860f) * (float)ToolkitSettings.KarmaCap) + (36f / 43f);
         }
     }
 }

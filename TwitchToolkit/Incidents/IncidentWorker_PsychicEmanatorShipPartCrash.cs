@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 
 namespace TwitchToolkit.Incidents

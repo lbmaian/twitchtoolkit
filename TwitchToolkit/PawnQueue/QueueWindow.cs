@@ -23,7 +23,7 @@ namespace TwitchToolkit.PawnQueue
 
         public override void DoWindowContents(Rect inRect)
         {
-            Rect unnamedCounter = new Rect(inRect.x + 10, 0,  300, 52);
+            Rect unnamedCounter = new Rect(inRect.x + 10, 0, 300, 52);
             Widgets.Label(unnamedCounter, "Unnamed Colonists: " + unnamedColonists.Count);
 
             Rect colonistPortrait = new Rect(inRect.x + 10, 60, 100, 140);
@@ -38,8 +38,8 @@ namespace TwitchToolkit.PawnQueue
             if (Widgets.ButtonText(rightSide, "Assign"))
             {
                 NameColonist(selectedUsername, selectedPawn);
-            }         
-            
+            }
+
             Rect pawnSelectors = new Rect(26, 210, 40, 26);
 
             if (Widgets.ButtonText(pawnSelectors, "<"))
@@ -62,8 +62,8 @@ namespace TwitchToolkit.PawnQueue
             Widgets.Label(
                 namedStatus,
                 "Colonist " + (
-                        viewerNamed ? 
-                        "Named after <color=#4BB543>" + pawnComponent.UserAssignedToPawn(selectedPawn) + "</color>" : 
+                        viewerNamed ?
+                        "Named after <color=#4BB543>" + pawnComponent.UserAssignedToPawn(selectedPawn) + "</color>" :
                         "<color=#B2180E>Unnamed</color>"
                     )
                 );
@@ -145,7 +145,7 @@ namespace TwitchToolkit.PawnQueue
         {
             List<Pawn> colonistsUnnamed = GetUnamedColonists();
             if (colonistsUnnamed.NullOrEmpty())
-                    return;
+                return;
 
         }
 
@@ -164,11 +164,11 @@ namespace TwitchToolkit.PawnQueue
         public void DrawColonist(Rect rect, Pawn colonist)
         {
             GUI.DrawTexture(
-                rect, 
+                rect,
                 PortraitsCache.Get(
-                    colonist, 
-                    ColonistBarColonistDrawer.PawnTextureSize, 
-                    ColonistBarColonistDrawer.PawnTextureCameraOffset, 
+                    colonist,
+                    ColonistBarColonistDrawer.PawnTextureSize,
+                    ColonistBarColonistDrawer.PawnTextureCameraOffset,
                     1.28205f
                     )
                 );

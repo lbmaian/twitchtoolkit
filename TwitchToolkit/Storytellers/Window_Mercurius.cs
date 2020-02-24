@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace TwitchToolkit.Storytellers
@@ -31,7 +27,7 @@ namespace TwitchToolkit.Storytellers
 
             listing.Gap();
 
-            listing.Label("You will increasingly get more events the more days that pass.");            
+            listing.Label("You will increasingly get more events the more days that pass.");
 
             listing.End();
         }

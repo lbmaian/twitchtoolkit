@@ -1,15 +1,8 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
+﻿using System;
 using TwitchToolkit.IRC;
+using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using TwitchToolkit.Utilities;
-using TwitchToolkit.Store;
 
 namespace TwitchToolkit
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace TwitchToolkit.Windows.Installation
@@ -53,7 +49,7 @@ namespace TwitchToolkit.Windows.Installation
                 {
                     AcceptedOauthWarning = true;
                 }
-                
+
                 if (AcceptedOauthWarning)
                 {
                     listing.Label("Enter your oauth token, you can leave in the \"oauth:\" part.");

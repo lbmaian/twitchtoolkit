@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -53,7 +51,7 @@ namespace TwitchToolkit.Windows.Installation
             {
                 GetPrevStep();
             }
-            
+
             if (stepIterator + 1 == installSteps.Count)
             {
                 listing.Gap(24);
@@ -74,7 +72,7 @@ namespace TwitchToolkit.Windows.Installation
             currentStep.Driver.PostInstall();
             ToolkitSettings.FirstTimeInstallation = false;
             Toolkit.Mod.WriteSettings();
-            Close();    
+            Close();
         }
 
         void StartInstallationFromStart()

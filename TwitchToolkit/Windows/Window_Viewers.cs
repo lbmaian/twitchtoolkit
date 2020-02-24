@@ -82,7 +82,7 @@ namespace TwitchToolkit.Windows
 
             // first row
             Widgets.Label(smallLabel, "Coins");
-            
+
             if (Widgets.ButtonText(smallButton, "Give"))
             {
                 OpenEditProp(EditPropsActions.Give, EditProp.Coins);

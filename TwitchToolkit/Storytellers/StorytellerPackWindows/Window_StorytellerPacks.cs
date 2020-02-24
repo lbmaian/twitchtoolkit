@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace TwitchToolkit.Storytellers.StorytellerPackWindows
@@ -49,7 +45,7 @@ namespace TwitchToolkit.Storytellers.StorytellerPackWindows
             listing.Gap(24);
 
             listing.ColumnWidth = (inRect.width / 2f) - 20f;
-            
+
             listing.CheckboxLabeled("<color=#6441A4>Torytalker</color> - Classic / Most Balanced", ref ToolkitSettings.ToryTalkerEnabled);
 
             listing.Gap();

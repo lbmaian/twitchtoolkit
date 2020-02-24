@@ -1,6 +1,6 @@
-﻿using RimWorld;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.IRC;
@@ -22,7 +22,7 @@ namespace TwitchToolkit.Store
 
                 string[] command = msg.Message.Split(' ');
                 if (command.Length < 2)
-                {   
+                {
                     return;
                 }
 
@@ -34,8 +34,8 @@ namespace TwitchToolkit.Store
                 }
 
                 string searchQuery = null;
-                
-                if  (command.Length > 2)
+
+                if (command.Length > 2)
                 {
                     searchQuery = command[2].ToLower();
                 }
@@ -54,7 +54,7 @@ namespace TwitchToolkit.Store
         public void FindLookup(IRCMessage msg, string searchObject, string searchQuery)
         {
             List<string> results = new List<string>();
-            switch(searchObject)
+            switch (searchObject)
             {
                 case "disease":
                     FindLookup(msg, "diseases", searchQuery);
@@ -75,7 +75,7 @@ namespace TwitchToolkit.Store
                     FindLookup(msg, "traits", searchQuery);
                     break;
                 case "diseases":
-                    IncidentDef[] allDiseases = DefDatabase<IncidentDef>.AllDefs.Where(s => 
+                    IncidentDef[] allDiseases = DefDatabase<IncidentDef>.AllDefs.Where(s =>
                         s.category == IncidentCategoryDefOf.DiseaseHuman &&
                         (string.Join("", s.LabelCap.Split(' ')).ToLower().Contains(searchQuery) ||
                         string.Join("", s.LabelCap.Split(' ')).ToLower() == searchQuery)
@@ -86,7 +86,7 @@ namespace TwitchToolkit.Store
                     SendTenResults(msg, searchObject.CapitalizeFirst(), searchQuery, results.ToArray());
                     break;
                 case "skills":
-                    SkillDef[] allSkills = DefDatabase<SkillDef>.AllDefs.Where(s => 
+                    SkillDef[] allSkills = DefDatabase<SkillDef>.AllDefs.Where(s =>
                         (string.Join("", s.LabelCap.Split(' ')).ToLower().Contains(searchQuery) ||
                         string.Join("", s.LabelCap.Split(' ')).ToLower() == searchQuery)
                     ).Take(10).ToArray();
@@ -96,7 +96,7 @@ namespace TwitchToolkit.Store
                     SendTenResults(msg, searchObject.CapitalizeFirst(), searchQuery, results.ToArray());
                     break;
                 case "events":
-                    StoreIncident[] allEvents = DefDatabase<StoreIncident>.AllDefs.Where(s => 
+                    StoreIncident[] allEvents = DefDatabase<StoreIncident>.AllDefs.Where(s =>
                         s.cost > 0 &&
                         (string.Join("", s.abbreviation.Split(' ')).ToLower().Contains(searchQuery) ||
                         string.Join("", s.abbreviation.Split(' ')).ToLower() == searchQuery ||
@@ -109,7 +109,7 @@ namespace TwitchToolkit.Store
                     SendTenResults(msg, searchObject.CapitalizeFirst(), searchQuery, results.ToArray());
                     break;
                 case "items":
-                    Item[] allItems = StoreInventory.items.Where(s => 
+                    Item[] allItems = StoreInventory.items.Where(s =>
                         s.price > 0 &&
                         (string.Join("", s.abr.Split(' ')).ToLower().Contains(searchQuery) ||
                         string.Join("", s.abr.Split(' ')).ToLower() == searchQuery ||

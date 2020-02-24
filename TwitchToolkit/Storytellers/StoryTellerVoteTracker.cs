@@ -1,8 +1,6 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -39,7 +37,7 @@ namespace TwitchToolkit.Storytellers
 
 
             if (Find.TickManager.TicksGame > lastFiredTick + (ToolkitSettings.ToryTalkerMTBDays * GenDate.TicksPerDay))
-                {
+            {
                 if (Prefs.DevMode)
                     Helper.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * GenDate.TicksPerDay}) : true");
                 return true;
@@ -118,7 +116,7 @@ namespace TwitchToolkit.Storytellers
 
             float daysBetweenEvents;
 
-            switch(pack.defName)
+            switch (pack.defName)
             {
                 case "ToryTalker":
                     daysBetweenEvents = ToolkitSettings.ToryTalkerMTBDays;

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
 using RimWorld;
-using Verse;
 using TwitchToolkit.Utilities;
 using TwitchToolkit.Votes;
+using UnityEngine;
+using Verse;
 
 namespace TwitchToolkit
 {
@@ -34,11 +32,11 @@ namespace TwitchToolkit
             {
                 this.vote = vote;
                 this.optionsKeys = vote.optionsKeys;
-        }
+            }
             catch (InvalidCastException e)
             {
                 Log.Error("Invalid vote window. " + e.Message);
-            }  
+            }
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -67,7 +65,7 @@ namespace TwitchToolkit
 
             Rect bar = new Rect(inRect.x, inRect.y, 225, 20);
             Widgets.FillableBar(bar, ((float)ToolkitSettings.VoteTime * 60f - (float)secondsElapsed) / ((float)ToolkitSettings.VoteTime * 60f));
-            
+
             Text.Font = old;
         }
 
@@ -98,7 +96,7 @@ namespace TwitchToolkit
         }
 
         protected override void SetInitialSizeAndPosition()
-		{
+        {
             if (ToolkitSettings.VotingWindowx == -1)
             {
                 this.windowRect = new Rect(((float)UI.screenWidth - this.InitialSize.x) / 2f, ((float)UI.screenHeight - this.InitialSize.y) - 60f, this.InitialSize.x, this.InitialSize.y);
@@ -107,9 +105,9 @@ namespace TwitchToolkit
             {
                 this.windowRect = new Rect(ToolkitSettings.VotingWindowx, ToolkitSettings.VotingWindowy, this.InitialSize.x, this.InitialSize.y);
             }
-			
-			this.windowRect = this.windowRect.Rounded();
-		}
+
+            this.windowRect = this.windowRect.Rounded();
+        }
 
         public override void PreClose()
         {

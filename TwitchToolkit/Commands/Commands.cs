@@ -1,13 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TwitchToolkit.Incidents;
 using TwitchToolkit.IRC;
-using TwitchToolkit.PawnQueue;
-using TwitchToolkit.Store;
-using TwitchToolkit.Utilities;
 using Verse;
 
 namespace TwitchToolkit
@@ -75,7 +69,7 @@ namespace TwitchToolkit
                 {
                     commandDef.RunCommand(msg);
                 }
-                
+
             }
 
             List<TwitchInterfaceBase> modExtensions = Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
@@ -85,7 +79,7 @@ namespace TwitchToolkit
                 return;
             }
 
-            foreach(TwitchInterfaceBase parser in modExtensions)
+            foreach (TwitchInterfaceBase parser in modExtensions)
             {
                 parser.ParseCommand(msg);
             }

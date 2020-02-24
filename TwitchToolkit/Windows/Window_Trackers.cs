@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TwitchToolkit.Incidents;
@@ -113,7 +112,7 @@ namespace TwitchToolkit.Windows
                 label.AppendFormat(" {0,-6}", maxed ? "MAXED" : "");
 
                 Rect rectToDrawAt = listing.GetRect(28f);
-                Widgets.Label(rectToDrawAt.LeftPart(0.9f),label.ToString());
+                Widgets.Label(rectToDrawAt.LeftPart(0.9f), label.ToString());
                 if (Widgets.ButtonText(rectToDrawAt.RightPart(0.1f), "Edit"))
                 {
                     StoreIncidentEditor window = new StoreIncidentEditor(incidentPair.Key);
@@ -123,7 +122,7 @@ namespace TwitchToolkit.Windows
 
                 listing.Gap(5);
             }
-            
+
 
             listing.EndScrollView(ref viewRect);
             listing.End();
@@ -185,7 +184,7 @@ namespace TwitchToolkit.Windows
                 {
                     storeIncidentsDayTillUsuable.Add(incident, 0);
                 }
-                
+
             }
 
         }
@@ -217,6 +216,6 @@ namespace TwitchToolkit.Windows
         Dictionary<StoreIncident, int> storeIncidentMax = new Dictionary<StoreIncident, int>();
         Dictionary<StoreIncident, bool> storeIncidentMaxed = new Dictionary<StoreIncident, bool>();
         Dictionary<StoreIncident, float> storeIncidentsDayTillUsuable = new Dictionary<StoreIncident, float>();
-        
+
     }
 }

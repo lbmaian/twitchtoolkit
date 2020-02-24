@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using SimpleJSON;
-using TwitchToolkit.Store;
 using UnityEngine;
-using Verse;
 
 namespace TwitchToolkit.Utilities
 {
@@ -22,13 +17,13 @@ namespace TwitchToolkit.Utilities
         private static void SaveJsonToDataPath(string json, string savePath)
         {
             bool dataPathExists = Directory.Exists(dataPath);
-            
-            if(!dataPathExists)
+
+            if (!dataPathExists)
                 Directory.CreateDirectory(dataPath);
 
-            using (StreamWriter streamWriter = File.CreateText (savePath))
+            using (StreamWriter streamWriter = File.CreateText(savePath))
             {
-                streamWriter.Write (json.ToString());
+                streamWriter.Write(json.ToString());
             }
         }
 
@@ -81,9 +76,9 @@ namespace TwitchToolkit.Utilities
                 if (!File.Exists(viewerDataPath))
                     return;
 
-                using (StreamReader streamReader = File.OpenText (viewerDataPath))
+                using (StreamReader streamReader = File.OpenText(viewerDataPath))
                 {
-                    string jsonString = streamReader.ReadToEnd ();
+                    string jsonString = streamReader.ReadToEnd();
                     var node = JSON.Parse(jsonString);
                     Helper.Log(node.ToString());
                     List<Viewer> listOfViewers = new List<Viewer>();

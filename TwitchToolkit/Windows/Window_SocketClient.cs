@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TwitchToolkit.SocketClient;
+﻿using TwitchToolkit.SocketClient;
 using UnityEngine;
 using Verse;
 

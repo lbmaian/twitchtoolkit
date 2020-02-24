@@ -8,7 +8,7 @@ namespace TwitchToolkit.Votes
 {
     public class Vote_VotingIncident : Vote
     {
-        public Vote_VotingIncident(Dictionary<int, VotingIncident> incidents, string title = null) : base (new List<int>(incidents.Keys))
+        public Vote_VotingIncident(Dictionary<int, VotingIncident> incidents, string title = null) : base(new List<int>(incidents.Keys))
         {
             List<VoteLabelType> voteLabels = Enum.GetValues(typeof(VoteLabelType)).Cast<VoteLabelType>().ToList();
             voteLabels.Shuffle();
@@ -60,7 +60,7 @@ namespace TwitchToolkit.Votes
                 return incidents[id].LabelCap;
             }
 
-            switch(labelType)
+            switch (labelType)
             {
                 case VoteLabelType.Category:
                     return incidents[id].eventCategory.ToString();

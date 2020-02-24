@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -23,7 +20,7 @@ namespace TwitchToolkit.Settings
             optionsListing.Gap();
 
             optionsListing.CheckboxLabeled("TwitchToolkitKarmaReqsForGifting".Translate(), ref ToolkitSettings.KarmaReqsForGifting);
-            
+
             optionsListing.Gap();
 
             optionsListing.SliderLabeled("TwitchToolkitMinKarmaForGifts".Translate(), ref ToolkitSettings.MinimumKarmaToRecieveGifts, Math.Round((double)ToolkitSettings.MinimumKarmaToRecieveGifts).ToString(), 10, 100);
@@ -61,6 +58,6 @@ namespace TwitchToolkit.Settings
             optionsListing.SliderLabeled("TwitchToolkitNeutralKarma".Translate(), ref ToolkitSettings.TierFourNeutralBonus, Math.Round((double)ToolkitSettings.TierFourNeutralBonus).ToString(), 1, 100);
             optionsListing.SliderLabeled("TwitchToolkitBadKarma".Translate(), ref ToolkitSettings.TierFourBadBonus, Math.Round((double)ToolkitSettings.TierFourBadBonus).ToString(), 1, 100);
 
-           }
+        }
     }
 }

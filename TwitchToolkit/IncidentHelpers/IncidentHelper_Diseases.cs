@@ -1,9 +1,6 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TwitchToolkit.Incidents;
+using RimWorld;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -49,7 +46,7 @@ namespace TwitchToolkit.IncidentHelpers.Diseases
             parms = StorytellerUtility.DefaultParmsNow(worker.def.category, target);
             parms.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, pointsWager, StorytellerUtility.DefaultThreatPointsNow(target));
             return worker.CanFireNow(parms);
-        
+
         }
 
         public override void TryExecute()
@@ -124,7 +121,7 @@ namespace TwitchToolkit.IncidentHelpers.Diseases
             parms = StorytellerUtility.DefaultParmsNow(worker.def.category, target);
             parms.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, pointsWager, StorytellerUtility.DefaultThreatPointsNow(target));
             return worker.CanFireNow(parms);
-        
+
         }
 
         public override void TryExecute()

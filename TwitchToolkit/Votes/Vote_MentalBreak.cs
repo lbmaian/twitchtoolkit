@@ -1,8 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using Verse;
 using Verse.AI;
 
@@ -10,7 +9,7 @@ namespace TwitchToolkit.Votes
 {
     public class Vote_MentalBreak : Vote
     {
-        public Vote_MentalBreak(Dictionary<int, Pawn> pawnOptions) : base (new List<int>(pawnOptions.Keys))
+        public Vote_MentalBreak(Dictionary<int, Pawn> pawnOptions) : base(new List<int>(pawnOptions.Keys))
         {
             try
             {
@@ -26,12 +25,12 @@ namespace TwitchToolkit.Votes
             Pawn pawn = pawnOptions[DecideWinner()];
             float minorBreak = pawn.mindState.mentalBreaker.BreakThresholdMinor - 0.05f;
             IEnumerable<MentalBreakDef> breaks = from d in DefDatabase<MentalBreakDef>.AllDefsListForReading
-					where d.intensity == MentalBreakIntensity.Minor && d.Worker.BreakCanOccur(pawn)
-					select d;
+                                                 where d.intensity == MentalBreakIntensity.Minor && d.Worker.BreakCanOccur(pawn)
+                                                 select d;
 
             bool breakPawn = breaks.TryRandomElementByWeight((MentalBreakDef d) => d.Worker.CommonalityFor(pawn), out MentalBreakDef mentalBreakDef);
-        	string text = "MentalStateReason_Mood".Translate();
-			text = text + "\n\n" + "FinalStraw".Translate("Chat said something that upset them.");
+            string text = "MentalStateReason_Mood".Translate();
+            text = text + "\n\n" + "FinalStraw".Translate("Chat said something that upset them.");
 
             if (!pawn.Awake())
             {
@@ -39,10 +38,10 @@ namespace TwitchToolkit.Votes
             }
 
             if (breakPawn && mentalBreakDef.Worker.TryStart(pawn, text, false))
-            {        
+            {
                 Messages.Message(new Message("Chat caused a mental break for: " + pawnOptions[DecideWinner()].LabelCap, MessageTypeDefOf.NegativeEvent), true);
             }
-                
+
             Find.WindowStack.TryRemove(typeof(VoteWindow));
         }
 

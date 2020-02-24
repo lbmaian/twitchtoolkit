@@ -1,8 +1,5 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using RimWorld;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -60,7 +57,7 @@ namespace TwitchToolkit.Storytellers
 
                     break;
             }
-            
+
         }
     }
 }

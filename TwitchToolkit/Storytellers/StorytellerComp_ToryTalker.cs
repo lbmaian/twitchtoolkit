@@ -1,8 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -132,7 +131,7 @@ namespace TwitchToolkit.Storytellers
                     Helper.Log($"Incident {incident.LabelCap} weighted at {weight}");
                     voteEntries.Add(new VotingIncidentEntry(incident, weight));
                 }
-                
+
             }
 
             return voteEntries;

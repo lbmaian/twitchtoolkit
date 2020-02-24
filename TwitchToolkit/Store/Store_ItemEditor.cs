@@ -1,11 +1,10 @@
-﻿using RimWorld;
-using SimpleJSON;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using TwitchToolkit.Incidents;
+using RimWorld;
+using SimpleJSON;
 using TwitchToolkit.Utilities;
 using Verse;
 
@@ -46,7 +45,7 @@ namespace TwitchToolkit.Store
 
             foreach (ThingDef def in tradeableItems)
             {
-                allItems.Add( new Item(Convert.ToInt32(def.BaseMarketValue * 10 / 6), string.Join("", def.label.Split(' ')).ToLower().Replace("\"", ""), def.defName) );
+                allItems.Add(new Item(Convert.ToInt32(def.BaseMarketValue * 10 / 6), string.Join("", def.label.Split(' ')).ToLower().Replace("\"", ""), def.defName));
             }
 
             StoreInventory.items = allItems;
@@ -62,7 +61,7 @@ namespace TwitchToolkit.Store
 
                 if (item == null)
                 {
-                    StoreInventory.items.Add( new Item( Convert.ToInt32(def.BaseMarketValue * 10 / 6), string.Join("", def.label.Split(' ')).ToLower().Replace("\"", ""), def.defName ) );
+                    StoreInventory.items.Add(new Item(Convert.ToInt32(def.BaseMarketValue * 10 / 6), string.Join("", def.label.Split(' ')).ToLower().Replace("\"", ""), def.defName));
                 }
             }
 
@@ -81,7 +80,7 @@ namespace TwitchToolkit.Store
                 }
                 else
                 {
-                    StoreInventory.items.Add(new Item( itemPrices[i], string.Join("", allItems[i].LabelCap.ToLower().Split(' ')), allItems[i].defName ));
+                    StoreInventory.items.Add(new Item(itemPrices[i], string.Join("", allItems[i].LabelCap.ToLower().Split(' ')), allItems[i].defName));
                 }
             }
 
@@ -93,10 +92,10 @@ namespace TwitchToolkit.Store
             StringBuilder json = new StringBuilder();
 
             bool dataPathExists = Directory.Exists(dataPath);
-            
-            if(!dataPathExists)
+
+            if (!dataPathExists)
                 Directory.CreateDirectory(dataPath);
-            
+
             json.AppendLine("{");
             json.AppendLine("\t\"items\" : [");
 
@@ -141,9 +140,9 @@ namespace TwitchToolkit.Store
             json.AppendLine("\t\"total\": " + finalCount);
             json.AppendLine("}");
 
-            using (StreamWriter streamWriter = File.CreateText (Path.Combine(dataPath, "StoreItems.json")))
+            using (StreamWriter streamWriter = File.CreateText(Path.Combine(dataPath, "StoreItems.json")))
             {
-                streamWriter.Write (json.ToString());
+                streamWriter.Write(json.ToString());
             }
         }
 
@@ -156,7 +155,7 @@ namespace TwitchToolkit.Store
                 if (!File.Exists(filePath))
                     return;
 
-                using (StreamReader streamReader = File.OpenText (filePath))
+                using (StreamReader streamReader = File.OpenText(filePath))
                 {
                     string jsonString = streamReader.ReadToEnd();
                     var node = JSON.Parse(jsonString);
@@ -169,14 +168,14 @@ namespace TwitchToolkit.Store
 
                     for (int i = 0; i < node["total"]; i++)
                     {
-                        Item item = StoreInventory.items.Find(x => x.defname == node["items"][i]["defname"] );
+                        Item item = StoreInventory.items.Find(x => x.defname == node["items"][i]["defname"]);
                         if (item != null)
                         {
                             item.price = node["items"][i]["price"].AsInt;
                         }
                         else
                         {
-                            StoreInventory.items.Add( new Item(node["items"][i]["price"].AsInt, node["items"][i]["abr"], node["items"][i]["defname"]) );    
+                            StoreInventory.items.Add(new Item(node["items"][i]["price"].AsInt, node["items"][i]["abr"], node["items"][i]["defname"]));
                         }
                     }
                 }

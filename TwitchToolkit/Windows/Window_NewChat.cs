@@ -11,7 +11,7 @@
 //    public class ChatWindowNew
 //    {
 //        public List<ChatMessage> lastMessages = new List<ChatMessage>();
-        
+
 //        public ChatWindowNew()
 //        {
 
@@ -34,7 +34,7 @@
 //                float spacing = Text.CalcHeight(chtmsg.GetMessageString(), inRect.width);
 //                Widgets.Label(inRect, chtmsg.GetMessageString());
 //                inRect.y -= spacing;
-                
+
 //            }
 //            lastMessages.Reverse();
 //            Text.Anchor = TextAnchor.UpperLeft;
@@ -50,12 +50,12 @@
 //        }
 
 //        public static void DrawWindowBackground(Rect rect)
-//		{
-//			GUI.color = new Color(23, 23, 23, 0.1f);
-//			GUI.DrawTexture(rect, SolidColorMaterials.NewSolidColorTexture(Color.white));
-//			GUI.color = Color.white;
-//			GUI.color = Color.white;
-//		}
+//        {
+//            GUI.color = new Color(23, 23, 23, 0.1f);
+//            GUI.DrawTexture(rect, SolidColorMaterials.NewSolidColorTexture(Color.white));
+//            GUI.color = Color.white;
+//            GUI.color = Color.white;
+//        }
 
 //        public void AddMessage(string message, string username, string colorcode)
 //        {

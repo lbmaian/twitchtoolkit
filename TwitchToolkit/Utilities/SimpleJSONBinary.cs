@@ -55,34 +55,34 @@ namespace SimpleJSON
         }
 
 #if USE_SharpZipLib
-		public void SaveToCompressedStream(System.IO.Stream aData)
-		{
-			using (var gzipOut = new ICSharpCode.SharpZipLib.BZip2.BZip2OutputStream(aData))
-			{
-				gzipOut.IsStreamOwner = false;
-				SaveToBinaryStream(gzipOut);
-				gzipOut.Close();
-			}
-		}
+        public void SaveToCompressedStream(System.IO.Stream aData)
+        {
+            using (var gzipOut = new ICSharpCode.SharpZipLib.BZip2.BZip2OutputStream(aData))
+            {
+                gzipOut.IsStreamOwner = false;
+                SaveToBinaryStream(gzipOut);
+                gzipOut.Close();
+            }
+        }
  
-		public void SaveToCompressedFile(string aFileName)
-		{
+        public void SaveToCompressedFile(string aFileName)
+        {
  
-			System.IO.Directory.CreateDirectory((new System.IO.FileInfo(aFileName)).Directory.FullName);
-			using(var F = System.IO.File.OpenWrite(aFileName))
-			{
-				SaveToCompressedStream(F);
-			}
-		}
-		public string SaveToCompressedBase64()
-		{
-			using (var stream = new System.IO.MemoryStream())
-			{
-				SaveToCompressedStream(stream);
-				stream.Position = 0;
-				return System.Convert.ToBase64String(stream.ToArray());
-			}
-		}
+            System.IO.Directory.CreateDirectory((new System.IO.FileInfo(aFileName)).Directory.FullName);
+            using(var F = System.IO.File.OpenWrite(aFileName))
+            {
+                SaveToCompressedStream(F);
+            }
+        }
+        public string SaveToCompressedBase64()
+        {
+            using (var stream = new System.IO.MemoryStream())
+            {
+                SaveToCompressedStream(stream);
+                stream.Position = 0;
+                return System.Convert.ToBase64String(stream.ToArray());
+            }
+        }
  
 #else
         public void SaveToCompressedStream(System.IO.Stream aData)
@@ -169,25 +169,25 @@ namespace SimpleJSON
         }
 
 #if USE_SharpZipLib
-		public static JSONNode LoadFromCompressedStream(System.IO.Stream aData)
-		{
-			var zin = new ICSharpCode.SharpZipLib.BZip2.BZip2InputStream(aData);
-			return LoadFromBinaryStream(zin);
-		}
-		public static JSONNode LoadFromCompressedFile(string aFileName)
-		{
-			using(var F = System.IO.File.OpenRead(aFileName))
-			{
-				return LoadFromCompressedStream(F);
-			}
-		}
-		public static JSONNode LoadFromCompressedBase64(string aBase64)
-		{
-			var tmp = System.Convert.FromBase64String(aBase64);
-			var stream = new System.IO.MemoryStream(tmp);
-			stream.Position = 0;
-			return LoadFromCompressedStream(stream);
-		}
+        public static JSONNode LoadFromCompressedStream(System.IO.Stream aData)
+        {
+            var zin = new ICSharpCode.SharpZipLib.BZip2.BZip2InputStream(aData);
+            return LoadFromBinaryStream(zin);
+        }
+        public static JSONNode LoadFromCompressedFile(string aFileName)
+        {
+            using(var F = System.IO.File.OpenRead(aFileName))
+            {
+                return LoadFromCompressedStream(F);
+            }
+        }
+        public static JSONNode LoadFromCompressedBase64(string aBase64)
+        {
+            var tmp = System.Convert.FromBase64String(aBase64);
+            var stream = new System.IO.MemoryStream(tmp);
+            stream.Position = 0;
+            return LoadFromCompressedStream(stream);
+        }
 #else
         public static JSONNode LoadFromCompressedFile(string aFileName)
         {

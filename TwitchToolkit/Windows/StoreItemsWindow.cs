@@ -1,8 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -61,7 +60,7 @@ namespace TwitchToolkit.Windows
             GUI.color = ColorLibrary.Grey;
             Widgets.Label(sortLabel, "Sort items by:");
             GUI.color = defaultColor;
-        
+
             if (Widgets.ButtonText(sortButton, "category"))
             {
                 if (ascending)
@@ -74,7 +73,7 @@ namespace TwitchToolkit.Windows
                     ascending = true;
                     cachedTradeables = cachedTradeables.OrderByDescending(s => s.FirstThingCategory != null ? s.FirstThingCategory.LabelCap : "Animal").ToList();
                 }
-                
+
                 GetTradeablesPrices();
             }
 
@@ -92,7 +91,7 @@ namespace TwitchToolkit.Windows
                     ascending = true;
                     cachedTradeables = cachedTradeables.OrderByDescending(s => s.BaseMarketValue).ToList();
                 }
-                
+
                 GetTradeablesPrices();
             }
 
@@ -110,7 +109,7 @@ namespace TwitchToolkit.Windows
                     ascending = true;
                     cachedTradeables = cachedTradeables.OrderByDescending(s => s.LabelCap).ToList();
                 }
-                
+
                 GetTradeablesPrices();
             }
 
@@ -122,33 +121,33 @@ namespace TwitchToolkit.Windows
 
         private void FillMainRect(Rect mainRect)
         {
-			Text.Font = GameFont.Small;
-			float height = 6f + (float)this.cachedTradeables.Count * 30f;
-			Rect viewRect = new Rect(0f, 0f, mainRect.width - 16f, height);
-			Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect, true);
-			float num = 6f;
-			float num2 = this.scrollPosition.y - 30f;
-			float num3 = this.scrollPosition.y + mainRect.height;
-			int num4 = 0;
-			for (int i = 0; i < this.cachedTradeables.Count; i++)
-			{
-				if (num > num2 && num < num3)
-				{
-					Rect rect = new Rect(0f, num, viewRect.width, 30f);
-					DrawItemRow(rect, this.cachedTradeables[i], num4);
-				}
-				num += 30f;
-				num4++;
-			}
-			Widgets.EndScrollView();
+            Text.Font = GameFont.Small;
+            float height = 6f + (float)this.cachedTradeables.Count * 30f;
+            Rect viewRect = new Rect(0f, 0f, mainRect.width - 16f, height);
+            Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect, true);
+            float num = 6f;
+            float num2 = this.scrollPosition.y - 30f;
+            float num3 = this.scrollPosition.y + mainRect.height;
+            int num4 = 0;
+            for (int i = 0; i < this.cachedTradeables.Count; i++)
+            {
+                if (num > num2 && num < num3)
+                {
+                    Rect rect = new Rect(0f, num, viewRect.width, 30f);
+                    DrawItemRow(rect, this.cachedTradeables[i], num4);
+                }
+                num += 30f;
+                num4++;
+            }
+            Widgets.EndScrollView();
         }
 
         private void DrawItemRow(Rect rect, ThingDef thing, int index)
         {
-			if (index % 2 == 1)
-			{
-				Widgets.DrawLightHighlight(rect);
-			}
+            if (index % 2 == 1)
+            {
+                Widgets.DrawLightHighlight(rect);
+            }
 
             Color white = GUI.color;
             if (tradeablesPrices[index] < 1)
@@ -156,24 +155,24 @@ namespace TwitchToolkit.Windows
                 GUI.color = ColorLibrary.Grey;
             }
 
-			Text.Font = GameFont.Small;
-			GUI.BeginGroup(rect);
-			float num = rect.width;
+            Text.Font = GameFont.Small;
+            GUI.BeginGroup(rect);
+            float num = rect.width;
 
             Rect rect1 = new Rect(num - 100f, 0f, 100f, rect.height);
             rect1 = rect1.Rounded();
             int newPrice = tradeablesPrices[index];
-			string label = newPrice.ToString();
-			rect1.xMax -= 5f;
-			rect1.xMin += 5f;
-			if (Text.Anchor == TextAnchor.MiddleLeft)
-			{
-				rect1.xMax += 300f;
-			}
-			if (Text.Anchor == TextAnchor.MiddleRight)
-			{
-				rect1.xMin -= 300f;
-			}
+            string label = newPrice.ToString();
+            rect1.xMax -= 5f;
+            rect1.xMin += 5f;
+            if (Text.Anchor == TextAnchor.MiddleLeft)
+            {
+                rect1.xMax += 300f;
+            }
+            if (Text.Anchor == TextAnchor.MiddleRight)
+            {
+                rect1.xMin -= 300f;
+            }
 
             Rect rect2 = new Rect(num - 560f, 0f, 240f, rect.height);
 
@@ -214,41 +213,41 @@ namespace TwitchToolkit.Windows
             Widgets.ThingIcon(rect3, thing);
             Widgets.InfoCardButton(40f, 0f, thing);
 
-			Text.Anchor = TextAnchor.MiddleLeft;
-			Rect rect4 = new Rect(80f, 0f, rect.width - 80f, rect.height);
-			Text.WordWrap = false;
-			GUI.color = Color.white;
-			Widgets.Label(rect4, thing.LabelCap);
-        	Text.WordWrap = true;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Rect rect4 = new Rect(80f, 0f, rect.width - 80f, rect.height);
+            Text.WordWrap = false;
+            GUI.color = Color.white;
+            Widgets.Label(rect4, thing.LabelCap);
+            Text.WordWrap = true;
 
-			GenUI.ResetLabelAlign();
-			GUI.EndGroup();
+            GenUI.ResetLabelAlign();
+            GUI.EndGroup();
 
             GUI.color = white;
         }
 
         private void DrawPriceAdjuster(Rect rect, ref int val, int countChange = 50, int min = 0)
         {
-			rect.width = 42f;
-			if (Widgets.ButtonText(rect, "-" + countChange, true, false, true))
-			{
-				SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
-				val -= countChange * GenUI.CurrentAdjustmentMultiplier();
-				if (val < min)
-				{
-					val = min;
-				}
-			}
-			rect.x += rect.width + 2f;
-			if (Widgets.ButtonText(rect, "+" + countChange, true, false, true))
-			{
-				SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
-				val += countChange * GenUI.CurrentAdjustmentMultiplier();
-				if (val < min)
-				{
-					val = min;
-				}
-			}
+            rect.width = 42f;
+            if (Widgets.ButtonText(rect, "-" + countChange, true, false, true))
+            {
+                SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
+                val -= countChange * GenUI.CurrentAdjustmentMultiplier();
+                if (val < min)
+                {
+                    val = min;
+                }
+            }
+            rect.x += rect.width + 2f;
+            if (Widgets.ButtonText(rect, "+" + countChange, true, false, true))
+            {
+                SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
+                val += countChange * GenUI.CurrentAdjustmentMultiplier();
+                if (val < min)
+                {
+                    val = min;
+                }
+            }
         }
 
         private void GetTradeables(bool save = true)
@@ -261,41 +260,41 @@ namespace TwitchToolkit.Windows
             lastSearch = searchQuery;
 
             cachedTradeables = new List<ThingDef>();
-            
+
             string searchShort = string.Join("", searchQuery.Split(' ')).ToLower();
 
             IEnumerable<ThingDef> tradeableitems = from t in DefDatabase<ThingDef>.AllDefs
-                    where (t.tradeability.TraderCanSell() || ThingSetMakerUtility.CanGenerate(t) ) &&
-                    (t.building == null || t.Minifiable || ToolkitSettings.MinifiableBuildings) &&
-                    (t.FirstThingCategory != null || t.race != null) &&
-                    (t.BaseMarketValue > 0) &&
-                    (searchQuery == "" || 
-                        (
-                            t.defName.ToLower().Contains(searchShort) ||
-                            string.Join("", t.label.Split(' ')).ToLower().Contains(searchShort) ||
-                            t.defName.ToLower() == searchShort ||
-                            string.Join("", t.label.Split(' ')).ToLower() == searchShort ||
-                            (
-                                (t.race != null &&
-                                t.race.Animal &&
-                                    (t.race.ToString().ToLower().Contains(searchQuery) ||
-                                    t.race.ToString().ToLower() == searchQuery ||
-                                    "animal".Contains(searchQuery) ||
-                                    searchQuery == "animal")
-                                )
-                                ||
-                                (t.race == null &&
-                                    (t.FirstThingCategory == null ||
-                                    string.Join("", t.FirstThingCategory.LabelCap.Split(' ')).ToLower().Contains(searchShort) ||
-                                    t.FirstThingCategory.LabelCap.ToLower() == searchShort)
-                                )
-                            )
-                        )
-                    )
-                    orderby t.LabelCap
-                    select t;
+                                                   where (t.tradeability.TraderCanSell() || ThingSetMakerUtility.CanGenerate(t)) &&
+                                                   (t.building == null || t.Minifiable || ToolkitSettings.MinifiableBuildings) &&
+                                                   (t.FirstThingCategory != null || t.race != null) &&
+                                                   (t.BaseMarketValue > 0) &&
+                                                   (searchQuery == "" ||
+                                                       (
+                                                           t.defName.ToLower().Contains(searchShort) ||
+                                                           string.Join("", t.label.Split(' ')).ToLower().Contains(searchShort) ||
+                                                           t.defName.ToLower() == searchShort ||
+                                                           string.Join("", t.label.Split(' ')).ToLower() == searchShort ||
+                                                           (
+                                                               (t.race != null &&
+                                                               t.race.Animal &&
+                                                                   (t.race.ToString().ToLower().Contains(searchQuery) ||
+                                                                   t.race.ToString().ToLower() == searchQuery ||
+                                                                   "animal".Contains(searchQuery) ||
+                                                                   searchQuery == "animal")
+                                                               )
+                                                               ||
+                                                               (t.race == null &&
+                                                                   (t.FirstThingCategory == null ||
+                                                                   string.Join("", t.FirstThingCategory.LabelCap.Split(' ')).ToLower().Contains(searchShort) ||
+                                                                   t.FirstThingCategory.LabelCap.ToLower() == searchShort)
+                                                               )
+                                                           )
+                                                       )
+                                                   )
+                                                   orderby t.LabelCap
+                                                   select t;
 
-            foreach(ThingDef item in tradeableitems)
+            foreach (ThingDef item in tradeableitems)
             {
                 if (item.BaseMarketValue > 0f)
                 {
@@ -321,7 +320,7 @@ namespace TwitchToolkit.Windows
                 {
                     tradeablesPrices.Add(Convert.ToInt32(item.BaseMarketValue * 10 / 6));
                 }
-            } 
+            }
         }
 
         public override void PostClose()

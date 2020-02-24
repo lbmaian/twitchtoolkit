@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using RimWorld;
+using TwitchToolkit.IRC;
+using TwitchToolkit.PawnQueue;
+using TwitchToolkit.Store;
+using TwitchToolkit.Utilities;
+using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
-using TwitchToolkit.Utilities;
-using TwitchToolkit.PawnQueue;
-using TwitchToolkit.IRC;
-using TwitchToolkit.Windows;
-using TwitchToolkit.Store;
 
 namespace TwitchToolkit
 {
@@ -46,7 +46,7 @@ namespace TwitchToolkit
         {
 
             base.DoWindowContents(inRect);
-            
+
             float padding = 5f;
             float btnWidth = 100f;
             float btnHeight = 30f;
@@ -64,7 +64,7 @@ namespace TwitchToolkit
             {
                 Type type = typeof(StoreIncidentsWindow);
                 Find.WindowStack.TryRemove(type);
-                
+
                 Window window = new StoreIncidentsWindow();
                 Find.WindowStack.Add(window);
             }
@@ -74,7 +74,7 @@ namespace TwitchToolkit
             {
                 Type type = typeof(StoreItemsWindow);
                 Find.WindowStack.TryRemove(type);
-                
+
                 Window window = new StoreItemsWindow();
                 Find.WindowStack.Add(window);
             }
@@ -85,7 +85,7 @@ namespace TwitchToolkit
                 Mod mod = LoadedModManager.GetMod(typeof(TwitchToolkit));
                 Type type = typeof(SettingsWindow);
                 Find.WindowStack.TryRemove(type);
-                
+
                 Window window = new SettingsWindow(mod);
                 Find.WindowStack.Add(window);
             }
@@ -116,7 +116,7 @@ namespace TwitchToolkit
             {
                 Type type = typeof(QueueWindow);
                 Find.WindowStack.TryRemove(type);
-                
+
                 Window window = new QueueWindow();
                 Find.WindowStack.Add(window);
             }
@@ -126,7 +126,7 @@ namespace TwitchToolkit
             {
                 Type type = typeof(Window_Viewers);
                 Find.WindowStack.TryRemove(type);
-                
+
                 Window window = new Window_Viewers();
                 Find.WindowStack.Add(window);
             }

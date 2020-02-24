@@ -1,9 +1,4 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace TwitchToolkit.Utilities
@@ -13,7 +8,7 @@ namespace TwitchToolkit.Utilities
     {
         public WeatherOverlay_VomitRain()
         {
-            RainOverlayWorld.color = new Color(1f / 216f, 1f/ 255f, 0f);
+            RainOverlayWorld.color = new Color(1f / 216f, 1f / 255f, 0f);
             this.worldOverlayMat = RainOverlayWorld;
             this.worldOverlayPanSpeed1 = 0.015f;
             this.worldPanDir1 = new Vector2(-0.25f, -1f);

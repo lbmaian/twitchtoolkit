@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -21,8 +18,8 @@ namespace TwitchToolkit.Utilities
         public static Material MatWithEnding(string dirPath, string ending)
         {
             Material material = (from mat in MaterialLoader.MatsFromTexturesInFolder(dirPath)
-                                    where mat.mainTexture.name.ToLower().EndsWith(ending)
-                                    select mat).FirstOrDefault<Material>();
+                                 where mat.mainTexture.name.ToLower().EndsWith(ending)
+                                 select mat).FirstOrDefault<Material>();
             if (material == null)
             {
                 Helper.Log("MatWithEnding: Dir " + dirPath + " lacks texture ending in " + ending);

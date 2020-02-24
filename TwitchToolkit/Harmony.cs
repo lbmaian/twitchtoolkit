@@ -1,13 +1,7 @@
-﻿using Harmony;
+﻿using System;
+using Harmony;
 using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using TwitchToolkit.Incidents;
 using TwitchToolkit.IRC;
-using TwitchToolkit.Store;
 using TwitchToolkit.Storytellers.StorytellerPackWindows;
 using TwitchToolkit.Utilities;
 using UnityEngine;
@@ -36,9 +30,9 @@ namespace TwitchToolkit
 
             harmony.Patch(
                     original: AccessTools.Method(
-                        type: typeof(LetterMaker), 
-                        name: "MakeLetter", 
-                        parameters: new[] { typeof(string), typeof(string), typeof(LetterDef) }), 
+                        type: typeof(LetterMaker),
+                        name: "MakeLetter",
+                        parameters: new[] { typeof(string), typeof(string), typeof(LetterDef) }),
                     prefix: new HarmonyMethod(type: patchType, name: nameof(AddLastPlayerMessagePrefix))
                 );
 

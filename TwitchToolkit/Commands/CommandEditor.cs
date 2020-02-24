@@ -1,9 +1,9 @@
-﻿using SimpleJSON;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SimpleJSON;
 using TwitchToolkit.Utilities;
 using Verse;
 
@@ -18,7 +18,8 @@ namespace TwitchToolkit.Commands
 
             foreach (Command cmd in allCommands)
             {
-                Command backup = new Command() {
+                Command backup = new Command()
+                {
                     defName = cmd.defName,
                     command = cmd.command,
                     label = cmd.label,
@@ -58,7 +59,7 @@ namespace TwitchToolkit.Commands
             {
                 return;
             }
-            
+
             foreach (string custom in ToolkitSettings.CustomCommandDefs)
             {
                 Helper.Log("Loading custom command with defName " + custom);

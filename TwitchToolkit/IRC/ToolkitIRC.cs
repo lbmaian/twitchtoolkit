@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using TwitchToolkit.Votes;
@@ -72,7 +69,7 @@ namespace TwitchToolkit.IRC
             {
                 Helper.Log("Disconnecting client");
                 client.Dispose();
-            }     
+            }
         }
 
         public void Reconnect()
@@ -119,7 +116,7 @@ namespace TwitchToolkit.IRC
         public void SendMessage(string message, bool v = false)
         {
             Helper.Log($"message: {message} bool: {v}");
-            
+
             if (client == null)
             {
                 Log.Error("Client null");
@@ -148,7 +145,7 @@ namespace TwitchToolkit.IRC
             ToolkitSettings.Channel = ToolkitSettings.Channel.Replace("www.twitch.tv/", "");
             ToolkitSettings.Channel = ToolkitSettings.Channel.Replace("twitch.tv/", "");
 
-            ToolkitSettings.Username =  ToolkitSettings.Username.Replace("https://www.twitch.tv/", "");
+            ToolkitSettings.Username = ToolkitSettings.Username.Replace("https://www.twitch.tv/", "");
             ToolkitSettings.Username = ToolkitSettings.Username.Replace("www.twitch.tv/", "");
             ToolkitSettings.Username = ToolkitSettings.Username.Replace("twitch.tv/", "");
         }

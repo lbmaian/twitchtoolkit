@@ -1,9 +1,4 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TwitchToolkit.Utilities;
+﻿using TwitchToolkit.Utilities;
 
 namespace TwitchToolkit.Votes
 {
@@ -12,7 +7,7 @@ namespace TwitchToolkit.Votes
         public static bool TimeForEventVote()
         {
             return (
-                        ToolkitSettings.TimedStorytelling && 
+                        ToolkitSettings.TimedStorytelling &&
                         TimeHelper.MinutesElapsed(Ticker.lastEvent) >= ToolkitSettings.TimeBetweenStorytellingEvents
                     );
         }

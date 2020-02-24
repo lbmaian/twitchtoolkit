@@ -1,9 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TwitchToolkit.Store;
+using RimWorld;
 using Verse;
 
 namespace TwitchToolkit.Store
@@ -25,7 +23,7 @@ namespace TwitchToolkit.Store
             {
                 this.id = id;
             }
-            
+
             this.price = price;
             this.abr = abr;
             this.defname = defname;
@@ -60,15 +58,15 @@ namespace TwitchToolkit.Store
             ThingDef stuff = null;
             ThingDef itemThingDef = ThingDef.Named(this.defname);
 
-			if (itemThingDef.MadeFromStuff)
-			{
-				if (!(from x in GenStuff.AllowedStuffsFor(itemThingDef, TechLevel.Undefined)
-				where !PawnWeaponGenerator.IsDerpWeapon(itemThingDef, x)
-				select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
-				{
-					stuff = GenStuff.RandomStuffByCommonalityFor(itemThingDef, TechLevel.Undefined);
-				}
-			}
+            if (itemThingDef.MadeFromStuff)
+            {
+                if (!(from x in GenStuff.AllowedStuffsFor(itemThingDef, TechLevel.Undefined)
+                      where !PawnWeaponGenerator.IsDerpWeapon(itemThingDef, x)
+                      select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
+                {
+                    stuff = GenStuff.RandomStuffByCommonalityFor(itemThingDef, TechLevel.Undefined);
+                }
+            }
 
             itemThing = ThingMaker.MakeThing(itemThingDef, (stuff != null) ? stuff : null);
 
@@ -85,7 +83,7 @@ namespace TwitchToolkit.Store
             {
                 itemThingDef = itemThingDef.minifiedDef;
                 MinifiedThing minifiedThing = (MinifiedThing)ThingMaker.MakeThing(itemThingDef, null);
-			    minifiedThing.InnerThing = itemThing;
+                minifiedThing.InnerThing = itemThing;
                 minifiedThing.stackCount = amount;
                 vec = Helper.Rain(itemDef, minifiedThing);
             }
@@ -109,11 +107,11 @@ namespace TwitchToolkit.Store
         public static void TryMakeAllItems()
         {
             IEnumerable<ThingDef> tradeableitems = from t in DefDatabase<ThingDef>.AllDefs
-                             where (t.tradeability.TraderCanSell() || ThingSetMakerUtility.CanGenerate(t) ) && (t.building == null || t.Minifiable || ToolkitSettings.MinifiableBuildings)
-                             select t;
+                                                   where (t.tradeability.TraderCanSell() || ThingSetMakerUtility.CanGenerate(t)) && (t.building == null || t.Minifiable || ToolkitSettings.MinifiableBuildings)
+                                                   select t;
 
             Helper.Log("Found " + tradeableitems.Count() + " items");
-            foreach(ThingDef item in tradeableitems)
+            foreach (ThingDef item in tradeableitems)
             {
                 string label = string.Join("", item.label.Split(' ')).ToLower();
                 Item checkforexistingitembydefname = Item.GetItemFromDefName(item.defName);
@@ -121,11 +119,11 @@ namespace TwitchToolkit.Store
                 if (checkforexistingitembydefname == null && checkforexistingitembylabel == null)
                 {
                     try
-                    { 
+                    {
                         if (item.BaseMarketValue > 0f)
                         {
                             int id = StoreInventory.items.Count();
-                            StoreInventory.items.Add(new Item(Convert.ToInt32(item.BaseMarketValue * 10 / 6), label, item.defName));             
+                            StoreInventory.items.Add(new Item(Convert.ToInt32(item.BaseMarketValue * 10 / 6), label, item.defName));
                         }
                     }
                     catch (InvalidCastException e)

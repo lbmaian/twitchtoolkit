@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
 using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace TwitchToolkit.Incidents
 {
@@ -74,12 +73,12 @@ namespace TwitchToolkit.Incidents
             {
                 int count = 0;
                 int totalviewers = viewernames.Count();
-                foreach(Pawn pawn in list)
+                foreach (Pawn pawn in list)
                 {
                     if (count == list.Count() || viewernames.NullOrEmpty() || pawn.RaceProps.IsMechanoid)
                     {
                         continue;
-                    }     
+                    }
                     int thisviewer = Verse.Rand.Range(0, viewernames.Count());
                     NameTriple name = pawn.Name as NameTriple;
                     NameTriple newname = new NameTriple(name.First, viewernames[thisviewer], name.Last);

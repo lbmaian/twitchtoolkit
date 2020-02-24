@@ -1,13 +1,12 @@
-﻿using SimpleJSON;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SimpleJSON;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Utilities;
 using Verse;
-using UnityEngine;
 
 namespace TwitchToolkit.Store
 {
@@ -55,7 +54,7 @@ namespace TwitchToolkit.Store
         public static void SaveCopy(StoreIncident incident)
         {
             StoreIncidentSimple incidentSimple = DefDatabase<StoreIncidentSimple>.AllDefs.ToList().Find(s => s.defName == incident.defName);
-            
+
             if (incidentSimple != null)
             {
                 SaveCopy(incidentSimple);
@@ -180,15 +179,15 @@ namespace TwitchToolkit.Store
 
                     if (node["eventCap"] == null)
                     {
-                    Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+                        Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
                     }
                     incident.eventCap = node["eventCap"].AsInt;
 
                     if (node["karmaType"] == null)
                     {
-                    Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+                        Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
                     }
-                    incident.karmaType = (KarmaType) Enum.Parse(typeof(KarmaType), node["karmaType"], true);
+                    incident.karmaType = (KarmaType)Enum.Parse(typeof(KarmaType), node["karmaType"], true);
                 }
             }
             catch (UnauthorizedAccessException e)
@@ -220,7 +219,7 @@ namespace TwitchToolkit.Store
                     {
                         Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
                     }
-                    incident.minPointsToFire = node["baseCost"].AsInt; 
+                    incident.minPointsToFire = node["baseCost"].AsInt;
 
                     if (node["maxWager"] == null)
                     {
@@ -249,7 +248,7 @@ namespace TwitchToolkit.Store
 
         public static void LoadBackups()
         {
-            foreach(StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
+            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
             {
                 LoadBackup(incident);
                 SaveCopy(incident);
@@ -259,7 +258,7 @@ namespace TwitchToolkit.Store
         public static void LoadBackup(StoreIncident incident)
         {
             StoreIncidentSimple incidentSimple = DefDatabase<StoreIncidentSimple>.AllDefs.ToList().Find(s => s.defName == incident.defName);
-            
+
             if (incidentSimple != null)
             {
                 LoadBackupSimple(ref incidentSimple);
@@ -316,10 +315,10 @@ namespace TwitchToolkit.Store
             StringBuilder json = new StringBuilder();
 
             bool dataPathExists = Directory.Exists(dataPath);
-            
-            if(!dataPathExists)
+
+            if (!dataPathExists)
                 Directory.CreateDirectory(dataPath);
-            
+
             json.AppendLine("{");
             json.AppendLine("\t\"incitems\" : [");
 
@@ -338,9 +337,9 @@ namespace TwitchToolkit.Store
             json.AppendLine("\t\"total\": " + allEvents.Count);
             json.AppendLine("}");
 
-            using (StreamWriter streamWriter = File.CreateText (Path.Combine(dataPath, "StoreIncidents.json")))
+            using (StreamWriter streamWriter = File.CreateText(Path.Combine(dataPath, "StoreIncidents.json")))
             {
-                streamWriter.Write (json.ToString());
+                streamWriter.Write(json.ToString());
             }
 
         }

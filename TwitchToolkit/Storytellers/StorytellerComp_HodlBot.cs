@@ -1,8 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RimWorld;
 using TwitchToolkit.Votes;
 using Verse;
 using static TwitchToolkit.Votes.Vote_VotingIncident;
@@ -44,25 +43,25 @@ namespace TwitchToolkit.Storytellers
             switch (voteType)
             {
                 case Vote_VotingIncident.VoteLabelType.Category:
-                {
-                    EventCategory category = RandomCategory();
-                    source = (from s in source
-                              where s.incident.eventCategory == category
-                              select s).ToList();
-                    str = "Which " + category.ToString() + " event should happen?";
-                    Helper.Log("rand cat picked " + category);
-                    break;
-                }
+                    {
+                        EventCategory category = RandomCategory();
+                        source = (from s in source
+                                  where s.incident.eventCategory == category
+                                  select s).ToList();
+                        str = "Which " + category.ToString() + " event should happen?";
+                        Helper.Log("rand cat picked " + category);
+                        break;
+                    }
                 case Vote_VotingIncident.VoteLabelType.Type:
-                {
-                    EventType randType = RandomType();
-                    source = (from s in source
-                              where s.incident.eventType == randType
-                              select s).ToList();
-                    str = "Which " + randType + " event should happen?";
-                    Helper.Log("rand type picked " + randType);
-                    break;
-                }
+                    {
+                        EventType randType = RandomType();
+                        source = (from s in source
+                                  where s.incident.eventType == randType
+                                  select s).ToList();
+                        str = "Which " + randType + " event should happen?";
+                        Helper.Log("rand type picked " + randType);
+                        break;
+                    }
             }
 
             for (int i = 0; i < ToolkitSettings.VoteOptions; i++)

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TwitchToolkit.Votes;
-using UnityEngine;
 using Verse;
 
 namespace TwitchToolkit.Settings

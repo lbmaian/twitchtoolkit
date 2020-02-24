@@ -1,14 +1,12 @@
-﻿using System.Threading;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections;
-using Verse;
-using System;
-using RimWorld;
 using System.Linq;
-using UnityEngine;
-using TwitchToolkit.Votes;
+using System.Threading;
+using RimWorld;
 using TwitchToolkit.Store;
-using TwitchToolkit.Incidents;
+using TwitchToolkit.Votes;
+using UnityEngine;
+using Verse;
 
 namespace TwitchToolkit
 {
@@ -72,7 +70,7 @@ namespace TwitchToolkit
                             _game = Current.Game;
                             _game.tickManager.RegisterAllTickabilityFor(this);
                             Toolkit.Mod.RegisterTicker();
-                        }   
+                        }
                     }
 
                     //if (_map != Helper.AnyPlayerMap)
@@ -153,7 +151,7 @@ namespace TwitchToolkit
 
                         Helper.playerMessages = new List<string>();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Helper.Log($"Exception trying to process incident helper: {e.Message}");
                         Helper.Log(e.ToString());
@@ -189,8 +187,8 @@ namespace TwitchToolkit
                 if (Incidents.Count > 0)
                 {
                     var incident = Incidents.Dequeue();
-			        IncidentParms incidentParms = new IncidentParms();
-			        incidentParms.target = Helper.AnyPlayerMap;
+                    IncidentParms incidentParms = new IncidentParms();
+                    incidentParms.target = Helper.AnyPlayerMap;
                     DebugLog($"Trying to execute Incident {incident.def.defName}");
                     incident.TryExecute(incidentParms);
                 }
@@ -229,7 +227,7 @@ namespace TwitchToolkit
                     _lastMinute = time;
                     Toolkit.JobManager.CheckAllJobs();
                     Viewers.RefreshViewers();
-                }   
+                }
             }
             catch (Exception ex)
             {

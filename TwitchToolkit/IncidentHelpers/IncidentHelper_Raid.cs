@@ -1,8 +1,5 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using RimWorld;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
@@ -43,7 +40,7 @@ namespace TwitchToolkit.IncidentHelpers.Raids
             parms.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, pointsWager, parms.points);
             parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
             parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
-            
+
             worker = new Incidents.IncidentWorker_RaidEnemy();
             worker.def = IncidentDefOf.RaidEnemy;
 
@@ -122,7 +119,7 @@ namespace TwitchToolkit.IncidentHelpers.Raids
                 Viewer.TakeViewerCoins(pointsWager);
                 Viewer.CalculateNewKarma(this.storeIncident.karmaType, pointsWager);
                 VariablesHelpers.SendPurchaseMessage(
-                    $"Starting drop raid with {pointsWager} points wagered and {(int)parms.points} raid points purchased by {Viewer.username}", 
+                    $"Starting drop raid with {pointsWager} points wagered and {(int)parms.points} raid points purchased by {Viewer.username}",
                 separateChannel);
                 return;
             }
@@ -431,7 +428,7 @@ namespace TwitchToolkit.IncidentHelpers.Raids
 
             worker = new IncidentWorker_ManhunterPack();
             worker.def = IncidentDefOf.RaidEnemy;
-            
+
             return worker.CanFireNow(parms);
         }
 

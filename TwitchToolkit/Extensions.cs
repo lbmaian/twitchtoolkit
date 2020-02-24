@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Verse;
 
@@ -143,7 +143,7 @@ namespace TwitchToolkit
             foreach (var obj in list)
             {
                 float weight = weightSelector(list[iterator]);
-                for (int i = (int) sum; i < weight + sum; i++)
+                for (int i = (int)sum; i < weight + sum; i++)
                 {
                     if (i >= choice)
                     {

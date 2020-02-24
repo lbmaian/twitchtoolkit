@@ -1,8 +1,5 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using RimWorld;
 using TwitchToolkit.Storytellers;
 using Verse;
 
@@ -50,7 +47,7 @@ namespace TwitchToolkit.Votes
 
         public override string VoteKeyLabel(int id)
         {
-            switch(allStrategies[id].defName)
+            switch (allStrategies[id].defName)
             {
                 case "ImmediateAttack":
                     return "Immediate Attack";

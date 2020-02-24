@@ -1,8 +1,7 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
 using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
 using Verse;
@@ -21,10 +20,10 @@ namespace TwitchToolkit.PawnQueue
             Viewer viewer = Viewers.GetViewer(msg.User);
 
             GameComponentPawns component = Current.Game.GetComponent<GameComponentPawns>();
-            
+
             if (msg.Message.StartsWith("!mypawnskills") && CommandsHandler.AllowCommand(msg))
             {
-                
+
                 if (!component.HasUserBeenNamed(viewer.username))
                 {
                     Toolkit.client.SendMessage($"@{viewer.username} you are not in the colony.", CommandsHandler.SendToChatroom(msg));
@@ -167,7 +166,7 @@ namespace TwitchToolkit.PawnQueue
                 {
 
                     string[] command = msg.Message.Split(' ');
-                    
+
                     if (command.Length < 2) return;
 
                     string username = command[1].Replace("@", "");
@@ -190,7 +189,7 @@ namespace TwitchToolkit.PawnQueue
                 {
 
                     string[] command = msg.Message.Split(' ');
-                    
+
                     if (command.Length < 2) return;
 
                     string username = command[1].Replace("@", "");

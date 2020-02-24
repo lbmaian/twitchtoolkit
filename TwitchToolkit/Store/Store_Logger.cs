@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using TwitchToolkit.Utilities;
-using Verse;
 
 namespace TwitchToolkit.Store
 {
@@ -15,11 +11,11 @@ namespace TwitchToolkit.Store
 
         public static void LogString(string line)
         {
-            if(!Directory.Exists(DataPath))
+            if (!Directory.Exists(DataPath))
                 Directory.CreateDirectory(DataPath);
 
             if (!File.Exists(LogFile))
-            { 
+            {
                 try
                 {
                     using (StreamWriter writer = File.CreateText(LogFile))

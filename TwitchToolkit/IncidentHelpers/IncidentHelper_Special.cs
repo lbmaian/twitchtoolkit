@@ -38,7 +38,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
                     // Someone is holding the corpse, try to drop it
                     if (pawn.SpawnedParentOrMe is Pawn carryingPawn)
                     {
-                        if(!carryingPawn.carryTracker.TryDropCarriedThing(carryingPawn.Position, ThingPlaceMode.Near, out Thing droppedThing))
+                        if (!carryingPawn.carryTracker.TryDropCarriedThing(carryingPawn.Position, ThingPlaceMode.Near, out Thing droppedThing))
                         {
                             // Failed to drop carried thing.
                             Log.Error($"Submit this bug to TwitchToolkit Discord: Could not drop {pawn} at {carryingPawn.Position} from {carryingPawn}");
@@ -65,7 +65,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             if (!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, this.storeIncident.cost, separateChannel)) return false;
-            if(Current.Game.GetComponent<GameComponentPawns>().HasUserBeenNamed(viewer.username))
+            if (Current.Game.GetComponent<GameComponentPawns>().HasUserBeenNamed(viewer.username))
             {
                 Toolkit.client.SendMessage($"@{viewer.username} you are already in the colony.", separateChannel);
                 return false;
@@ -76,7 +76,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
             IIncidentTarget target = Helper.AnyPlayerMap;
             parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, target);
             map = (Map)parms.target;
-            
+
             bool cell = CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c) && !c.Fogged(map), map, CellFinder.EdgeRoadChance_Neutral, out loc);
             if (!cell) return false;
             return true;
@@ -138,10 +138,10 @@ namespace TwitchToolkit.IncidentHelpers.Special
 
             string animalKind = command[2].ToLower();
 
-            
+
             List<PawnKindDef> allAnimals = DefDatabase<PawnKindDef>.AllDefs.Where(
                     s => s.RaceProps.Animal &&
-                    string.Join("", s.defName.Split(' ') ).ToLower() == animalKind
+                    string.Join("", s.defName.Split(' ')).ToLower() == animalKind
                 ).ToList();
 
             if (allAnimals.Count < 1)
@@ -225,7 +225,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
 
             string skillKind = command[2].ToLower();
             List<SkillDef> allSkills = DefDatabase<SkillDef>.AllDefs.Where(s =>
-                string.Join("", s.defName.Split(' ') ).ToLower() == skillKind ||
+                string.Join("", s.defName.Split(' ')).ToLower() == skillKind ||
                 string.Join("", s.label.Split(' ')).ToLower() == skillKind
             ).ToList();
 
@@ -279,7 +279,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
                 percent = 150;
                 passionPlus = "++";
             }
-            
+
             VariablesHelpers.SendPurchaseMessage($"Increasing skill {skill.LabelCap} for {pawn.LabelCap} with {pointsWager} coins wagered and ({(int)xpWon} * {percent}%){passionPlus} {(int)xpWon * (percent / 100f)} xp purchased by {Viewer.username}. {increaseText}", separateChannel);
             string text = Helper.ReplacePlaceholder("TwitchStoriesDescription55".Translate(), colonist: pawn.Name.ToString(), skill: skill.defName, first: Math.Round(xpWon).ToString());
             Current.Game.letterStack.ReceiveLetter("TwitchToolkitIncreaseSkill".Translate(), text, LetterDefOf.PositiveEvent, pawn);
@@ -381,7 +381,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
                         (s.abr == itemKey ||
                         s.defname.ToLower() == itemKey)
                     );
-           
+
             if (itemSearch.Count() > 0)
             {
                 item = itemSearch.ElementAt(0);
@@ -438,7 +438,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
                     return false;
                 }
 
-                price = checked( item.price * quantity );
+                price = checked(item.price * quantity);
             }
             catch (OverflowException e)
             {
@@ -457,9 +457,9 @@ namespace TwitchToolkit.IncidentHelpers.Special
             if (price < ToolkitSettings.MinimumPurchasePrice)
             {
                 Toolkit.client.SendMessage(Helper.ReplacePlaceholder(
-                    "TwitchToolkitMinPurchaseNotMet".Translate(), 
-                    viewer: viewer.username, 
-                    amount: price.ToString(), 
+                    "TwitchToolkitMinPurchaseNotMet".Translate(),
+                    viewer: viewer.username,
+                    amount: price.ToString(),
                     first: ToolkitSettings.MinimumPurchasePrice.ToString()
                 ), separateChannel);
                 return false;
@@ -485,8 +485,8 @@ namespace TwitchToolkit.IncidentHelpers.Special
             if (itemThingDef.MadeFromStuff)
             {
                 if (!(from x in GenStuff.AllowedStuffsFor(itemThingDef, TechLevel.Undefined)
-                where !PawnWeaponGenerator.IsDerpWeapon(itemThingDef, x)
-                select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
+                      where !PawnWeaponGenerator.IsDerpWeapon(itemThingDef, x)
+                      select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
                 {
                     stuff = GenStuff.RandomStuffByCommonalityFor(itemThingDef, TechLevel.Undefined);
                 }
@@ -503,7 +503,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
 
             Map map = Helper.AnyPlayerMap;
             IntVec3 vec = DropCellFinder.TradeDropSpot(map);
-            
+
 
             if (itemThingDef.Minifiable)
             {
@@ -798,10 +798,12 @@ namespace TwitchToolkit.IncidentHelpers.Special
             if (value <= 250)
             {
                 return LetterDefOf.NeutralEvent;
-            } else if (value > 250 && value <= 750)
+            }
+            else if (value > 250 && value <= 750)
             {
                 return DefDatabase<LetterDef>.GetNamed("BlueLetter");
-            } else if (value > 750 && value <= 1500)
+            }
+            else if (value > 750 && value <= 1500)
             {
                 return DefDatabase<LetterDef>.GetNamed("GreenLetter");
             }

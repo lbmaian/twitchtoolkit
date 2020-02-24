@@ -1,10 +1,4 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TwitchToolkit.Incidents;
-using Verse;
+﻿using TwitchToolkit.Incidents;
 
 namespace TwitchToolkit.Store
 {

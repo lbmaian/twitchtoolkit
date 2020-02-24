@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TwitchToolkit.Store;
 
 namespace TwitchToolkit.IRC
 {
@@ -53,7 +52,7 @@ namespace TwitchToolkit.IRC
                     case IRCParserState.Start:
                         //Helper.Log($"{_state} starts at {i} {b}");
                         string msg = "";
-                        foreach(char c in chars) msg += c;
+                        foreach (char c in chars) msg += c;
                         _message = new IRCMessage();
                         _key = "";
                         _value = "";

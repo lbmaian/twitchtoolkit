@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using RimWorld;
-using Verse;
+﻿using Verse;
 
 namespace TwitchToolkit.Incidents
 {
@@ -13,7 +10,7 @@ namespace TwitchToolkit.Incidents
         {
             get
             {
-            return Rand.RangeInclusive(1, 1);
+                return Rand.RangeInclusive(1, 1);
             }
         }
     }

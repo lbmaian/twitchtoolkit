@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TwitchToolkit.Store;
 
 namespace TwitchToolkit
@@ -95,7 +94,7 @@ namespace TwitchToolkit
         {
             int old = this.GetViewerKarma();
             int newKarma = Karma.CalculateNewKarma(old, karmaType, price);
-            
+
             SetViewerKarma(newKarma);
             Store_Logger.LogKarmaChange(username, old, newKarma);
         }
@@ -156,7 +155,7 @@ namespace TwitchToolkit
             {
                 SetViewerColorCode(Helper.GetRandomColorCode(), username);
             }
-            
+
             return ToolkitSettings.ViewerColorCodes[username];
         }
 

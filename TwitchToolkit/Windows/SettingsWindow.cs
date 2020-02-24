@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace TwitchToolkit.Windows
@@ -21,12 +17,12 @@ namespace TwitchToolkit.Windows
         }
 
         public override Vector2 InitialSize
-		{
-			get
-			{
-				return new Vector2(900f, 700f);
-			}
-		}
+        {
+            get
+            {
+                return new Vector2(900f, 700f);
+            }
+        }
 
         public override void PostClose()
         {

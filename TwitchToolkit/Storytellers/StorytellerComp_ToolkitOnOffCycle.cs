@@ -1,8 +1,8 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using RimWorld;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -76,8 +76,8 @@ namespace TwitchToolkit.Storytellers
         private void GenerateForcedIncidents(IIncidentTarget target, IncidentParms parms)
         {
             List<IncidentDef> defs = (from def in base.UsableIncidentsInCategory(this.Props.IncidentCategory, parms)
-                                             where parms.points >= def.minThreatPoints
-                                             select def).ToList();
+                                      where parms.points >= def.minThreatPoints
+                                      select def).ToList();
 
             GenerateVotesFromDefs(defs, parms);
         }
@@ -85,8 +85,8 @@ namespace TwitchToolkit.Storytellers
         private void GenerateIncidentsByWeight(IIncidentTarget target, IncidentParms parms)
         {
             List<IncidentDef> defs = new List<IncidentDef>();
-            
-            for (int i = 0; i < 3; i ++)
+
+            for (int i = 0; i < 3; i++)
             {
                 if ((from def in base.UsableIncidentsInCategory(this.Props.IncidentCategory, parms)
                      where parms.points >= def.minThreatPoints && !defs.Contains(def)

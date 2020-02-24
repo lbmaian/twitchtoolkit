@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using TwitchToolkit.Incidents;
+﻿using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using UnityEngine;
 using Verse;
 

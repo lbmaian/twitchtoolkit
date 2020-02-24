@@ -114,7 +114,7 @@ namespace TwitchToolkit.Store
             if (CheckIfIncidentIsOnCooldown(incident, viewer.username, separateChannel)) return;
 
             IncidentHelper helper = StoreIncidentMaker.MakeIncident(incident);
-            
+
             if (helper == null)
             {
                 ResolveLog(message, $"Missing helper for incident {incident.defName}. Not firing...");
@@ -143,14 +143,14 @@ namespace TwitchToolkit.Store
             Ticker.IncidentHelpers.Enqueue(helper);
             Store_Logger.LogPurchase(viewer.username, message.Message);
             component.LogIncident(incident);
-            viewer.CalculateNewKarma(incident.karmaType, cost);    
+            viewer.CalculateNewKarma(incident.karmaType, cost);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
                 Toolkit.client.SendMessage(
                     Helper.ReplacePlaceholder(
-                        "TwitchToolkitEventPurchaseConfirm".Translate(), 
-                        first: incident.label.CapitalizeFirst(), 
+                        "TwitchToolkitEventPurchaseConfirm".Translate(),
+                        first: incident.label.CapitalizeFirst(),
                         viewer: viewer.username
                         ),
                         separateChannel
@@ -180,7 +180,7 @@ namespace TwitchToolkit.Store
             if (CheckIfIncidentIsOnCooldown(incident, viewer.username, separateChannel)) return;
 
             IncidentHelperVariables helper = StoreIncidentMaker.MakeIncidentVariables(incident);
-            
+
             if (helper == null)
             {
                 ResolveLog(message, $"Missing helper for incident {incident.defName}");
@@ -242,15 +242,15 @@ namespace TwitchToolkit.Store
 
         public static bool CheckIfKarmaTypeIsMaxed(StoreIncident incident, string username, bool separateChannel = false)
         {
-                bool maxed = CheckTimesKarmaTypeHasBeenUsedRecently(incident);        
+            bool maxed = CheckTimesKarmaTypeHasBeenUsedRecently(incident);
 
-                if (maxed)
-                {
-                    Store_Component component = Current.Game.GetComponent<Store_Component>();
-                    Toolkit.client.SendMessage($"@{username} {incident.label.CapitalizeFirst()} is maxed from karmatype, wait " + component.DaysTillIncidentIsPurchaseable(incident) + " days to purchase.", separateChannel);
-                }
+            if (maxed)
+            {
+                Store_Component component = Current.Game.GetComponent<Store_Component>();
+                Toolkit.client.SendMessage($"@{username} {incident.label.CapitalizeFirst()} is maxed from karmatype, wait " + component.DaysTillIncidentIsPurchaseable(incident) + " days to purchase.", separateChannel);
+            }
 
-                return maxed;
+            return maxed;
         }
 
         public static bool CheckTimesKarmaTypeHasBeenUsedRecently(StoreIncident incident)
@@ -307,7 +307,7 @@ namespace TwitchToolkit.Store
 
             Store_Component component = Current.Game.GetComponent<Store_Component>();
 
-            bool maxed = component.IncidentsInLogOf(incident.abbreviation) >= incident.eventCap;        
+            bool maxed = component.IncidentsInLogOf(incident.abbreviation) >= incident.eventCap;
 
             if (maxed)
             {
@@ -325,7 +325,7 @@ namespace TwitchToolkit.Store
             string[] command = message.Split(' ');
             string output = "\n\n";
 
-            if (command.Length  - 2 == variables)
+            if (command.Length - 2 == variables)
             {
                 output += "<i>from</i> " + userNameTag;
             }
