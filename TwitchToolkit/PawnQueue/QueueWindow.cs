@@ -178,7 +178,7 @@ namespace TwitchToolkit.PawnQueue
         {
             NameTriple currentName = pawn.Name as NameTriple;
             pawn.Name = new NameTriple(currentName.First, username, currentName.Last);
-            pawnComponent.AssignUserToPawn(selectedUsername.ToLower(), selectedPawn);
+            pawnComponent.AssignUserToPawn(selectedUsername.ToLower(), pawn);
             GetPawn(PawnQueueSelector.FirstDefault);
         }
 

@@ -9,10 +9,6 @@ namespace TwitchToolkit.PawnQueue
     {
         private const int DespawnTimeoutTicks = GenDate.TicksPerHour * 2; // 2 in-game hours
 
-        public GameComponentPawns(Game game)
-        {
-        }
-
         public override void GameComponentTick()
         {
             int ticks = Find.TickManager.TicksGame;
@@ -25,6 +21,11 @@ namespace TwitchToolkit.PawnQueue
             {
                 string username = pair.Key;
                 Pawn pawn = pair.Value;
+                if (pawn == null)
+                {
+                    usernamesToRemove.Add(username);
+                    continue;
+                }
                 bool despawned = !pawn.Spawned && !pawn.Destroyed;
                 if (!despawned)
                 {
