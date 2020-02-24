@@ -19,7 +19,7 @@ namespace TwitchToolkit.Votes
             }
             catch (InvalidCastException e)
             {
-                Log.Error("Invalid VoteIncidentDef. " + e.Message);
+                Helper.ErrorLog("Invalid VoteIncidentDef. " + e.Message);
             }
         }
 

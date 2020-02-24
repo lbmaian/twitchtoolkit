@@ -119,13 +119,13 @@ namespace TwitchToolkit.IRC
 
             if (client == null)
             {
-                Log.Error("Client null");
+                Helper.ErrorLog("Client null");
                 return;
             }
 
             if (!client.Connected)
             {
-                Log.Error("Internal client is disconnected");
+                Helper.ErrorLog("Internal client is disconnected");
             }
 
             client.SendMessage(message, v);

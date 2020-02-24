@@ -143,7 +143,7 @@ namespace TwitchToolkit.Windows
             Helper.Log("Checking if save exists");
 
             if (storeIncident == null)
-                Log.Error("incident is null");
+                Helper.ErrorLog("incident is null");
 
             haveBackup = Store_IncidentEditor.CopyExists(storeIncident);
             if (!haveBackup || forceSave)

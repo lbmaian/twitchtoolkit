@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Text;
-using Verse;
 
 namespace TwitchToolkit.SocketClient
 {
@@ -74,10 +73,10 @@ namespace TwitchToolkit.SocketClient
             }
             catch (Exception e)
             {
-                Log.Error("Client Exception: " + e.Message);
+                Helper.ErrorLog("Client Exception: " + e.Message);
                 if (e.InnerException != null)
                 {
-                    Log.Error("Inner: " + e.InnerException.Message);
+                    Helper.ErrorLog("Inner: " + e.InnerException.Message);
                 }
 
                 SslStream.Close();
@@ -97,7 +96,7 @@ namespace TwitchToolkit.SocketClient
             }
             catch (Exception e)
             {
-                Log.Error(e.Message);
+                Helper.ErrorLog(e.Message);
             }
         }
 

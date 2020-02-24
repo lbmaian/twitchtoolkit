@@ -41,7 +41,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
                         if (!carryingPawn.carryTracker.TryDropCarriedThing(carryingPawn.Position, ThingPlaceMode.Near, out Thing droppedThing))
                         {
                             // Failed to drop carried thing.
-                            Log.Error($"Submit this bug to TwitchToolkit Discord: Could not drop {pawn} at {carryingPawn.Position} from {carryingPawn}");
+                            Helper.ErrorLog($"Submit this bug to TwitchToolkit Discord: Could not drop {pawn} at {carryingPawn.Position} from {carryingPawn}");
                             return;
                         }
                     }
@@ -53,7 +53,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
             }
             catch (Exception e)
             {
-                Log.Error("Submit this bug to TwitchToolkit Discord: " + e.Message);
+                Helper.ErrorLog("Submit this bug to TwitchToolkit Discord: " + e.Message);
             }
         }
 

@@ -102,7 +102,7 @@ namespace TwitchToolkit
                 Toolkit.client.Disconnect();
             }
 
-            Log.Message("<color=#6441A4>== TWITCH TOOLKIT ==</color> Creating new chat client connection");
+            Helper.Log("== Creating new chat client connection ==");
 
             if (ToolkitSettings.AutoConnect)
                 ToolkitIRC.NewInstance();

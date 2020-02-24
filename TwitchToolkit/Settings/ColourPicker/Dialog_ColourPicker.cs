@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
@@ -446,7 +447,7 @@ namespace ColourPicker
                 }
                 catch (Exception e)
                 {
-                    Log.Message("Falied to convert from" + hex + "\n" + e);
+                    Helper.Log("Failed to convert from " + hex + "\n" + e);
                     col = Color.white;
                     return false;
                 }
@@ -457,15 +458,8 @@ namespace ColourPicker
             return false;
         }
 
-        public static bool first;
         public override void DoWindowContents(Rect inRect)
         {
-            if (first)
-            {
-                Log.Message(InitialSize.ToString());
-                Log.Message(windowRect.ToString());
-            }
-
             // set up rects
             Rect pickerRect = new Rect(inRect.xMin, inRect.yMin, _pickerSize, _pickerSize);
             Rect hueRect = new Rect(pickerRect.xMax + _margin, inRect.yMin, _sliderWidth, _pickerSize);

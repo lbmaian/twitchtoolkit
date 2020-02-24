@@ -130,7 +130,7 @@ namespace TwitchToolkit
                 float weight = weightSelector(list[i]);
                 if (weight < 0f)
                 {
-                    Verse.Log.Error("Negative weight in selector: " + weight + " from " + list[i]);
+                    Helper.ErrorLog("Negative weight in selector: " + weight + " from " + list[i]);
                     weight = 0;
                 }
                 totalWeight += weight;

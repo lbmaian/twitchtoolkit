@@ -115,7 +115,7 @@ namespace TwitchToolkit.Storytellers
             }
             else
             {
-                Log.Error("Only generated " + defs.Count + " incidents");
+                Helper.ErrorLog("Only generated " + defs.Count + " incidents");
             }
         }
 

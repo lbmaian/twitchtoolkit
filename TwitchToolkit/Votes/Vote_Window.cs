@@ -35,7 +35,7 @@ namespace TwitchToolkit
             }
             catch (InvalidCastException e)
             {
-                Log.Error("Invalid vote window. " + e.Message);
+                Helper.ErrorLog("Invalid vote window. " + e.Message);
             }
         }
 

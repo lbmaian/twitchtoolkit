@@ -294,7 +294,7 @@ namespace TwitchToolkit
                 return;
             }
 
-            Helper.Log($"Updating viwers... {response.Result.Length} bytes");
+            Helper.Log($"Updating viewers... {response.Result.Length} bytes");
 
             lock (twitchViewersUpdateLockObj)
             {

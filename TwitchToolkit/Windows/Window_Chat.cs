@@ -108,13 +108,7 @@ namespace TwitchToolkit.Utilities
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(string.Concat(new object[]
-                    {
-                        "Exception filling window for ",
-                        this.GetType(),
-                        ": ",
-                        ex
-                    }), false);
+                    Helper.ErrorLog("Exception filling window for " + this.GetType() + ": " + ex);
                 }
                 GUI.EndGroup();
                 if (this.resizeable && UnityEngine.Event.current.type == UnityEngine.EventType.Repaint)

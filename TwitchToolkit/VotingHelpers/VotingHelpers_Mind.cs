@@ -46,7 +46,7 @@ namespace TwitchToolkit.VotingHelpers.VotingHelpers_Mind
 
             if (!successfulInspiration)
             {
-                Log.Error("No pawn was available for inspiration.");
+                Helper.ErrorLog("No pawn was available for inspiration.");
             }
         }
 

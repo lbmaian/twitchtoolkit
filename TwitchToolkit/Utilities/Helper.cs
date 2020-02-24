@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using RimWorld;
 using TwitchToolkit.Incidents;
+using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
 using TSIncidents = TwitchToolkit.Incidents;
@@ -12,6 +14,9 @@ namespace TwitchToolkit
 {
     public static class Helper
     {
+        public static string LogFile = Path.Combine(Path.Combine(SaveHelper.dataPath, "Logs"),
+            $"{DateTime.Now.Month}_{DateTime.Now.Day}_toolkit_log.txt");
+
         private static bool _infestationPossible = false;
         public static string _state = null;
         public static List<string> playerMessages = new List<string>();
@@ -98,19 +103,56 @@ namespace TwitchToolkit
             return defaultColors[Verse.Rand.Range(0, defaultColors.Length - 1)];
         }
 
+        public static void FileLog(string logFile, string line)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(logFile));
+
+            if (!File.Exists(logFile))
+            {
+                try
+                {
+                    using (StreamWriter writer = File.CreateText(logFile))
+                    {
+                        writer.WriteLine("TwitchToolkit - Log - " + DateTime.Now.ToLongDateString());
+                    }
+                }
+                catch (Exception e)
+                {
+                    Verse.Log.Message(e.Message);
+                }
+            }
+
+            try
+            {
+                using (StreamWriter writer = File.AppendText(logFile))
+                {
+                    writer.WriteLine(line);
+                }
+            }
+            catch (Exception e)
+            {
+                Verse.Log.Message(e.Message);
+            }
+        }
+
         public static void Log(string message)
         {
-            Verse.Log.Message(string.Format("<color=#6441A4>[Toolkit]</color> [{1}] {0}", message, DateTime.UtcNow.ToString("mm:HH:ss.ffff")));
+            message = $"[{DateTime.UtcNow.ToString("mm:HH:ss.ffff")}] {message}";
+            Verse.Log.Message("<color=#6441A4>[Toolkit]</color> " + message);
+            FileLog(LogFile, message);
         }
 
         public static void ErrorLog(string message)
         {
-            Verse.Log.Error(string.Format("[Toolkit] [{1}] {0}", message, DateTime.UtcNow.ToString("mm:HH:ss.ffff")));
+            message = $"[{DateTime.UtcNow.ToString("mm:HH:ss.ffff")}] {message}";
+            Verse.Log.Error("[Toolkit] " + message);
+            FileLog(LogFile, message);
         }
 
         public static void LogPaste(string message)
         {
             Verse.Log.Message(message);
+            FileLog(LogFile, message);
         }
 
         public static void Vote(string message, LetterDef type)

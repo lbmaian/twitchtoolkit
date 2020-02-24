@@ -15,7 +15,7 @@ namespace TwitchToolkit.PawnQueue
             pawnComponent = Current.Game.GetComponent<GameComponentPawns>();
             if (pawnComponent == null)
             {
-                Log.Error("component null");
+                Helper.ErrorLog("component null");
                 Close();
             }
             GetPawn(PawnQueueSelector.FirstDefault);

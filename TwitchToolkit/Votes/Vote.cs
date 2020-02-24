@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Verse;
 
 namespace TwitchToolkit.Votes
 {
@@ -20,7 +19,7 @@ namespace TwitchToolkit.Votes
             }
             catch (InvalidCastException e)
             {
-                Log.Error("Invalid new vote. " + e.Message);
+                Helper.ErrorLog("Invalid new vote. " + e.Message);
             }
         }
 

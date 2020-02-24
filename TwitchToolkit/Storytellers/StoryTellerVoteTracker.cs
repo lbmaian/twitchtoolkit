@@ -139,7 +139,7 @@ namespace TwitchToolkit.Storytellers
                     break;
 
                 default:
-                    Log.Error("No MTB days for storyteller pack");
+                    Helper.ErrorLog("No MTB days for storyteller pack");
                     return false;
             }
 
