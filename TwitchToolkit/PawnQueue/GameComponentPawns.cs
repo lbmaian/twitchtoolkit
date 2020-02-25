@@ -9,6 +9,10 @@ namespace TwitchToolkit.PawnQueue
     {
         private const int DespawnTimeoutTicks = GenDate.TicksPerHour * 2; // 2 in-game hours
 
+        public GameComponentPawns(Game game)
+        {
+        }
+
         public override void GameComponentTick()
         {
             int ticks = Find.TickManager.TicksGame;
