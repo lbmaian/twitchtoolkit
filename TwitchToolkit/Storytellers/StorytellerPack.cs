@@ -22,7 +22,7 @@ namespace TwitchToolkit.Storytellers
                 }
                 catch (Exception e)
                 {
-                    Helper.ErrorLog(e.Message);
+                    Helper.ErrorLog("Could not create storyteller comp: " + e.Message);
                 }
 
                 Helper.Log("storyteller comp loaded " + storytellerComp.GetType());

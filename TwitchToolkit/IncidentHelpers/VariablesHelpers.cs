@@ -25,7 +25,7 @@ namespace TwitchToolkit.IncidentHelpers
             }
             catch (OverflowException e)
             {
-                Helper.Log(e.Message);
+                Helper.Log($"{nameof(VariablesHelpers.PointsWagerIsValid)} for user {viewer.username} ERROR: {e.Message}");
                 Toolkit.client.SendMessage($"@{viewer.username} points wager is invalid.", separateChannel);
                 return false;
             }

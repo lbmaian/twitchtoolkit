@@ -50,7 +50,15 @@ namespace TwitchToolkit.Votes
     {
         public static VotingHelper makeVotingHelper(VotingIncident def)
         {
-            return (VotingHelper)Activator.CreateInstance(def.votingHelper);
+            try
+            {
+                return (VotingHelper)Activator.CreateInstance(def.votingHelper);
+            }
+            catch (Exception e)
+            {
+                Helper.ErrorLog($"{nameof(VotingIncidentMaker.makeVotingHelper)} could not create instance of {def.votingHelper}: " + e.Message);
+                throw;
+            }
         }
     }
 

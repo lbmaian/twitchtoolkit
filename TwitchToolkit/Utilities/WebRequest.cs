@@ -153,6 +153,7 @@ namespace TwitchToolkitDev
         }
         private static void ReadCallBack(IAsyncResult asyncResult)
         {
+            string stringContent = null;
             try
             {
                 // Result state is set to AsyncState.
@@ -169,10 +170,8 @@ namespace TwitchToolkitDev
                 {
                     if (myRequestState.requestData.Length > 1)
                     {
-                        string stringContent;
                         stringContent = myRequestState.requestData.ToString();
                         myRequestState.jsonString = stringContent;
-                        Helper.Log(stringContent);
 
                         if (myRequestState.Callback != null)
                         {
@@ -187,12 +186,16 @@ namespace TwitchToolkitDev
             catch (WebException e)
             {
                 Helper.Log("WebException raised - read!");
+                if (stringContent != null)
+                    Helper.Log("requestData: \n" + stringContent);
                 Helper.Log($"\n{e.Message}");
                 Helper.Log($"\n{e.Status}");
             }
             catch (Exception e)
             {
                 Helper.Log("Exception raised!");
+                if (stringContent != null)
+                    Helper.Log("requestData: \n" + stringContent);
                 Helper.Log("Source : " + e.Source);
                 Helper.Log("Message : " + e.Message + " " + e.StackTrace);
             }

@@ -17,7 +17,16 @@ namespace TwitchToolkit
                 throw new Exception("Command is null");
             }
 
-            CommandDriver driver = (CommandDriver)Activator.CreateInstance(commandDriver);
+            CommandDriver driver;
+            try
+            {
+                driver = (CommandDriver)Activator.CreateInstance(commandDriver);
+            }
+            catch (Exception e)
+            {
+                Helper.ErrorLog($"{nameof(Command.RunCommand)} could not create instance of {commandDriver}: " + e.Message);
+                throw;
+            }
             driver.command = this;
             driver.RunCommand(message);
         }

@@ -159,7 +159,7 @@ namespace TwitchToolkit.Store
                 {
                     string jsonString = streamReader.ReadToEnd();
                     var node = JSON.Parse(jsonString);
-                    Helper.Log(node.ToString());
+                    Helper.Log("StoreItems.json\n" + node.ToString());
 
                     if (StoreInventory.items == null)
                     {
@@ -182,7 +182,7 @@ namespace TwitchToolkit.Store
             }
             catch (UnauthorizedAccessException e)
             {
-                Helper.Log(e.Message);
+                Helper.ErrorLog($"{nameof(Store_ItemEditor.LoadStoreItemList)}: {e.Message}");
             }
 
             FindItemsNotInList();

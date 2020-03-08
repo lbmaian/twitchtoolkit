@@ -80,7 +80,7 @@ namespace TwitchToolkit.Utilities
                 {
                     string jsonString = streamReader.ReadToEnd();
                     var node = JSON.Parse(jsonString);
-                    Helper.Log(node.ToString());
+                    Helper.Log(viewerDataPath + "\n" + node.ToString());
                     List<Viewer> listOfViewers = new List<Viewer>();
                     for (int i = 0; i < node["total"]; i++)
                     {
@@ -95,7 +95,7 @@ namespace TwitchToolkit.Utilities
             }
             catch (InvalidDataException e)
             {
-                Helper.Log("Invalid " + e.Message);
+                Helper.ErrorLog($"{nameof(SaveHelper.LoadListOfViewers)}: {e.Message}");
             }
 
         }

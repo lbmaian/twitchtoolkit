@@ -17,7 +17,7 @@ namespace TwitchToolkit.Votes
             }
             catch (InvalidCastException e)
             {
-                Helper.Log(e.Message);
+                Helper.ErrorLog($"{nameof(Vote_MentalBreak)}: {e.Message}");
             }
         }
         public override void EndVote()

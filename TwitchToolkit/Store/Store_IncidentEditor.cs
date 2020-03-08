@@ -192,7 +192,7 @@ namespace TwitchToolkit.Store
             }
             catch (UnauthorizedAccessException e)
             {
-                Helper.Log(e.Message);
+                Helper.ErrorLog($"{nameof(Store_IncidentEditor.LoadCopy)}: {e.Message}");
             }
 
         }
@@ -230,7 +230,7 @@ namespace TwitchToolkit.Store
             }
             catch (UnauthorizedAccessException e)
             {
-                Helper.Log(e.Message);
+                Helper.ErrorLog($"{nameof(Store_IncidentEditor.LoadCopy)}: {e.Message}");
             }
         }
 

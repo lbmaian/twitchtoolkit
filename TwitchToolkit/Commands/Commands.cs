@@ -28,7 +28,7 @@ namespace TwitchToolkit
                 List<string> messagewhisper = message.Split(' ').ToList();
                 messagewhisper.RemoveAt(0);
                 message = string.Join(" ", messagewhisper.ToArray());
-                Helper.Log(message);
+                Helper.Log("Whispered command: " + message);
             }
 
             Viewer viewer = Viewers.GetViewer(user);

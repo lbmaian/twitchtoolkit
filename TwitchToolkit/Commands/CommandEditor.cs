@@ -148,7 +148,7 @@ namespace TwitchToolkit.Commands
             }
             catch (UnauthorizedAccessException e)
             {
-                Helper.Log(e.Message);
+                Helper.ErrorLog($"{nameof(CommandEditor.LoadCopy)}: {e.Message}");
             }
         }
 

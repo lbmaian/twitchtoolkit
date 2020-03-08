@@ -144,7 +144,7 @@ namespace TwitchToolkit
 
         public static void ErrorLog(string message)
         {
-            message = $"[{DateTime.UtcNow.ToString("mm:HH:ss.ffff")}] {message}";
+            message = $"[{DateTime.UtcNow.ToString("mm:HH:ss.ffff")}] ERROR {message}";
             Verse.Log.Error("[Toolkit] " + message);
             FileLog(LogFile, message);
         }

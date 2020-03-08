@@ -51,16 +51,32 @@ namespace TwitchToolkit.Incidents
     {
         public static IncidentHelper MakeIncident(StoreIncidentSimple def)
         {
-            IncidentHelper helper = (IncidentHelper)Activator.CreateInstance(def.incidentHelper);
-            helper.storeIncident = def;
-            return helper;
+            try
+            {
+                IncidentHelper helper = (IncidentHelper)Activator.CreateInstance(def.incidentHelper);
+                helper.storeIncident = def;
+                return helper;
+            }
+            catch (Exception e)
+            {
+                Helper.ErrorLog($"{nameof(StoreIncidentMaker.MakeIncident)} could not create instance of {def.incidentHelper}: " + e.Message);
+                throw;
+            }
         }
 
         public static IncidentHelperVariables MakeIncidentVariables(StoreIncidentVariables def)
         {
-            IncidentHelperVariables helper = (IncidentHelperVariables)Activator.CreateInstance(def.incidentHelper);
-            helper.storeIncident = def;
-            return helper;
+            try
+            {
+                IncidentHelperVariables helper = (IncidentHelperVariables)Activator.CreateInstance(def.incidentHelper);
+                helper.storeIncident = def;
+                return helper;
+            }
+            catch (Exception e)
+            {
+                Helper.ErrorLog($"{nameof(StoreIncidentMaker.MakeIncidentVariables)} could not create instance of {def.incidentHelper}: " + e.Message);
+                throw;
+            }
         }
 
         public static IncidentHelperVariablesSettings MakeIncidentVariablesSettings(StoreIncidentVariables def)
@@ -68,7 +84,15 @@ namespace TwitchToolkit.Incidents
             if (!def.customSettings)
                 return null;
 
-            return (IncidentHelperVariablesSettings)Activator.CreateInstance(def.customSettingsHelper);
+            try
+            {
+                return (IncidentHelperVariablesSettings)Activator.CreateInstance(def.customSettingsHelper);
+            }
+            catch (Exception e)
+            {
+                Helper.ErrorLog($"{nameof(StoreIncidentMaker.MakeIncidentVariablesSettings)} could not create instance of {def.customSettingsHelper}: " + e.Message);
+                throw;
+            }
         }
     }
 

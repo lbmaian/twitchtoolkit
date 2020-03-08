@@ -389,11 +389,17 @@ namespace TwitchToolkit.IncidentHelpers.Special
 
             if (item == null || item.price < 1)
             {
-                Toolkit.client.SendMessage($"@{viewer.username} item not found.", separateChannel);
+                Toolkit.client.SendMessage($"@{viewer.username} item {item.defname} not found.", separateChannel);
                 return false;
             }
 
-            ThingDef itemThingDef = ThingDef.Named(item.defname);
+            ThingDef itemThingDef = DefDatabase<ThingDef>.GetNamedSilentFail(item.defname);
+            if (itemThingDef == null)
+            {
+                Helper.Log($"{nameof(Item.IsPossible)} for user {viewer.username} ERROR: failed to find ThingDef named {item.defname}");
+                Toolkit.client.SendMessage($"@{viewer.username} item {item.defname} not found.", separateChannel);
+                return false;
+            }
 
             bool isResearched = true;
             ResearchProjectDef researchProject = null;
@@ -442,7 +448,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
             }
             catch (OverflowException e)
             {
-                Helper.Log(e.Message);
+                Helper.Log($"{nameof(Item.IsPossible)} for user {viewer.username} ERROR: {e.Message}");
                 return false;
             }
 
