@@ -690,12 +690,21 @@ namespace TwitchToolkit.IncidentHelpers.Special
 
     public class RansomDemand : IncidentHelperVariables
     {
+        // Workaround for Medieval Vanilla removing RansomDemand incident from IncidentDef database in a StaticConstructorOnStartup.
+        [RimWorld.DefOf]
+        static class DefOf
+        {
+            public static IncidentDef RansomDemand;
+
+            static DefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(DefOf));
+        }
+
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;
 
             worker = new IncidentWorker_RansomDemand();
-            worker.def = IncidentDef.Named("RansomDemand");
+            worker.def = DefOf.RansomDemand;
 
             parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Helper.AnyPlayerMap);
 
