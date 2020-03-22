@@ -42,7 +42,7 @@
   <TwitchToolkitCmdHelpCmd>!toolkitcmds</TwitchToolkitCmdHelpCmd>
   <TwitchToolkitNotEnoughCoins>@{viewer} you do not have enough coins. Your selected item(s) is {amount} coins. You have {first} coins.</TwitchToolkitNotEnoughCoins>
   <TwitchToolkitMinPurchaseNotMet>@{viewer}, your selected purchase price is {amount} but you need to spend a minimum of {first} coins</TwitchToolkitMinPurchaseNotMet>
-  <TwitchToolkitEventNotPossible>Event not possible</TwitchToolkitEventNotPossible>
+  <TwitchToolkitEventNotPossible>event not possible</TwitchToolkitEventNotPossible>
   <TwitchToolkitEventOnCooldown>Event on cooldown</TwitchToolkitEventOnCooldown>
   <TwitchToolkitEventPurchaseConfirm>Event {first} purchased by @{viewer}</TwitchToolkitEventPurchaseConfirm>
   <TwitchToolkitItemPurchaseConfirm>{amount} {item} purchased by @{viewer}</TwitchToolkitItemPurchaseConfirm>
