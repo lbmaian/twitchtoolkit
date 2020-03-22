@@ -16,6 +16,7 @@ namespace TwitchToolkit.IncidentHelpers.MilitaryAid
         public override void TryExecute()
         {
             var incident = new IncidentWorker_CallForAid();
+            incident.def = IncidentDefOf.RaidFriendly;
 
             var tryAlly = TryFindAlly();
 
