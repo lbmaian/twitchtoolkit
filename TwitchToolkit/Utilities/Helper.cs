@@ -137,15 +137,25 @@ namespace TwitchToolkit
 
         public static void Log(string message)
         {
+            Log(message, "<color=#6441A4>[Toolkit]</color> ");
+        }
+
+        public static void Log(string message, string prefix)
+        {
             message = $"[{DateTime.UtcNow.ToString("mm:HH:ss.ffff")}] {message}";
-            Verse.Log.Message("<color=#6441A4>[Toolkit]</color> " + message);
+            Verse.Log.Message(prefix + message);
             FileLog(LogFile, message);
         }
 
         public static void ErrorLog(string message)
         {
+            ErrorLog(message, "[Toolkit] ");
+        }
+
+        public static void ErrorLog(string message, string prefix)
+        {
             message = $"[{DateTime.UtcNow.ToString("mm:HH:ss.ffff")}] ERROR {message}";
-            Verse.Log.Error("[Toolkit] " + message);
+            Verse.Log.Error(prefix + message);
             FileLog(LogFile, message);
         }
 

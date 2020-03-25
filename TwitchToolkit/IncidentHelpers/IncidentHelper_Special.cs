@@ -389,7 +389,7 @@ namespace TwitchToolkit.IncidentHelpers.Special
 
             if (item == null || item.price < 1)
             {
-                Toolkit.client.SendMessage($"@{viewer.username} item {item.defname} not found.", separateChannel);
+                Toolkit.client.SendMessage($"@{viewer.username} item {itemKey} not found.", separateChannel);
                 return false;
             }
 
