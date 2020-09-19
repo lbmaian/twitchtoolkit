@@ -14,27 +14,18 @@ namespace TwitchToolkit.Incidents
     {
         protected override bool CanFireNowSub(IncidentParms parms)
         {
-            return true;
-        }
-
-        protected override bool TryResolveRaidFaction(IncidentParms parms)
-        {
+            // IncidentWorker_PawnsArrive.CanFireNowSub
             Map map = (Map)parms.target;
-            if (parms.faction != null)
+            if (parms.faction == null)
             {
-                return true;
+                return CandidateFactions(map).Any();
             }
-            if (!CandidateFactions(map, true).Any<Faction>())
-            {
-                return false;
-            }
-
-            parms.faction = CandidateFactions(map, true).RandomElementByWeight((Faction fac) => (float)fac.PlayerGoodwill + 120.000008f);
             return true;
         }
 
         protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = true)
         {
+            // Note: desperate is ignored
             return !f.IsPlayer && !f.defeated && !f.temporary && !f.Hidden && f.PlayerRelationKind >= FactionRelationKind.Neutral;
         }
 
@@ -53,6 +44,8 @@ namespace TwitchToolkit.Incidents
             {
                 return false;
             }
+            float points = parms.points;
+            // Only functional change compared to IncidentWorker_RaidFriendly.TryExecuteWorker:
             parms.points = IncidentWorker_Raid.AdjustedRaidPoints(parms.points, parms.raidArrivalMode, parms.raidStrategy, parms.faction, combat);
             List<Pawn> list = parms.raidStrategy.Worker.SpawnThreats(parms);
             if (list == null)
@@ -65,13 +58,7 @@ namespace TwitchToolkit.Incidents
                 }
                 parms.raidArrivalMode.Worker.Arrive(list, parms);
             }
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("Points = " + parms.points.ToString("F0"));
-            foreach (Pawn pawn in list)
-            {
-                string str = (pawn.equipment != null && pawn.equipment.Primary != null) ? pawn.equipment.Primary.LabelCap : "unarmed";
-                stringBuilder.AppendLine(pawn.KindLabel + " - " + str);
-            }
+            GenerateRaidLoot(parms, points, list);
             TaggedString baseLetterLabel = this.GetLetterLabel(parms);
             TaggedString baseLetterText = this.GetLetterText(parms, list);
             PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(list, ref baseLetterLabel, ref baseLetterText, this.GetRelatedPawnsInfoLetterText(parms), true, true);
