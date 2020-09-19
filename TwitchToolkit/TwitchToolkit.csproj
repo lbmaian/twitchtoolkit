@@ -11,14 +11,12 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <CurrentRimWorldLoadFolder>v1.1</CurrentRimWorldLoadFolder>
-    <!-- This must match the folder specified in LoadFolders.xml -->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>C:\Program Files %28x86%29\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\$(CurrentRimWorldLoadFolder)\Assemblies</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\Assemblies</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,18 +24,28 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>C:\Program Files %28x86%29\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\$(CurrentRimWorldLoadFolder)\Assemblies</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\Assemblies</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.1.2575" />
-    <PackageReference Include="Lib.Harmony" Version="2.0.0.8" ExcludeAssets="runtime" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.*" />
+    <PackageReference Include="Lib.Harmony" Version="2.0.2" ExcludeAssets="runtime" />
     <PackageReference Include="MoonSharp" Version="2.0.0" />
-    <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime">
+    <!--PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    </PackageReference-->
+    <ProjectReference Include="..\..\ToolkitCore\toolkitcore\ToolkitCore.csproj">
+      <Project>{4151f06c-c71c-4785-bf80-bebaad400ffd}</Project>
+      <Name>ToolkitCore</Name>
+      <Private>false</Private>
+    </ProjectReference>
+    <Reference Include="TwitchLib.Client.Models, Version=3.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ToolkitCore\references\TwitchLib.Client.Models.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddonMenu.cs" />
@@ -196,23 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Using ContentWithTargetPath+TargetPath rather than Content+Link because the latter apparently must have the Link path be within OutputDir -->
-    <!-- About folder and LoadFolders.xml must be in root dir; Languages, Textures, Sounds folders must also be in root dir for 1.0 compatibility -->
-    <ContentWithTargetPath Include="About\**\*;LoadFolders.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TargetPath>..\..\%(RelativeDir)%(Filename)%(Extension)</TargetPath>
-    </ContentWithTargetPath>
-    <!-- Shared: Languages, Textures, Sounds folders must also be in root dir for 1.0 compatibility -->
-    <ContentWithTargetPath Include="Languages\**\*;Textures\**\*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TargetPath>..\..\%(RelativeDir)%(Filename)%(Extension)</TargetPath>
-    </ContentWithTargetPath>
-    <!-- 1.0: Defs, Patches, Assemblies must be in 1.0 folder (NOT v1.0 folder) or root folder - using root folder for parity with above 1.0-compatible folders -->
-    <ContentWithTargetPath Include="v1.0\**\*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TargetPath>..\..\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
-    </ContentWithTargetPath>
-    <!-- 1.1: Remaining folders (Defs, Patches) are in the same parent folder of $(OutputDir), which is the 1.1 Assemblies folder -->
-    <ContentWithTargetPath Include="Defs\**\*;Patches\**\*">
+    <ContentWithTargetPath Include="About\**\*;LoadFolders.xml;Languages\**\*;Textures\**\*;Defs\**\*;Patches\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <TargetPath>..\%(RelativeDir)%(Filename)%(Extension)</TargetPath>
     </ContentWithTargetPath>
