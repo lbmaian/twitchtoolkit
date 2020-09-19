@@ -36,14 +36,17 @@ namespace TwitchToolkit
 
             harmony.Patch(
                     original: AccessTools.Method(
-                        type: typeof(LetterMaker), 
-                        name: "MakeLetter", 
-                        parameters: new[] { typeof(TaggedString), typeof(TaggedString), typeof(LetterDef), typeof(Faction), typeof(Quest) }), 
+                        type: typeof(LetterMaker),
+                        name: "MakeLetter",
+                        parameters: new[] { typeof(TaggedString), typeof(TaggedString), typeof(LetterDef), typeof(Faction), typeof(Quest) }),
                     prefix: new HarmonyMethod(patchType, nameof(AddLastPlayerMessagePrefix))
                 );
 
             harmony.Patch(
                 original: AccessTools.Method(
+                        type: typeof(StorytellerUI),
+                        name: "DrawStorytellerSelectionInterface_NewTemp") ??
+                    AccessTools.Method(
                         type: typeof(StorytellerUI),
                         name: "DrawStorytellerSelectionInterface"),
                     postfix: new HarmonyMethod(patchType, nameof(DrawCustomStorytellerInterface)
