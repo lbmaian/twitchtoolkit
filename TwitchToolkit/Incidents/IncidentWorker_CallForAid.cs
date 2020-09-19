@@ -33,16 +33,9 @@ namespace TwitchToolkit.Incidents
             return true;
         }
 
-        protected new IEnumerable<Faction> CandidateFactions(Map map, bool desperate = false)
-        {
-            return from f in Find.FactionManager.AllFactions
-                   where FactionCanBeGroupSource(f, map, desperate)
-                   select f;
-        }
-
         protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = true)
         {
-            return f.def != FactionDefOf.PlayerColony && f.def != FactionDefOf.PlayerTribe && !f.def.hidden && f.PlayerRelationKind >= FactionRelationKind.Neutral;
+            return !f.IsPlayer && !f.defeated && !f.temporary && !f.Hidden && f.PlayerRelationKind >= FactionRelationKind.Neutral;
         }
 
         protected override bool TryExecuteWorker(IncidentParms parms)

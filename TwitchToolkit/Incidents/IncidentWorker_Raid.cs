@@ -51,6 +51,10 @@ namespace TwitchToolkit.Incidents
             }
         }
 
+        protected virtual void GenerateRaidLoot(IncidentParms parms, float raidLootPoints, List<Pawn> pawns)
+        {
+        }
+
         protected override bool TryExecuteWorker(IncidentParms parms)
         {
             this.ResolveRaidPoints(parms);
@@ -66,6 +70,7 @@ namespace TwitchToolkit.Incidents
             {
                 return false;
             }
+            float points = parms.points;
             parms.points = IncidentWorker_Raid.AdjustedRaidPoints(parms.points, parms.raidArrivalMode, parms.raidStrategy, parms.faction, combat);
             PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(combat, parms, false);
             List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
@@ -79,7 +84,7 @@ namespace TwitchToolkit.Incidents
                     if (count == list.Count() || viewernames.NullOrEmpty() || pawn.RaceProps.IsMechanoid)
                     {
                         continue;
-                    }     
+                    }
                     int thisviewer = Verse.Rand.Range(0, viewernames.Count());
                     NameTriple name = pawn.Name as NameTriple;
                     NameTriple newname = new NameTriple(name.First, viewernames[thisviewer], name.Last);
@@ -98,13 +103,7 @@ namespace TwitchToolkit.Incidents
                 return false;
             }
             parms.raidArrivalMode.Worker.Arrive(list, parms);
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("Points = " + parms.points.ToString("F0"));
-			foreach (Pawn pawn in list)
-			{
-				string str = (pawn.equipment != null && pawn.equipment.Primary != null) ? pawn.equipment.Primary.LabelCap : "unarmed";
-				stringBuilder.AppendLine(pawn.KindLabel + " - " + str);
-			}
+            GenerateRaidLoot(parms, points, list);
             TaggedString letterLabel = this.GetLetterLabel(parms);
             TaggedString letterText = this.GetLetterText(parms, list);
             PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(list, ref letterLabel, ref letterText, this.GetRelatedPawnsInfoLetterText(parms), true, true);
